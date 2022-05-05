@@ -17,7 +17,6 @@
 		271F31342821C2F60009E7BB /* BluetoothScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271F31322821C2F60009E7BB /* BluetoothScanner.swift */; };
 		271F31362821FB2D0009E7BB /* BluetoothServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271F31352821FB2D0009E7BB /* BluetoothServices.swift */; };
 		271F31372821FB2D0009E7BB /* BluetoothServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271F31352821FB2D0009E7BB /* BluetoothServices.swift */; };
-		271F3139282207100009E7BB /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 271F3138282207100009E7BB /* Info.plist */; };
 		271F313A282207100009E7BB /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 271F3138282207100009E7BB /* Info.plist */; };
 /* End PBXBuildFile section */
 
@@ -250,7 +249,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				271F3139282207100009E7BB /* Info.plist in Resources */,
 				271F31222821BFE80009E7BB /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -453,7 +451,7 @@
 				DEVELOPMENT_TEAM = F42C985T48;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = /Users/mike/Code/GitHub/LibBluetooth/BluetoothTest/Shared/Info.plist;
+				INFOPLIST_FILE = Shared/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -485,7 +483,7 @@
 				DEVELOPMENT_TEAM = F42C985T48;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = /Users/mike/Code/GitHub/LibBluetooth/BluetoothTest/Shared/Info.plist;
+				INFOPLIST_FILE = Shared/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -520,7 +518,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = /Users/mike/Code/GitHub/LibBluetooth/BluetoothTest/Shared/Info.plist;
+				INFOPLIST_FILE = Shared/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -549,7 +547,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = /Users/mike/Code/GitHub/LibBluetooth/BluetoothTest/Shared/Info.plist;
+				INFOPLIST_FILE = Shared/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
