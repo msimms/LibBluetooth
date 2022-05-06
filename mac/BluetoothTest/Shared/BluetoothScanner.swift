@@ -12,13 +12,26 @@ class BluetoothScanner: NSObject, CBPeripheralDelegate, CBCentralManagerDelegate
 	
 	@Published var connectedPeripherals: Array<CBPeripheral> = []
 
+	/// Apple's Bluetooth interface
 	private var centralManager: CBCentralManager!
-	private var serviceIdsToScanFor: Array<CBUUID> = []
-	private var peripheralDiscoveryCallbacks: Array<(String) -> Bool> = []
-	private var serviceDiscoveryCallbacks: Array<() -> Bool> = []
-	private var valueUpdatedCallbacks: Array<(CBPeripheral, Data) -> Void> = []
 
-	func startTrackingConnectedPeripheral(peripheral: CBPeripheral) {
+	/// List of services that we are searching for.
+	private var serviceIdsToScanFor: Array<CBUUID> = []
+
+	/// Callbacks for when a peripheral is discovered.
+	private var peripheralDiscoveryCallbacks: Array<(String) -> Bool> = []
+
+	/// Callbacks for when a service is discovered.
+	private var serviceDiscoveryCallbacks: Array<(CBUUID) -> Void> = []
+
+	/// Callbacks for when a value is updated.
+	private var valueUpdatedCallbacks: Array<(CBPeripheral, CBUUID, Data) -> Void> = []
+
+	///
+	/// Internal state management functions
+	///
+
+	private func startTrackingConnectedPeripheral(peripheral: CBPeripheral) {
 		var found = false
 
 		for temp in self.connectedPeripherals {
@@ -33,7 +46,7 @@ class BluetoothScanner: NSObject, CBPeripheralDelegate, CBCentralManagerDelegate
 			peripheral.delegate = self
 		}
 	}
-	func stopTrackingConnectedPeripheral(peripheral: CBPeripheral) {
+	private func stopTrackingConnectedPeripheral(peripheral: CBPeripheral) {
 		for (index, value) in self.connectedPeripherals.enumerated() {
 			if value == peripheral {
 				self.connectedPeripherals.remove(at: index)
@@ -41,7 +54,7 @@ class BluetoothScanner: NSObject, CBPeripheralDelegate, CBCentralManagerDelegate
 			}
 		}
 	}
-	func isTrackedPeripheral(peripheral: CBPeripheral) -> Bool {
+	private func isTrackedPeripheral(peripheral: CBPeripheral) -> Bool {
 		for temp in self.connectedPeripherals {
 			if temp == peripheral {
 				return true
@@ -49,7 +62,7 @@ class BluetoothScanner: NSObject, CBPeripheralDelegate, CBCentralManagerDelegate
 		}
 		return false
 	}
-	
+
 	///
 	/// Central Manager callbacks
 	///
@@ -93,12 +106,22 @@ class BluetoothScanner: NSObject, CBPeripheralDelegate, CBCentralManagerDelegate
 	///
 
 	func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
+		
+		// Enumerate the discovered services.
 		if let services = peripheral.services {
 			for service in services {
+				
+				// Make sure this is a service that we're interested in.
 				for (_, value) in self.serviceIdsToScanFor.enumerated() {
 					if value == service.uuid {
+
+						// Notify callbacks.
+						for cb in self.serviceDiscoveryCallbacks {
+							cb(service.uuid)
+						}
+						
+						// Discover characteristics.
 						peripheral.discoverCharacteristics(nil, for: service)
-						return
 					}
 				}
 			}
@@ -115,14 +138,18 @@ class BluetoothScanner: NSObject, CBPeripheralDelegate, CBCentralManagerDelegate
 	func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
 		for cb in self.valueUpdatedCallbacks {
 			if characteristic.value != nil {
-				cb(peripheral, characteristic.value!)
+				cb(peripheral, characteristic.service!.uuid, characteristic.value!)
 			}
 		}
 	}
 	func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
 	}
 
-	func startScanning(serviceIdsToScanFor: Array<CBUUID>, peripheralCallbacks: Array<(String) -> Bool>, serviceCallbacks: Array<() -> Bool>, valueUpdatedCallbacks: Array<(CBPeripheral, Data) -> Void>) {
+	///
+	/// Public interface for this class
+	///
+
+	func startScanning(serviceIdsToScanFor: Array<CBUUID>, peripheralCallbacks: Array<(String) -> Bool>, serviceCallbacks: Array<(CBUUID) -> Void>, valueUpdatedCallbacks: Array<(CBPeripheral, CBUUID, Data) -> Void>) {
 		self.serviceIdsToScanFor = serviceIdsToScanFor
 		self.peripheralDiscoveryCallbacks = peripheralCallbacks
 		self.serviceDiscoveryCallbacks = serviceCallbacks
