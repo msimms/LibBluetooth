@@ -8,9 +8,12 @@
 import SwiftUI
 
 struct ContentView: View {
-    var body: some View {
-        Text("Hello, world!")
-            .padding()
+	@ObservedObject var state = AppState.shared
+
+	var body: some View {
+		Text("Heart Rate: " + String(state.currentHeartRateBpm) + " bpm")
+		Text("Power: " + String(state.currentPowerWatts) + " watts")
+			.padding()
     }
 }
 
