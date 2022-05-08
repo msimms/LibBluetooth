@@ -1,2 +1,6 @@
 #XCode
 *xcuserdata*
+
+#Visual Studio
+/win/x64
+*.user
