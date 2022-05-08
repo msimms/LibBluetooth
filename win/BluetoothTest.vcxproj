@@ -139,7 +139,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BluetoothScanner.cpp" />
     <ClCompile Include="BluetoothTest.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BluetoothScanner.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

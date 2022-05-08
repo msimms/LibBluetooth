@@ -2,8 +2,10 @@
 //
 
 #include <iostream>
+#include "BluetoothScanner.h"
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    BluetoothScanner scanner;
+    scanner.startScanning();
 }
