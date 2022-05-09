@@ -59,6 +59,8 @@
 
 - (void)centralManager:(CBCentralManager*)central didDisconnectPeripheral:(CBPeripheral*)peripheral error:(NSError*)error
 {
+	// Remove the peripheral from the connected list.
+	[self stopTrackingConnectedPeripheral:peripheral];
 }
 
 - (void)centralManager:(CBCentralManager*)central didDiscoverPeripheral:(CBPeripheral*)peripheral advertisementData:(NSDictionary*)advertisementData RSSI:(NSNumber*)RSSI
@@ -86,12 +88,31 @@
 
 - (void)centralManagerDidUpdateState:(CBCentralManager*)central
 {
+	if ([central state] == CBManagerStatePoweredOn)
+	{
+		NSDictionary* options = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:NO] forKey:CBCentralManagerScanOptionAllowDuplicatesKey];
+		[self->centralManager scanForPeripheralsWithServices:self->serviceIdsToScanFor options:options];
+	}
 }
 
 #pragma mark Peripheral callbacks
 
 - (void)peripheral:(CBPeripheral*)peripheral didDiscoverServices:(NSError*)error
 {
+	for (CBService* service in peripheral.services)
+	{
+		for (CBUUID* value in self->serviceIdsToScanFor)
+		{
+			if (value == [service UUID])
+			{
+				// Notify callbacks.
+				serviceDiscoveryCallback([service UUID]);
+				
+				// Discover characteristics.
+				[peripheral discoverCharacteristics:self->serviceIdsToScanFor forService:service];
+			}
+		}
+	}
 }
 
 - (void)peripheral:(CBPeripheral*)peripheral didDiscoverIncludedServicesForService:(CBService *)service error:(NSError*)error
@@ -130,7 +151,7 @@
 	self->peripheralDiscoveryCallback = peripheralCallback;
 	self->serviceDiscoveryCallback = serviceCallback;
 	self->valueUpdatedCallback = valueUpdatedCallback;
-	self->centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:dispatch_get_main_queue()];
+	self->centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
 }
 
 - (void)stopScanner

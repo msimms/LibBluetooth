@@ -109,7 +109,7 @@ class BluetoothScanner: NSObject, CBPeripheralDelegate, CBCentralManagerDelegate
 		// Enumerate the discovered services.
 		if let services = peripheral.services {
 			for service in services {
-				
+
 				// Make sure this is a service that we're interested in.
 				for (_, value) in self.serviceIdsToScanFor.enumerated() {
 					if value == service.uuid {

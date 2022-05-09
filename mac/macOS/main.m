@@ -40,6 +40,23 @@ BluetoothScanner* startBluetoothScanning(void)
 
 int main(int argc, const char * argv[]) {
 	@autoreleasepool {
+		BluetoothScanner* scanner = startBluetoothScanning();
+		dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+		dispatch_group_t group = dispatch_group_create();
+		 
+		// Add a task to the group
+		dispatch_group_async(group, queue, ^{
+		   // Some asynchronous work
+			sleep(60000);
+		});
+		 
+		// Do some other work while the tasks execute.
+		 
+		// When you cannot make any more forward progress,
+		// wait on the group to block the current thread.
+		dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
+
+		[scanner stopScanner];
 	}
 	return 0;
 }

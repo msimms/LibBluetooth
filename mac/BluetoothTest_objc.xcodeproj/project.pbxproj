@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		27C573E9282854630070D640 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 27C573E8282854630070D640 /* main.m */; };
 		27C573EB28288D3E0070D640 /* BluetoothScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 27C573EA28288D3E0070D640 /* BluetoothScanner.m */; };
+		27C573F2282975C70070D640 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27C573F1282975C70070D640 /* CoreBluetooth.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -30,6 +31,7 @@
 		27C573EC28288D5D0070D640 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Shared/Info.plist; sourceTree = "<group>"; };
 		27C573EE28288E010070D640 /* BluetoothScanner.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BluetoothScanner.h; path = Shared/BluetoothScanner.h; sourceTree = "<group>"; };
 		27C573EF2828A51A0070D640 /* BluetoothServices.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BluetoothServices.h; path = Shared/BluetoothServices.h; sourceTree = "<group>"; };
+		27C573F1282975C70070D640 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,6 +39,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				27C573F2282975C70070D640 /* CoreBluetooth.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -46,9 +49,10 @@
 		27C573D5282853B10070D640 = {
 			isa = PBXGroup;
 			children = (
-				27C573ED28288D650070D640 /* Shared */,
 				27C573EC28288D5D0070D640 /* Info.plist */,
+				27C573ED28288D650070D640 /* Shared */,
 				27C573DF282853B10070D640 /* Products */,
+				27C573F0282975C70070D640 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -69,6 +73,14 @@
 				27C573E8282854630070D640 /* main.m */,
 			);
 			name = Shared;
+			sourceTree = "<group>";
+		};
+		27C573F0282975C70070D640 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				27C573F1282975C70070D640 /* CoreBluetooth.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -251,6 +263,9 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = F42C985T48;
 				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/Shared/Info.plist";
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mjs-software.BluetoothTest-objc";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -261,6 +276,9 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = F42C985T48;
 				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/Shared/Info.plist";
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mjs-software.BluetoothTest-objc";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
