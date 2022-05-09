@@ -227,7 +227,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 271F30F42821BFE70009E7BB /* Build configuration list for PBXProject "BluetoothTest" */;
+			buildConfigurationList = 271F30F42821BFE70009E7BB /* Build configuration list for PBXProject "BluetoothTest_swift" */;
 			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -651,7 +651,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		271F30F42821BFE70009E7BB /* Build configuration list for PBXProject "BluetoothTest" */ = {
+		271F30F42821BFE70009E7BB /* Build configuration list for PBXProject "BluetoothTest_swift" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				271F31242821BFE80009E7BB /* Debug */,
