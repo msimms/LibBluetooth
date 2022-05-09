@@ -8,9 +8,10 @@ import CoreBluetooth
 
 class BluetoothScanner: NSObject, CBPeripheralDelegate, CBCentralManagerDelegate, ObservableObject {
 	
+	/// List of peripheral objects currently connected.
 	@Published var connectedPeripherals: Array<CBPeripheral> = []
 
-	/// Apple's Bluetooth interface
+	/// Apple's Bluetooth interface.
 	private var centralManager: CBCentralManager!
 
 	/// List of services that we are searching for.
