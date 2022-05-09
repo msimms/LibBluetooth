@@ -1,0 +1,53 @@
+//
+//  BluetoothServices.h
+//  Created by Michael Simms on 5/8/22.
+//
+
+#ifndef BluetoothServices_h
+#define BluetoothServices_h
+
+typedef enum BluetoothServiceId
+{
+	BT_SERVICE_GENERIC_ACCESS =                0x1800,
+	BT_SERVICE_ALERT_NOTIFICATION =            0x1811,
+	BT_SERVICE_AUTOMATION_IO =                 0x1815,
+	BT_SERVICE_BATTERY_SERVICE =               0x180F,
+	BT_SERVICE_BLOOD_PRESSURE =                0x1810,
+	BT_SERVICE_BODY_COMPOSITION =              0x181B,
+	BT_SERVICE_BOND_MANAGEMENT =               0x181E,
+	BT_SERVICE_CONTINUOUS_GLUCOSE_MONITORING = 0x181F,
+	BT_SERVICE_CURRENT_TIME =                  0x1805,
+	BT_SERVICE_CYCLING_POWER =                 0x1818,
+	BT_SERVICE_CYCLING_SPEED_AND_CADENCE =     0x1816,
+	BT_SERVICE_DEVICE_INFORMATION =            0x180A,
+	BT_SERVICE_ENVIRONMENTAL_SENSING =         0x181A,
+	BT_SERVICE_FITNESS_MACHINE =               0x1826,
+	BT_SERVICE_GENERIC_ATTRIBUTE =             0x1801,
+	BT_SERVICE_GLUCOSE =                       0x1808,
+	BT_SERVICE_HEALTH_THERMOMETER =            0x1809,
+	BT_SERVICE_HEART_RATE =                    0x180D,
+	BT_SERVICE_HTTP_PROXY =                    0x1823,
+	BT_SERVICE_HUMAN_INTERFACE_DEVICE =        0x1812,
+	BT_SERVICE_IMMEDIATE_ALERT =               0x1802,
+	BT_SERVICE_INDOOR_POSITIONING =            0x1821,
+	BT_SERVICE_INSULING_DELIVERY =             0x183A,
+	BT_SERVICE_INTERNET_PROTOCOL_SUPPORT =     0x1820,
+	BT_SERVICE_LINK_LOSS =                     0x1803,
+	BT_SERVICE_LOCATION_AND_NAVIGATION =       0x1819,
+	BT_SERVICE_MESH_PROVISIONING =             0x1827,
+	BT_SERVICE_MESH_PROXY =                    0x1828,
+	BT_SERVICE_NEXT_DST_CHANGE =               0x1807,
+	BT_SERVICE_OBJECT_TRANSFER =               0x1825,
+	BT_SERVICE_PHONE_ALERT_STATUS =            0x180E,
+	BT_SERVICE_PULSE_OXIMETER =                0x1822,
+	BT_SERVICE_RECONNECTION_CONFIGURATION =    0x1829,
+	BT_SERVICE_REFERENCE_TIME_UPDATE =         0x1806,
+	BT_SERVICE_RUNNING_SPEED_AND_CADENCE =     0x1814,
+	BT_SERVICE_SCAN_PARAMETERS =               0x1813,
+	BT_SERVICE_TX_POWER =                      0x1804,
+	BT_SERVICE_USER_DATA =                     0x181C,
+	BT_SERVICE_WEIGHT_SCALE =                  0x181D,
+	BT_SERVICE_WEIGHT =                        0x1901
+} BluetoothServiceId;
+
+#endif /* BluetoothServices_h */

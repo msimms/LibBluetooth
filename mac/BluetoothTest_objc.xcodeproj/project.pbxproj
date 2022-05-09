@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		27C573E9282854630070D640 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 27C573E8282854630070D640 /* main.m */; };
+		27C573EB28288D3E0070D640 /* BluetoothScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 27C573EA28288D3E0070D640 /* BluetoothScanner.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +26,10 @@
 /* Begin PBXFileReference section */
 		27C573DE282853B10070D640 /* BluetoothTest_objc */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = BluetoothTest_objc; sourceTree = BUILT_PRODUCTS_DIR; };
 		27C573E8282854630070D640 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = macOS/main.m; sourceTree = "<group>"; };
+		27C573EA28288D3E0070D640 /* BluetoothScanner.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = BluetoothScanner.m; path = Shared/BluetoothScanner.m; sourceTree = "<group>"; };
+		27C573EC28288D5D0070D640 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Shared/Info.plist; sourceTree = "<group>"; };
+		27C573EE28288E010070D640 /* BluetoothScanner.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BluetoothScanner.h; path = Shared/BluetoothScanner.h; sourceTree = "<group>"; };
+		27C573EF2828A51A0070D640 /* BluetoothServices.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BluetoothServices.h; path = Shared/BluetoothServices.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,7 +46,8 @@
 		27C573D5282853B10070D640 = {
 			isa = PBXGroup;
 			children = (
-				27C573E8282854630070D640 /* main.m */,
+				27C573ED28288D650070D640 /* Shared */,
+				27C573EC28288D5D0070D640 /* Info.plist */,
 				27C573DF282853B10070D640 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -52,6 +58,17 @@
 				27C573DE282853B10070D640 /* BluetoothTest_objc */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		27C573ED28288D650070D640 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				27C573EE28288E010070D640 /* BluetoothScanner.h */,
+				27C573EA28288D3E0070D640 /* BluetoothScanner.m */,
+				27C573EF2828A51A0070D640 /* BluetoothServices.h */,
+				27C573E8282854630070D640 /* main.m */,
+			);
+			name = Shared;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -112,6 +129,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				27C573E9282854630070D640 /* main.m in Sources */,
+				27C573EB28288D3E0070D640 /* BluetoothScanner.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
