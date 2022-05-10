@@ -16,6 +16,8 @@
 		27C574592829AC410070D640 /* BluetoothScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 27C574582829AC410070D640 /* BluetoothScanner.m */; };
 		27C5745B2829D6650070D640 /* HeartRateParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 27C5745A2829D6650070D640 /* HeartRateParser.m */; };
 		27C5745F2829DA790070D640 /* CyclingPowerParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 27C5745E2829DA790070D640 /* CyclingPowerParser.m */; };
+		27C57469282AEFC70070D640 /* LibBluetooth.h in Headers */ = {isa = PBXBuildFile; fileRef = 27C57468282AEFC70070D640 /* LibBluetooth.h */; };
+		27C5746B282AEFC70070D640 /* LibBluetooth.m in Sources */ = {isa = PBXBuildFile; fileRef = 27C5746A282AEFC70070D640 /* LibBluetooth.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +38,9 @@
 		27C5745C2829D6F00070D640 /* HeartRateParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HeartRateParser.h; sourceTree = "<group>"; };
 		27C5745D2829D9D90070D640 /* CyclingPowerParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CyclingPowerParser.h; sourceTree = "<group>"; };
 		27C5745E2829DA790070D640 /* CyclingPowerParser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CyclingPowerParser.m; sourceTree = "<group>"; };
+		27C57466282AEFC70070D640 /* libLibBluetooth.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libLibBluetooth.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		27C57468282AEFC70070D640 /* LibBluetooth.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LibBluetooth.h; sourceTree = "<group>"; };
+		27C5746A282AEFC70070D640 /* LibBluetooth.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LibBluetooth.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +52,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		27C57464282AEFC70070D640 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -55,6 +67,7 @@
 			children = (
 				27C57460282AE6D00070D640 /* Source_objc */,
 				27C5743F2829AA800070D640 /* Testing_objc */,
+				27C57467282AEFC70070D640 /* LibBluetooth */,
 				27C5743E2829AA800070D640 /* Products */,
 				27C574532829AC330070D640 /* Frameworks */,
 			);
@@ -64,6 +77,7 @@
 			isa = PBXGroup;
 			children = (
 				27C5743D2829AA800070D640 /* BluetoothTest_objc.app */,
+				27C57466282AEFC70070D640 /* libLibBluetooth.dylib */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -105,7 +119,27 @@
 			path = Source_objc;
 			sourceTree = "<group>";
 		};
+		27C57467282AEFC70070D640 /* LibBluetooth */ = {
+			isa = PBXGroup;
+			children = (
+				27C57468282AEFC70070D640 /* LibBluetooth.h */,
+				27C5746A282AEFC70070D640 /* LibBluetooth.m */,
+			);
+			path = LibBluetooth;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		27C57462282AEFC70070D640 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				27C57469282AEFC70070D640 /* LibBluetooth.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
 		27C5743C2829AA800070D640 /* BluetoothTest_objc */ = {
@@ -125,6 +159,23 @@
 			productReference = 27C5743D2829AA800070D640 /* BluetoothTest_objc.app */;
 			productType = "com.apple.product-type.application";
 		};
+		27C57465282AEFC70070D640 /* LibBluetooth */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 27C5746E282AEFC70070D640 /* Build configuration list for PBXNativeTarget "LibBluetooth" */;
+			buildPhases = (
+				27C57462282AEFC70070D640 /* Headers */,
+				27C57463282AEFC70070D640 /* Sources */,
+				27C57464282AEFC70070D640 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LibBluetooth;
+			productName = LibBluetooth;
+			productReference = 27C57466282AEFC70070D640 /* libLibBluetooth.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -137,9 +188,12 @@
 					27C5743C2829AA800070D640 = {
 						CreatedOnToolsVersion = 13.3.1;
 					};
+					27C57465282AEFC70070D640 = {
+						CreatedOnToolsVersion = 13.3.1;
+					};
 				};
 			};
-			buildConfigurationList = 27C574382829AA800070D640 /* Build configuration list for PBXProject "BluetoothTest_objc" */;
+			buildConfigurationList = 27C574382829AA800070D640 /* Build configuration list for PBXProject "LibBluetooth_objc" */;
 			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -153,6 +207,7 @@
 			projectRoot = "";
 			targets = (
 				27C5743C2829AA800070D640 /* BluetoothTest_objc */,
+				27C57465282AEFC70070D640 /* LibBluetooth */,
 			);
 		};
 /* End PBXProject section */
@@ -180,6 +235,14 @@
 				27C5744C2829AA800070D640 /* main.m in Sources */,
 				27C5745B2829D6650070D640 /* HeartRateParser.m in Sources */,
 				27C574422829AA800070D640 /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		27C57463282AEFC70070D640 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				27C5746B282AEFC70070D640 /* LibBluetooth.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -362,10 +425,36 @@
 			};
 			name = Release;
 		};
+		27C5746C282AEFC70070D640 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = F42C985T48;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		27C5746D282AEFC70070D640 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = F42C985T48;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		27C574382829AA800070D640 /* Build configuration list for PBXProject "BluetoothTest_objc" */ = {
+		27C574382829AA800070D640 /* Build configuration list for PBXProject "LibBluetooth_objc" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				27C5744E2829AA800070D640 /* Debug */,
@@ -379,6 +468,15 @@
 			buildConfigurations = (
 				27C574512829AA800070D640 /* Debug */,
 				27C574522829AA800070D640 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		27C5746E282AEFC70070D640 /* Build configuration list for PBXNativeTarget "LibBluetooth" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				27C5746C282AEFC70070D640 /* Debug */,
+				27C5746D282AEFC70070D640 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

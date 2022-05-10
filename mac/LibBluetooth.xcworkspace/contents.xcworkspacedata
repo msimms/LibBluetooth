@@ -2,9 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:BluetoothTest_objc.xcodeproj">
+      location = "group:LibBluetooth_objc.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:BluetoothTest_swift.xcodeproj">
+      location = "group:LibBluetooth_swift.xcodeproj">
    </FileRef>
 </Workspace>

@@ -91,7 +91,6 @@
 			children = (
 				27C57461282AE7060070D640 /* Source_Swift */,
 				271F30F52821BFE70009E7BB /* Testing_Swift */,
-				271F31042821BFE80009E7BB /* macOS */,
 				271F30FE2821BFE80009E7BB /* Products */,
 			);
 			sourceTree = "<group>";
@@ -117,13 +116,6 @@
 				271F31162821BFE80009E7BB /* Tests macOS.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		271F31042821BFE80009E7BB /* macOS */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = macOS;
 			sourceTree = "<group>";
 		};
 		27C57461282AE7060070D640 /* Source_Swift */ = {
@@ -235,7 +227,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 271F30F42821BFE70009E7BB /* Build configuration list for PBXProject "BluetoothTest_swift" */;
+			buildConfigurationList = 271F30F42821BFE70009E7BB /* Build configuration list for PBXProject "LibBluetooth_swift" */;
 			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -659,7 +651,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		271F30F42821BFE70009E7BB /* Build configuration list for PBXProject "BluetoothTest_swift" */ = {
+		271F30F42821BFE70009E7BB /* Build configuration list for PBXProject "LibBluetooth_swift" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				271F31242821BFE80009E7BB /* Debug */,
