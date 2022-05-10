@@ -5,6 +5,13 @@
 
 #import "AppDelegate.h"
 #import "BluetoothServices.h"
+#import "CyclingPowerParser.h"
+#import "HeartRateParser.h"
+
+CBUUID* intToCBUUID(uint16_t value)
+{
+	return [CBUUID UUIDWithData:[NSData dataWithBytes:&value length:2]];
+}
 
 /// Called when a peripheral is discovered.
 /// Returns true to indicate that we should connect to this peripheral and discover its services.
@@ -21,6 +28,18 @@ void serviceDiscovered(CBUUID* serviceId)
 /// Called when a sensor characteristic is updated.
 void valueUpdated(CBPeripheral* peripheral, CBUUID* serviceId, NSData* value)
 {
+	if ([serviceId isEqual:intToCBUUID(BT_SERVICE_HEART_RATE)])
+	{
+		uint16_t hr = [HeartRateParser parse:value];
+		NSDictionary* heartRateData = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:hr], @"Heart Rate", nil];
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"Heart Rate Updated" object:heartRateData];
+	}
+	else if ([serviceId isEqual:intToCBUUID(BT_SERVICE_CYCLING_POWER)])
+	{
+		uint16_t power = [CyclingPowerParser parse:value];
+		NSDictionary* heartRateData = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:power], @"Power", nil];
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"Power Updated" object:heartRateData];
+	}
 }
 
 BluetoothScanner* startBluetoothScanning(void)

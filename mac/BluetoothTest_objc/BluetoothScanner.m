@@ -12,6 +12,11 @@
 - (void)startTrackingConnectedPeripheral:(CBPeripheral*)peripheral
 {
 	bool found = false;
+	
+	if (!self->connectedPeripherals)
+	{
+		self->connectedPeripherals = [[NSMutableArray alloc] init];
+	}
 
 	for (CBPeripheral* temp in self->connectedPeripherals)
 	{
@@ -103,10 +108,10 @@
 	{
 		for (CBUUID* value in self->serviceIdsToScanFor)
 		{
-			if (value == [service UUID])
+			if ([value isEqual:[service UUID]])
 			{
 				// Notify callbacks.
-				serviceDiscoveryCallback([service UUID]);
+				self->serviceDiscoveryCallback([service UUID]);
 				
 				// Discover characteristics.
 				[peripheral discoverCharacteristics:self->serviceIdsToScanFor forService:service];
@@ -121,10 +126,19 @@
 
 - (void)peripheral:(CBPeripheral*)peripheral didDiscoverCharacteristicsForService:(CBService*)service error:(NSError*)error
 {
+	for (CBCharacteristic* characteristic in service.characteristics)
+	{
+		[peripheral setNotifyValue:TRUE forCharacteristic:characteristic];
+		[peripheral readValueForCharacteristic:characteristic];
+	}
 }
 
 - (void)peripheral:(CBPeripheral*)peripheral didUpdateValueForCharacteristic:(CBCharacteristic*)characteristic error:(NSError*)error
 {
+	if (characteristic.value != nil)
+	{
+		self->valueUpdatedCallback(peripheral, characteristic.service.UUID, characteristic.value);
+	}
 }
 
 - (void)peripheral:(CBPeripheral*)peripheral didUpdateValueForDescriptor:(CBDescriptor*)descriptor error:(NSError*)error
