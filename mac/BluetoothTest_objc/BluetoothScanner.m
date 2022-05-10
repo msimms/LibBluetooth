@@ -114,7 +114,7 @@
 				self->serviceDiscoveryCallback([service UUID]);
 				
 				// Discover characteristics.
-				[peripheral discoverCharacteristics:self->serviceIdsToScanFor forService:service];
+				[peripheral discoverCharacteristics:nil forService:service];
 			}
 		}
 	}

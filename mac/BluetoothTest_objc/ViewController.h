@@ -6,7 +6,9 @@
 #import <Cocoa/Cocoa.h>
 
 @interface ViewController : NSViewController
-
+{
+	IBOutlet NSTextField* valueHeartRate;
+	IBOutlet NSTextField* valueCyclingPower;
+}
 
 @end
-

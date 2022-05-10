@@ -8,6 +8,12 @@
 #import "CyclingPowerParser.h"
 #import "HeartRateParser.h"
 
+CBUUID* extendUUID(uint16_t value)
+{
+	NSString* str = [[NSString alloc] initWithFormat:@"0000%04X-0000-1000-8000-00805F9B34FB", value];
+	return [CBUUID UUIDWithString:str];
+}
+
 CBUUID* intToCBUUID(uint16_t value)
 {
 	return [CBUUID UUIDWithData:[NSData dataWithBytes:&value length:2]];
@@ -28,13 +34,13 @@ void serviceDiscovered(CBUUID* serviceId)
 /// Called when a sensor characteristic is updated.
 void valueUpdated(CBPeripheral* peripheral, CBUUID* serviceId, NSData* value)
 {
-	if ([serviceId isEqual:intToCBUUID(BT_SERVICE_HEART_RATE)])
+	if ([serviceId isEqual:extendUUID(BT_SERVICE_HEART_RATE)])
 	{
 		uint16_t hr = [HeartRateParser parse:value];
 		NSDictionary* heartRateData = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:hr], @"Heart Rate", nil];
 		[[NSNotificationCenter defaultCenter] postNotificationName:@"Heart Rate Updated" object:heartRateData];
 	}
-	else if ([serviceId isEqual:intToCBUUID(BT_SERVICE_CYCLING_POWER)])
+	else if ([serviceId isEqual:extendUUID(BT_SERVICE_CYCLING_POWER)])
 	{
 		uint16_t power = [CyclingPowerParser parse:value];
 		NSDictionary* heartRateData = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:power], @"Power", nil];
