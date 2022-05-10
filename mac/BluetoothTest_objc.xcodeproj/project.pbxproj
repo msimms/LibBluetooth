@@ -53,7 +53,8 @@
 		27C574342829AA800070D640 = {
 			isa = PBXGroup;
 			children = (
-				27C5743F2829AA800070D640 /* BluetoothTest_objc */,
+				27C57460282AE6D00070D640 /* Source_objc */,
+				27C5743F2829AA800070D640 /* Testing_objc */,
 				27C5743E2829AA800070D640 /* Products */,
 				27C574532829AC330070D640 /* Frameworks */,
 			);
@@ -67,18 +68,11 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		27C5743F2829AA800070D640 /* BluetoothTest_objc */ = {
+		27C5743F2829AA800070D640 /* Testing_objc */ = {
 			isa = PBXGroup;
 			children = (
 				27C574402829AA800070D640 /* AppDelegate.h */,
 				27C574412829AA800070D640 /* AppDelegate.m */,
-				27C574572829AC410070D640 /* BluetoothScanner.h */,
-				27C574582829AC410070D640 /* BluetoothScanner.m */,
-				27C574562829AC410070D640 /* BluetoothServices.h */,
-				27C5745D2829D9D90070D640 /* CyclingPowerParser.h */,
-				27C5745E2829DA790070D640 /* CyclingPowerParser.m */,
-				27C5745C2829D6F00070D640 /* HeartRateParser.h */,
-				27C5745A2829D6650070D640 /* HeartRateParser.m */,
 				27C574432829AA800070D640 /* ViewController.h */,
 				27C574442829AA800070D640 /* ViewController.m */,
 				27C574462829AA800070D640 /* Assets.xcassets */,
@@ -86,7 +80,7 @@
 				27C5744B2829AA800070D640 /* main.m */,
 				27C5744D2829AA800070D640 /* BluetoothTest_objc.entitlements */,
 			);
-			path = BluetoothTest_objc;
+			path = Testing_objc;
 			sourceTree = "<group>";
 		};
 		27C574532829AC330070D640 /* Frameworks */ = {
@@ -95,6 +89,20 @@
 				27C574542829AC330070D640 /* CoreBluetooth.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		27C57460282AE6D00070D640 /* Source_objc */ = {
+			isa = PBXGroup;
+			children = (
+				27C574572829AC410070D640 /* BluetoothScanner.h */,
+				27C574582829AC410070D640 /* BluetoothScanner.m */,
+				27C574562829AC410070D640 /* BluetoothServices.h */,
+				27C5745D2829D9D90070D640 /* CyclingPowerParser.h */,
+				27C5745E2829DA790070D640 /* CyclingPowerParser.m */,
+				27C5745C2829D6F00070D640 /* HeartRateParser.h */,
+				27C5745A2829D6650070D640 /* HeartRateParser.m */,
+			);
+			path = Source_objc;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -303,7 +311,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = BluetoothTest_objc/BluetoothTest_objc.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Testing_objc/BluetoothTest_objc.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -331,7 +339,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = BluetoothTest_objc/BluetoothTest_objc.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Testing_objc/BluetoothTest_objc.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
