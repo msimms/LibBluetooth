@@ -26,21 +26,31 @@ typedef struct HeartRateMeasurement
 
 + (uint16_t)parse:(NSData*)data
 {
-	if (!data)
-	{
-		return 0;
-	}
-
 	const HeartRateMeasurement* reportData = [data bytes];
 
 	if ((reportData->flags & FLAGS_HEART_RATE_VALUE) == 0)
 	{
 		return (uint16_t)reportData->value8;
 	}
+	return CFSwapInt16LittleToHost(reportData->value16);
+}
+
++ (NSString*)toJson:(NSData*)data
+{
+	const HeartRateMeasurement* reportData = [data bytes];
+	NSMutableDictionary* dict = [[NSMutableDictionary alloc]init];
+
+	if ((reportData->flags & FLAGS_HEART_RATE_VALUE) == 0)
+	{
+		[dict setValue:[[NSNumber alloc] initWithInt:(int)reportData->value8] forKey:@"Heart Rate"];
+	}
 	else	// uint16_t
 	{
-		return CFSwapInt16LittleToHost(reportData->value16);
+		[dict setValue:[[NSNumber alloc] initWithInt:(int)CFSwapInt16LittleToHost(reportData->value16)] forKey:@"Heart Rate"];
 	}
+
+	NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:nil];
+	return [[NSString alloc]initWithData: jsonData encoding: NSUTF8StringEncoding ];
 }
 
 @end

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		271B827F282C2C31002F5D2C /* CyclingCadenceParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 271B827E282C2C31002F5D2C /* CyclingCadenceParser.m */; };
 		27C574422829AA800070D640 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 27C574412829AA800070D640 /* AppDelegate.m */; };
 		27C574452829AA800070D640 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27C574442829AA800070D640 /* ViewController.m */; };
 		27C574472829AA800070D640 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 27C574462829AA800070D640 /* Assets.xcassets */; };
@@ -21,6 +22,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		271B827E282C2C31002F5D2C /* CyclingCadenceParser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CyclingCadenceParser.m; sourceTree = "<group>"; };
+		271B8280282C2C51002F5D2C /* CyclingCadenceParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CyclingCadenceParser.h; sourceTree = "<group>"; };
 		27C5743D2829AA800070D640 /* BluetoothTest_objc.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BluetoothTest_objc.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		27C574402829AA800070D640 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		27C574412829AA800070D640 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -111,6 +114,8 @@
 				27C574572829AC410070D640 /* BluetoothScanner.h */,
 				27C574582829AC410070D640 /* BluetoothScanner.m */,
 				27C574562829AC410070D640 /* BluetoothServices.h */,
+				271B8280282C2C51002F5D2C /* CyclingCadenceParser.h */,
+				271B827E282C2C31002F5D2C /* CyclingCadenceParser.m */,
 				27C5745D2829D9D90070D640 /* CyclingPowerParser.h */,
 				27C5745E2829DA790070D640 /* CyclingPowerParser.m */,
 				27C5745C2829D6F00070D640 /* HeartRateParser.h */,
@@ -232,6 +237,7 @@
 				27C5745F2829DA790070D640 /* CyclingPowerParser.m in Sources */,
 				27C574452829AA800070D640 /* ViewController.m in Sources */,
 				27C574592829AC410070D640 /* BluetoothScanner.m in Sources */,
+				271B827F282C2C31002F5D2C /* CyclingCadenceParser.m in Sources */,
 				27C5744C2829AA800070D640 /* main.m in Sources */,
 				27C5745B2829D6650070D640 /* HeartRateParser.m in Sources */,
 				27C574422829AA800070D640 /* AppDelegate.m in Sources */,

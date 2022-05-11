@@ -26,16 +26,29 @@
 
 + (uint16_t)parse:(NSData*)data
 {
-	if (data == nil)
-	{
-		return 0;
-	}
-
 	const uint8_t* reportBytes = [data bytes];
 	NSUInteger reportLen = [data length];
 
 	if (reportBytes && (reportLen > 4))
 	{
+		size_t reportBytesIndex = sizeof(uint16_t);
+
+		const uint8_t* powerBytes = reportBytes + reportBytesIndex;
+		int16_t power = CFSwapInt16LittleToHost(*(uint16_t*)powerBytes);
+
+		return power;
+	}
+	return 0;
+}
+
++ (NSString*)toJson:(NSData*)data
+{
+	const uint8_t* reportBytes = [data bytes];
+	NSUInteger reportLen = [data length];
+
+	if (reportBytes && (reportLen > 4))
+	{
+		NSMutableDictionary* dict = [[NSMutableDictionary alloc]init];
 		size_t reportBytesIndex = 0;
 
 		uint16_t flags = CFSwapInt16LittleToHost(*(uint16_t*)reportBytes);
@@ -43,8 +56,9 @@
 
 		const uint8_t* powerBytes = reportBytes + reportBytesIndex;
 		int16_t power = CFSwapInt16LittleToHost(*(uint16_t*)powerBytes);
+		[dict setValue:[[NSNumber alloc] initWithInt:(int)power] forKey:@"Power"];
 		reportBytesIndex += sizeof(int16_t);
-		
+
 		if (flags & FLAGS_PEDAL_POWER_BALANCE_PRESENT)
 		{
 			reportBytesIndex += sizeof(uint8_t);
@@ -62,16 +76,19 @@
 		{
 			const uint8_t* crankRevsBytes = reportBytes + reportBytesIndex;
 			uint16_t crankRevs = CFSwapInt16LittleToHost(*(uint16_t*)crankRevsBytes);
+			[dict setValue:[[NSNumber alloc] initWithInt:(int)crankRevs] forKey:@"Crank Revs"];
 			reportBytesIndex += sizeof(uint16_t);
 
 			const uint8_t* lastCrankTimeBytes = reportBytes + reportBytesIndex;
 			uint16_t lastCrankTime = CFSwapInt16LittleToHost(*(uint16_t*)lastCrankTimeBytes);
+			[dict setValue:[[NSNumber alloc] initWithInt:(int)lastCrankTime] forKey:@"Last Crank Time"];
 			reportBytesIndex += sizeof(uint16_t);
 		}
 		
-		return power;
+		NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:nil];
+		return [[NSString alloc]initWithData: jsonData encoding: NSUTF8StringEncoding ];
 	}
-	return 0;
+	return nil;
 }
 
 @end

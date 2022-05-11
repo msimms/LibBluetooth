@@ -1,7 +1,5 @@
 //
 //  LibBluetooth.m
-//  LibBluetooth
-//
 //  Created by Michael Simms on 5/10/22.
 //
 
