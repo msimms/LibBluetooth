@@ -4,6 +4,7 @@
 #include <bthsdpdef.h>
 #include <Bluetoothleapis.h>
 #include <bluetoothapis.h>
+#include <SetupAPI.h>
 
 BluetoothScanner::BluetoothScanner()
 {
@@ -13,7 +14,7 @@ BluetoothScanner::~BluetoothScanner()
 {
 }
 
-void BluetoothScanner::startScanning()
+void BluetoothScanner::scanForStandardBtDevices()
 {
 	while (TRUE)
 	{
@@ -66,6 +67,45 @@ void BluetoothScanner::startScanning()
 			BluetoothFindRadioClose(hBtRadioFind);
 		}
 	}
+}
+
+void BluetoothScanner::enumerateBtLeDevices()
+{
+	GUID btLeInterfaceGuid = GUID_BLUETOOTHLE_DEVICE_INTERFACE;
+	HDEVINFO hDeviceInterface = SetupDiGetClassDevs(&btLeInterfaceGuid, NULL, NULL, DIGCF_DEVICEINTERFACE | DIGCF_PRESENT);
+
+	if (hDeviceInterface)
+	{
+		SP_DEVICE_INTERFACE_DATA devInfo;
+		ZeroMemory(&devInfo, sizeof(SP_DEVICE_INTERFACE_DATA));
+		devInfo.cbSize = sizeof(SP_DEVICE_INTERFACE_DATA);
+
+		for (DWORD i = 0; SetupDiEnumDeviceInterfaces(hDeviceInterface, NULL, &btLeInterfaceGuid, i, &devInfo); ++i)
+		{
+			SP_DEVICE_INTERFACE_DETAIL_DATA devInterfaceDetailData;
+			ZeroMemory(&devInfo, sizeof(SP_DEVICE_INTERFACE_DETAIL_DATA));
+			devInterfaceDetailData.cbSize = sizeof(SP_DEVICE_INTERFACE_DETAIL_DATA);
+
+			DWORD size = 0;
+			if (!SetupDiGetDeviceInterfaceDetail(hDeviceInterface, &devInfo, NULL, 0, &size, NULL))
+			{
+				PSP_DEVICE_INTERFACE_DETAIL_DATA pInterfaceDetailData = (PSP_DEVICE_INTERFACE_DETAIL_DATA)GlobalAlloc(GPTR, size);
+				ZeroMemory(pInterfaceDetailData, sizeof(SP_DEVICE_INTERFACE_DETAIL_DATA));
+				pInterfaceDetailData->cbSize = sizeof(SP_DEVICE_INTERFACE_DETAIL_DATA);
+
+
+				GlobalFree(pInterfaceDetailData);
+			}
+		}
+	}
+}
+
+void BluetoothScanner::startScanning(const std::vector<GUID>& serviceIdsToScanFor,
+	peripheralCb peripheralCallback,
+	serviceCB serviceCallback,
+	valueCB valueUpdatedCallback)
+{
+	enumerateBtLeDevices();
 }
 
 void BluetoothScanner::stopScanning()
