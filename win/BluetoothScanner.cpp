@@ -162,53 +162,66 @@ void BluetoothScanner::stopScanning()
 void BluetoothScanner::didDiscover(HANDLE hDevice)
 {
 	USHORT serviceBufferCount = 0;
+
+	// How much memory do we need to store the service list?
 	HRESULT hr = BluetoothGATTGetServices(hDevice, 0, NULL, &serviceBufferCount, BLUETOOTH_GATT_FLAG_NONE);
-	PBTH_LE_GATT_SERVICE pServiceBuffer = (PBTH_LE_GATT_SERVICE)GlobalAlloc(GPTR, sizeof(BTH_LE_GATT_SERVICE) * serviceBufferCount);
 
-	if (pServiceBuffer)
+	// Previous call was to determine how much memory we need to store the service list.
+	if (serviceBufferCount > 0)
 	{
-		RtlZeroMemory(pServiceBuffer, sizeof(BTH_LE_GATT_SERVICE) * serviceBufferCount);
+		PBTH_LE_GATT_SERVICE pServiceBuffer = (PBTH_LE_GATT_SERVICE)GlobalAlloc(GPTR, sizeof(BTH_LE_GATT_SERVICE) * serviceBufferCount);
 
-		USHORT numServices = 0;
-		hr = BluetoothGATTGetServices(hDevice, serviceBufferCount, pServiceBuffer, &numServices, BLUETOOTH_GATT_FLAG_NONE);
-
-		if (hr == S_OK)
+		if (pServiceBuffer)
 		{
-			// For each service that was returned....
-			for (USHORT serviceBufferIndex = 0; serviceBufferIndex < serviceBufferCount; ++serviceBufferIndex)
+			RtlZeroMemory(pServiceBuffer, sizeof(BTH_LE_GATT_SERVICE) * serviceBufferCount);
+
+			// Read the service list.
+			USHORT numServices = 0;
+			hr = BluetoothGATTGetServices(hDevice, serviceBufferCount, pServiceBuffer, &numServices, BLUETOOTH_GATT_FLAG_NONE);
+
+			if (hr == S_OK)
 			{
-				BTH_LE_GATT_SERVICE* pCurrentServiceBuffer = pServiceBuffer + serviceBufferIndex;
-				this->m_serviceCallback(&pCurrentServiceBuffer->ServiceUuid.Value.LongUuid);
-
-				USHORT charBufferSize = 0;
-				hr = BluetoothGATTGetCharacteristics(hDevice, pCurrentServiceBuffer, 0, NULL, &charBufferSize, BLUETOOTH_GATT_FLAG_NONE);
-
-				// Previous call was to determine how much memory we need.
-				if (charBufferSize > 0)
+				// For each service that was returned....
+				for (USHORT serviceBufferIndex = 0; serviceBufferIndex < serviceBufferCount; ++serviceBufferIndex)
 				{
-					PBTH_LE_GATT_CHARACTERISTIC pCharBuffer = (PBTH_LE_GATT_CHARACTERISTIC)GlobalAlloc(GPTR, charBufferSize * sizeof(BTH_LE_GATT_CHARACTERISTIC));
+					BTH_LE_GATT_SERVICE* pCurrentServiceBuffer = pServiceBuffer + serviceBufferIndex;
 
-					if (pCharBuffer)
+					// Trigger the callback to let the caller know that we found a service.
+					this->m_serviceCallback(&pCurrentServiceBuffer->ServiceUuid.Value.LongUuid);
+
+					// How much memory do we need to store the characteristics?
+					USHORT charBufferSize = 0;
+					hr = BluetoothGATTGetCharacteristics(hDevice, pCurrentServiceBuffer, 0, NULL, &charBufferSize, BLUETOOTH_GATT_FLAG_NONE);
+
+					// Previous call was to determine how much memory we need to store the characteristics.
+					if (charBufferSize > 0)
 					{
-						RtlZeroMemory(pCharBuffer, charBufferSize * sizeof(BTH_LE_GATT_CHARACTERISTIC));
+						PBTH_LE_GATT_CHARACTERISTIC pCharBuffer = (PBTH_LE_GATT_CHARACTERISTIC)GlobalAlloc(GPTR, charBufferSize * sizeof(BTH_LE_GATT_CHARACTERISTIC));
 
-						USHORT numChars = 0;
-						hr = BluetoothGATTGetCharacteristics(hDevice, pServiceBuffer, charBufferSize, pCharBuffer, &numChars, BLUETOOTH_GATT_FLAG_NONE);
-
-						if (hr == NO_ERROR)
+						if (pCharBuffer)
 						{
-							for (USHORT i = 0; i < charBufferSize; ++i)
-							{
-							}
-						}
+							RtlZeroMemory(pCharBuffer, charBufferSize * sizeof(BTH_LE_GATT_CHARACTERISTIC));
 
-						GlobalFree(pCharBuffer);
+							// Read the characteristics.
+							USHORT numCharacteristics = 0;
+							hr = BluetoothGATTGetCharacteristics(hDevice, pServiceBuffer, charBufferSize, pCharBuffer, &numCharacteristics, BLUETOOTH_GATT_FLAG_NONE);
+
+							if (hr == NO_ERROR)
+							{
+								// For each characteristic....
+								for (USHORT characteristicIndex = 0; characteristicIndex < numCharacteristics; ++characteristicIndex)
+								{
+								}
+							}
+
+							GlobalFree(pCharBuffer);
+						}
 					}
 				}
 			}
-		}
 
-		GlobalFree(pServiceBuffer);
+			GlobalFree(pServiceBuffer);
+		}
 	}
 }
 
