@@ -32,7 +32,7 @@ void serviceDiscovered(CBUUID* serviceId)
 }
 
 /// Called when a sensor characteristic is updated.
-void valueUpdated(CBPeripheral* peripheral, CBUUID* serviceId, NSData* value)
+void valueUpdated(CBPeripheral* peripheralObj, CBUUID* serviceId, NSData* value)
 {
 	if ([serviceId isEqual:extendUUID(BT_SERVICE_HEART_RATE)])
 	{

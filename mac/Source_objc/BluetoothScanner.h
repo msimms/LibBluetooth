@@ -9,9 +9,10 @@
 #import <Foundation/Foundation.h>
 #import <CoreBluetooth/CoreBluetooth.h>
 
-typedef bool (*peripheralCb)(NSString*);
-typedef void (*serviceCB)(CBUUID*);
-typedef void (*valueCB)(CBPeripheral*, CBUUID*, NSData*);
+/// Definitions for the various callback types: peripheral discovered, service discovered, value read.
+typedef bool (*peripheralCb)(NSString* description);
+typedef void (*serviceCB)(CBUUID* serviceId);
+typedef void (*valueCB)(CBPeripheral* peripheralObj, CBUUID* serviceId, NSData* value);
 
 @interface BluetoothScanner : NSObject<CBCentralManagerDelegate, CBPeripheralDelegate>
 {
@@ -21,7 +22,7 @@ typedef void (*valueCB)(CBPeripheral*, CBUUID*, NSData*);
 	/// Apple's Bluetooth interface.
 	CBCentralManager* centralManager;
 
-	/// List of services that we are searching for.
+	/// List of services that we are searching for. Array is a list of service UUIDs.
 	NSArray* serviceIdsToScanFor;
 
 	/// Callback for when a peripheral is discovered.
@@ -34,7 +35,10 @@ typedef void (*valueCB)(CBPeripheral*, CBUUID*, NSData*);
 	valueCB valueUpdatedCallback;
 }
 
+/// @brief Initiates the scanning process. Events are reported through the various callbacks.
 - (void)startScanning:(NSArray*)serviceIdsToScanFor withPeripheralCallback:(peripheralCb)peripheralCallback withServiceCallback:(serviceCB)serviceCallback withValueUpdatedCallback:(valueCB)valueUpdatedCallback;
+
+/// @brief Terminates the scanning process.
 - (void)stopScanner;
 
 @end
