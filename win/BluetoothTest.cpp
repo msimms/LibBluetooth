@@ -9,11 +9,11 @@ bool peripheralDiscovered()
     return true;
 }
 
-void serviceDiscovered(GUID*)
+void serviceDiscovered(GUID* serviceid)
 {
 }
 
-void valueUpdated(GUID*, GUID*, unsigned char*)
+void valueUpdated(GUID* periperalId, GUID* serviceId, unsigned char* value)
 {
 }
 
@@ -21,5 +21,7 @@ int main()
 {
     std::vector<GUID> serviceIdsToScanFor;
     BluetoothScanner scanner;
+
     scanner.startScanning(serviceIdsToScanFor, peripheralDiscovered, serviceDiscovered, valueUpdated);
+    scanner.stopScanning();
 }

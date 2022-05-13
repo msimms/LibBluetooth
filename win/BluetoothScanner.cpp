@@ -86,12 +86,12 @@ void BluetoothScanner::enumerateBtLeDevices()
 
 	if (hDeviceInterface)
 	{
-		SP_DEVICE_INTERFACE_DATA devInfo;
-		ZeroMemory(&devInfo, sizeof(SP_DEVICE_INTERFACE_DATA));
-		devInfo.cbSize = sizeof(SP_DEVICE_INTERFACE_DATA);
+		SP_DEVICE_INTERFACE_DATA devIfaceData;
+		ZeroMemory(&devIfaceData, sizeof(SP_DEVICE_INTERFACE_DATA));
+		devIfaceData.cbSize = sizeof(SP_DEVICE_INTERFACE_DATA);
 
 		DWORD deviceInterfaceIndex = 0;
-		while (SetupDiEnumDeviceInterfaces(hDeviceInterface, NULL, &btLeInterfaceGuid, deviceInterfaceIndex++, &devInfo))
+		while (SetupDiEnumDeviceInterfaces(hDeviceInterface, NULL, &btLeInterfaceGuid, deviceInterfaceIndex++, &devIfaceData))
 		{
 			SP_DEVICE_INTERFACE_DETAIL_DATA devInterfaceDetailData;
 			ZeroMemory(&devInterfaceDetailData, sizeof(SP_DEVICE_INTERFACE_DETAIL_DATA));
@@ -99,7 +99,7 @@ void BluetoothScanner::enumerateBtLeDevices()
 
 			// Query for the buffer size.
 			DWORD size = 0;
-			if (!SetupDiGetDeviceInterfaceDetail(hDeviceInterface, &devInfo, NULL, 0, &size, NULL))
+			if (!SetupDiGetDeviceInterfaceDetail(hDeviceInterface, &devIfaceData, NULL, 0, &size, NULL))
 			{
 				DWORD err = GetLastError();
 
@@ -114,14 +114,15 @@ void BluetoothScanner::enumerateBtLeDevices()
 					if (pDeviceInterfaceDetailData)
 					{
 						ZeroMemory(pDeviceInterfaceDetailData, sizeof(SP_DEVICE_INTERFACE_DETAIL_DATA));
-						pDeviceInterfaceDetailData->cbSize = size;
+						pDeviceInterfaceDetailData->cbSize = sizeof(SP_DEVICE_INTERFACE_DETAIL_DATA);
 
 						SP_DEVINFO_DATA devInfoData;
 						ZeroMemory(&devInfoData, sizeof(SP_DEVINFO_DATA));
 						devInfoData.cbSize = sizeof(SP_DEVINFO_DATA);
 
-						if (SetupDiGetDeviceInterfaceDetail(&devInfoData, &devInfo, pDeviceInterfaceDetailData, size, &size, &devInfoData))
+						if (SetupDiGetDeviceInterfaceDetail(hDeviceInterface, &devIfaceData, pDeviceInterfaceDetailData, size, &size, &devInfoData))
 						{
+							int i = 0;
 							// HANDLE devHandle = CreateFile(pInterfaceDetailData->DevicePath, dwDesiredAccess, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
 						}
 
