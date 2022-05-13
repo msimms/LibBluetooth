@@ -22,6 +22,19 @@ public:
 	void stopScanning();
 
 private:
+	/// List of services that we are searching for. Array is a list of service UUIDs.
+	std::vector<GUID> m_serviceIdsToScanFor;
+
+	/// Callback for when a peripheral is discovered.
+	peripheralCb m_peripheralCallback;
+
+	/// Callback for when a service is discovered.
+	serviceCB m_serviceCallback;
+
+	/// Callback for when a value is updated.
+	valueCB m_valueUpdatedCallback;
+
+private:
 	void enumerateBtLeDevices();
 	void scanForStandardBtDevices();
 

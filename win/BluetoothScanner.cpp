@@ -8,12 +8,18 @@
 
 BluetoothScanner::BluetoothScanner()
 {
+	m_peripheralCallback = NULL;
+	m_serviceCallback = NULL;
+	m_valueUpdatedCallback = NULL;
 }
 
 BluetoothScanner::~BluetoothScanner()
 {
 }
 
+/// <summary>
+/// This method only works for regular, i.e. not BTLE, devices.
+/// </summary>
 void BluetoothScanner::scanForStandardBtDevices()
 {
 	while (TRUE)
@@ -69,6 +75,10 @@ void BluetoothScanner::scanForStandardBtDevices()
 	}
 }
 
+/// <summary>
+/// Enumerates Bluetooth Low-Energy devices. Microsoft does not provide an interface for discovery,
+/// so this will only return devices that have already been paired.
+/// </summary>
 void BluetoothScanner::enumerateBtLeDevices()
 {
 	GUID btLeInterfaceGuid = GUID_BLUETOOTHLE_DEVICE_INTERFACE;
@@ -80,21 +90,44 @@ void BluetoothScanner::enumerateBtLeDevices()
 		ZeroMemory(&devInfo, sizeof(SP_DEVICE_INTERFACE_DATA));
 		devInfo.cbSize = sizeof(SP_DEVICE_INTERFACE_DATA);
 
-		for (DWORD i = 0; SetupDiEnumDeviceInterfaces(hDeviceInterface, NULL, &btLeInterfaceGuid, i, &devInfo); ++i)
+		DWORD deviceInterfaceIndex = 0;
+		while (SetupDiEnumDeviceInterfaces(hDeviceInterface, NULL, &btLeInterfaceGuid, deviceInterfaceIndex++, &devInfo))
 		{
 			SP_DEVICE_INTERFACE_DETAIL_DATA devInterfaceDetailData;
-			ZeroMemory(&devInfo, sizeof(SP_DEVICE_INTERFACE_DETAIL_DATA));
+			ZeroMemory(&devInterfaceDetailData, sizeof(SP_DEVICE_INTERFACE_DETAIL_DATA));
 			devInterfaceDetailData.cbSize = sizeof(SP_DEVICE_INTERFACE_DETAIL_DATA);
 
+			// Query for the buffer size.
 			DWORD size = 0;
 			if (!SetupDiGetDeviceInterfaceDetail(hDeviceInterface, &devInfo, NULL, 0, &size, NULL))
 			{
-				PSP_DEVICE_INTERFACE_DETAIL_DATA pInterfaceDetailData = (PSP_DEVICE_INTERFACE_DETAIL_DATA)GlobalAlloc(GPTR, size);
-				ZeroMemory(pInterfaceDetailData, sizeof(SP_DEVICE_INTERFACE_DETAIL_DATA));
-				pInterfaceDetailData->cbSize = sizeof(SP_DEVICE_INTERFACE_DETAIL_DATA);
+				DWORD err = GetLastError();
 
+				if (err == ERROR_NO_MORE_ITEMS)
+				{
+					break;
+				}
+				if (err == ERROR_INSUFFICIENT_BUFFER)
+				{
+					// Allocate a buffer of the specified size and call the function again.
+					PSP_DEVICE_INTERFACE_DETAIL_DATA pDeviceInterfaceDetailData = (PSP_DEVICE_INTERFACE_DETAIL_DATA)GlobalAlloc(GPTR, size);
+					if (pDeviceInterfaceDetailData)
+					{
+						ZeroMemory(pDeviceInterfaceDetailData, sizeof(SP_DEVICE_INTERFACE_DETAIL_DATA));
+						pDeviceInterfaceDetailData->cbSize = size;
 
-				GlobalFree(pInterfaceDetailData);
+						SP_DEVINFO_DATA devInfoData;
+						ZeroMemory(&devInfoData, sizeof(SP_DEVINFO_DATA));
+						devInfoData.cbSize = sizeof(SP_DEVINFO_DATA);
+
+						if (SetupDiGetDeviceInterfaceDetail(&devInfoData, &devInfo, pDeviceInterfaceDetailData, size, &size, &devInfoData))
+						{
+							// HANDLE devHandle = CreateFile(pInterfaceDetailData->DevicePath, dwDesiredAccess, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
+						}
+
+						GlobalFree(pDeviceInterfaceDetailData);
+					}
+				}
 			}
 		}
 	}
@@ -105,6 +138,11 @@ void BluetoothScanner::startScanning(const std::vector<GUID>& serviceIdsToScanFo
 	serviceCB serviceCallback,
 	valueCB valueUpdatedCallback)
 {
+	m_serviceIdsToScanFor = serviceIdsToScanFor;
+	m_peripheralCallback = peripheralCallback;
+	m_serviceCallback = serviceCallback;
+	m_valueUpdatedCallback = valueUpdatedCallback;
+
 	enumerateBtLeDevices();
 }
 
