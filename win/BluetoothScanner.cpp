@@ -122,8 +122,16 @@ void BluetoothScanner::enumerateBtLeDevices()
 
 						if (SetupDiGetDeviceInterfaceDetail(hDeviceInterface, &devIfaceData, pDeviceInterfaceDetailData, size, &size, &devInfoData))
 						{
-							int i = 0;
-							// HANDLE devHandle = CreateFile(pInterfaceDetailData->DevicePath, dwDesiredAccess, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
+							HANDLE deviceHandle = CreateFile(pDeviceInterfaceDetailData->DevicePath, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
+							if (deviceHandle)
+							{
+								// Call the peripheral discovered callback and continue if it returns TRUE.
+								if (this->m_peripheralCallback())
+								{
+									didDiscover(deviceHandle);
+								}
+								CloseHandle(deviceHandle);
+							}
 						}
 
 						GlobalFree(pDeviceInterfaceDetailData);
@@ -155,36 +163,52 @@ void BluetoothScanner::didDiscover(HANDLE hDevice)
 {
 	USHORT serviceBufferCount = 0;
 	HRESULT hr = BluetoothGATTGetServices(hDevice, 0, NULL, &serviceBufferCount, BLUETOOTH_GATT_FLAG_NONE);
-	PBTH_LE_GATT_SERVICE pServiceBuffer = (PBTH_LE_GATT_SERVICE)malloc(sizeof(BTH_LE_GATT_SERVICE) * serviceBufferCount);
+	PBTH_LE_GATT_SERVICE pServiceBuffer = (PBTH_LE_GATT_SERVICE)GlobalAlloc(GPTR, sizeof(BTH_LE_GATT_SERVICE) * serviceBufferCount);
 
 	if (pServiceBuffer)
 	{
 		RtlZeroMemory(pServiceBuffer, sizeof(BTH_LE_GATT_SERVICE) * serviceBufferCount);
 
 		USHORT numServices = 0;
-		USHORT charBufferSize = 0;
-
 		hr = BluetoothGATTGetServices(hDevice, serviceBufferCount, pServiceBuffer, &numServices, BLUETOOTH_GATT_FLAG_NONE);
-		hr = BluetoothGATTGetCharacteristics(hDevice, pServiceBuffer, 0, NULL, &charBufferSize, BLUETOOTH_GATT_FLAG_NONE);
 
-		if (charBufferSize > 0)
+		if (hr == S_OK)
 		{
-			PBTH_LE_GATT_CHARACTERISTIC pCharBuffer = (PBTH_LE_GATT_CHARACTERISTIC)malloc(charBufferSize * sizeof(BTH_LE_GATT_CHARACTERISTIC));
-
-			if (pCharBuffer)
+			// For each service that was returned....
+			for (USHORT serviceBufferIndex = 0; serviceBufferIndex < serviceBufferCount; ++serviceBufferIndex)
 			{
-				RtlZeroMemory(pCharBuffer, charBufferSize * sizeof(BTH_LE_GATT_CHARACTERISTIC));
+				BTH_LE_GATT_SERVICE* pCurrentServiceBuffer = pServiceBuffer + serviceBufferIndex;
+				this->m_serviceCallback(&pCurrentServiceBuffer->ServiceUuid.Value.LongUuid);
 
-				USHORT numChars = 0;
 				USHORT charBufferSize = 0;
+				hr = BluetoothGATTGetCharacteristics(hDevice, pCurrentServiceBuffer, 0, NULL, &charBufferSize, BLUETOOTH_GATT_FLAG_NONE);
 
-				hr = BluetoothGATTGetCharacteristics(hDevice, pServiceBuffer, charBufferSize, pCharBuffer, &numChars, BLUETOOTH_GATT_FLAG_NONE);
-
-				for (USHORT i = 0; i < charBufferSize; ++i)
+				// Previous call was to determine how much memory we need.
+				if (charBufferSize > 0)
 				{
+					PBTH_LE_GATT_CHARACTERISTIC pCharBuffer = (PBTH_LE_GATT_CHARACTERISTIC)GlobalAlloc(GPTR, charBufferSize * sizeof(BTH_LE_GATT_CHARACTERISTIC));
+
+					if (pCharBuffer)
+					{
+						RtlZeroMemory(pCharBuffer, charBufferSize * sizeof(BTH_LE_GATT_CHARACTERISTIC));
+
+						USHORT numChars = 0;
+						hr = BluetoothGATTGetCharacteristics(hDevice, pServiceBuffer, charBufferSize, pCharBuffer, &numChars, BLUETOOTH_GATT_FLAG_NONE);
+
+						if (hr == NO_ERROR)
+						{
+							for (USHORT i = 0; i < charBufferSize; ++i)
+							{
+							}
+						}
+
+						GlobalFree(pCharBuffer);
+					}
 				}
 			}
 		}
+
+		GlobalFree(pServiceBuffer);
 	}
 }
 
