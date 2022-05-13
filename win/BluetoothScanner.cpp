@@ -128,7 +128,7 @@ void BluetoothScanner::enumerateBtLeDevices()
 								// Call the peripheral discovered callback and continue if it returns TRUE.
 								if (this->m_peripheralCallback())
 								{
-									didDiscover(deviceHandle);
+									didDiscoverDevice(deviceHandle);
 								}
 								CloseHandle(deviceHandle);
 							}
@@ -142,24 +142,7 @@ void BluetoothScanner::enumerateBtLeDevices()
 	}
 }
 
-void BluetoothScanner::startScanning(const std::vector<GUID>& serviceIdsToScanFor,
-	peripheralCb peripheralCallback,
-	serviceCB serviceCallback,
-	valueCB valueUpdatedCallback)
-{
-	m_serviceIdsToScanFor = serviceIdsToScanFor;
-	m_peripheralCallback = peripheralCallback;
-	m_serviceCallback = serviceCallback;
-	m_valueUpdatedCallback = valueUpdatedCallback;
-
-	enumerateBtLeDevices();
-}
-
-void BluetoothScanner::stopScanning()
-{
-}
-
-void BluetoothScanner::didDiscover(HANDLE hDevice)
+void BluetoothScanner::didDiscoverDevice(HANDLE hDevice)
 {
 	USHORT serviceBufferCount = 0;
 
@@ -184,6 +167,7 @@ void BluetoothScanner::didDiscover(HANDLE hDevice)
 				// For each service that was returned....
 				for (USHORT serviceBufferIndex = 0; serviceBufferIndex < serviceBufferCount; ++serviceBufferIndex)
 				{
+					// Buffer offset.
 					BTH_LE_GATT_SERVICE* pCurrentServiceBuffer = pServiceBuffer + serviceBufferIndex;
 
 					// Trigger the callback to let the caller know that we found a service.
@@ -211,6 +195,11 @@ void BluetoothScanner::didDiscover(HANDLE hDevice)
 								// For each characteristic....
 								for (USHORT characteristicIndex = 0; characteristicIndex < numCharacteristics; ++characteristicIndex)
 								{
+									// Buffer offset.
+									PBTH_LE_GATT_CHARACTERISTIC pCurrentCharBuffer = pCharBuffer + characteristicIndex;
+
+									// Process the characteristics.
+									didDiscoverCharacteristic(hDevice, pCurrentCharBuffer);
 								}
 							}
 
@@ -225,6 +214,74 @@ void BluetoothScanner::didDiscover(HANDLE hDevice)
 	}
 }
 
-void BluetoothScanner::didConnect()
+void BluetoothScanner::didDiscoverCharacteristic(HANDLE hDevice, PBTH_LE_GATT_CHARACTERISTIC pCharBuffer)
+{
+	// How much memory do we need to store the descriptors?
+	USHORT descriptorBufferSize = 0;
+	HRESULT hr = BluetoothGATTGetDescriptors(hDevice, pCharBuffer, 0, NULL, &descriptorBufferSize, BLUETOOTH_GATT_FLAG_NONE);
+
+	// Previous call was to determine how much memory we need to store the descriptors.
+	if (descriptorBufferSize > 0)
+	{
+		PBTH_LE_GATT_DESCRIPTOR pDescriptorBuffer = (PBTH_LE_GATT_DESCRIPTOR)GlobalAlloc(GPTR, descriptorBufferSize * sizeof(BTH_LE_GATT_DESCRIPTOR));
+
+		if (pDescriptorBuffer)
+		{
+			RtlZeroMemory(pDescriptorBuffer, descriptorBufferSize);
+
+			// Read the descriptors.
+			USHORT numDescriptors = 0;
+			hr = BluetoothGATTGetDescriptors(hDevice, pCharBuffer, descriptorBufferSize, pDescriptorBuffer, &numDescriptors, BLUETOOTH_GATT_FLAG_NONE);
+
+			if (hr == NO_ERROR)
+			{
+				// For each descriptor.
+				for (USHORT descriptorIndex = 0; descriptorIndex < numDescriptors; ++descriptorIndex)
+				{
+					// Buffer offset.
+					PBTH_LE_GATT_DESCRIPTOR pCurrentDescriptorBuffer = pDescriptorBuffer + descriptorIndex;
+
+					// How much memory do we need to store the value?
+					USHORT valueDataSize = 0;
+					hr = BluetoothGATTGetDescriptorValue(hDevice, pCurrentDescriptorBuffer, 0, NULL, &valueDataSize, BLUETOOTH_GATT_FLAG_NONE);
+
+					// Previous call was to determine how much memory we need to store the value.
+					if (valueDataSize > 0)
+					{
+						PBTH_LE_GATT_DESCRIPTOR_VALUE pValueBuffer = (PBTH_LE_GATT_DESCRIPTOR_VALUE)GlobalAlloc(GPTR, valueDataSize * sizeof(PBTH_LE_GATT_DESCRIPTOR_VALUE));
+
+						if (pValueBuffer)
+						{
+							hr = BluetoothGATTGetDescriptorValue(hDevice, pCurrentDescriptorBuffer, 0, NULL, &valueDataSize, BLUETOOTH_GATT_FLAG_NONE);
+							setupCharacteristicUpdateCallback(hDevice);
+							GlobalFree(pValueBuffer);
+						}
+					}
+				}
+			}
+
+			GlobalFree(pDescriptorBuffer);
+		}
+	}
+}
+
+void BluetoothScanner::setupCharacteristicUpdateCallback(HANDLE hDevice)
+{
+}
+
+void BluetoothScanner::startScanning(const std::vector<GUID>& serviceIdsToScanFor,
+	peripheralCb peripheralCallback,
+	serviceCB serviceCallback,
+	valueCB valueUpdatedCallback)
+{
+	m_serviceIdsToScanFor = serviceIdsToScanFor;
+	m_peripheralCallback = peripheralCallback;
+	m_serviceCallback = serviceCallback;
+	m_valueUpdatedCallback = valueUpdatedCallback;
+
+	enumerateBtLeDevices();
+}
+
+void BluetoothScanner::stopScanning()
 {
 }

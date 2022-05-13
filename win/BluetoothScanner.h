@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Windows.h>
+#include <bthledef.h>
 #include <string>
 #include <vector>
 
@@ -38,6 +39,7 @@ private:
 	void enumerateBtLeDevices();
 	void scanForStandardBtDevices();
 
-	void didDiscover(HANDLE hDevice);
-	void didConnect();
+	void didDiscoverDevice(HANDLE hDevice);
+	void didDiscoverCharacteristic(HANDLE hDevice, PBTH_LE_GATT_CHARACTERISTIC pCharBuffer);
+	void setupCharacteristicUpdateCallback(HANDLE hDevice);
 };
