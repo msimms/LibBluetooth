@@ -27,6 +27,10 @@
 /// @brief Notification callback for a cycling power sensor reading.
 - (void)cyclingPowerUpdated:(NSNotification*)notification
 {
+	NSDictionary* msgData = [notification object];
+	NSNumber* power = [msgData objectForKey:@"Power"];
+	NSString* valueStr = [[NSString alloc] initWithFormat:@"%u", hr.intValue];
+	[self->valueCyclingPower setStringValue:valueStr];
 }
 
 - (void)setRepresentedObject:(id)representedObject

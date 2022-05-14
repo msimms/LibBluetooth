@@ -6,24 +6,25 @@
 import Foundation
 import CoreBluetooth
 
+/// @brief This class manages the bluetooth session, scanning for peripherals, querying their services, and reporting updated values.
 class BluetoothScanner: NSObject, CBPeripheralDelegate, CBCentralManagerDelegate, ObservableObject {
 	
-	/// List of peripheral objects currently connected.
+	/// @brief List of peripheral objects currently connected.
 	@Published var connectedPeripherals: Array<CBPeripheral> = []
 
-	/// Apple's Bluetooth interface.
+	/// @brief Apple's Bluetooth interface.
 	private var centralManager: CBCentralManager!
 
-	/// List of services that we are searching for.
+	/// @brief List of services that we are searching for.
 	private var serviceIdsToScanFor: Array<CBUUID> = []
 
-	/// Callbacks for when a peripheral is discovered.
+	/// @brief Callbacks for when a peripheral is discovered.
 	private var peripheralDiscoveryCallbacks: Array<(String) -> Bool> = []
 
-	/// Callbacks for when a service is discovered.
+	/// @brief Callbacks for when a service is discovered.
 	private var serviceDiscoveryCallbacks: Array<(CBUUID) -> Void> = []
 
-	/// Callbacks for when a value is updated.
+	/// @brief Callbacks for when a value is updated.
 	private var valueUpdatedCallbacks: Array<(CBPeripheral, CBUUID, Data) -> Void> = []
 
 	///
