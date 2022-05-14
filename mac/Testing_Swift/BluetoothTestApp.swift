@@ -25,7 +25,6 @@ class AppState : ObservableObject {
 	/// Called when a sensor characteristic is updated.
 	func valueUpdated(peripheral: CBPeripheral, serviceId: CBUUID, value: Data) {
 		currentHeartRateBpm = decodeHeartRateReading(data: value)
-		print(currentHeartRateBpm)
 	}
 
 	func startBluetoothScanning() -> BluetoothScanner {
