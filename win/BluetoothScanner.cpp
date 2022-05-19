@@ -152,8 +152,8 @@ void BluetoothScanner::didDiscoverDevice(HANDLE hDevice)
 	// Previous call was to determine how much memory we need to store the service list.
 	if (serviceBufferCount > 0)
 	{
+		// Allocate memory for the service descriptions.
 		PBTH_LE_GATT_SERVICE pServiceBuffer = (PBTH_LE_GATT_SERVICE)GlobalAlloc(GPTR, sizeof(BTH_LE_GATT_SERVICE) * serviceBufferCount);
-
 		if (pServiceBuffer)
 		{
 			RtlZeroMemory(pServiceBuffer, sizeof(BTH_LE_GATT_SERVICE) * serviceBufferCount);
@@ -180,15 +180,15 @@ void BluetoothScanner::didDiscoverDevice(HANDLE hDevice)
 					// Previous call was to determine how much memory we need to store the characteristics.
 					if (charBufferSize > 0)
 					{
+						// Allocate memory for the characteristic descriptions.
 						PBTH_LE_GATT_CHARACTERISTIC pCharBuffer = (PBTH_LE_GATT_CHARACTERISTIC)GlobalAlloc(GPTR, charBufferSize * sizeof(BTH_LE_GATT_CHARACTERISTIC));
-
 						if (pCharBuffer)
 						{
 							RtlZeroMemory(pCharBuffer, charBufferSize * sizeof(BTH_LE_GATT_CHARACTERISTIC));
 
 							// Read the characteristics.
 							USHORT numCharacteristics = 0;
-							hr = BluetoothGATTGetCharacteristics(hDevice, pServiceBuffer, charBufferSize, pCharBuffer, &numCharacteristics, BLUETOOTH_GATT_FLAG_NONE);
+							hr = BluetoothGATTGetCharacteristics(hDevice, pCurrentServiceBuffer, charBufferSize, pCharBuffer, &numCharacteristics, BLUETOOTH_GATT_FLAG_NONE);
 
 							if (hr == NO_ERROR)
 							{
@@ -223,8 +223,8 @@ void BluetoothScanner::didDiscoverCharacteristic(HANDLE hDevice, PBTH_LE_GATT_CH
 	// Previous call was to determine how much memory we need to store the descriptors.
 	if (descriptorBufferSize > 0)
 	{
+		// Allocate memory for the characteristic descriptors.
 		PBTH_LE_GATT_DESCRIPTOR pDescriptorBuffer = (PBTH_LE_GATT_DESCRIPTOR)GlobalAlloc(GPTR, descriptorBufferSize * sizeof(BTH_LE_GATT_DESCRIPTOR));
-
 		if (pDescriptorBuffer)
 		{
 			RtlZeroMemory(pDescriptorBuffer, descriptorBufferSize);
