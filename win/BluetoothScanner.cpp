@@ -242,18 +242,21 @@ void BluetoothScanner::didDiscoverCharacteristic(HANDLE hDevice, PBTH_LE_GATT_CH
 					PBTH_LE_GATT_DESCRIPTOR pCurrentDescriptorBuffer = pDescriptorBuffer + descriptorIndex;
 
 					// How much memory do we need to store the value?
-					USHORT valueDataSize = 0;
-					hr = BluetoothGATTGetDescriptorValue(hDevice, pCurrentDescriptorBuffer, 0, NULL, &valueDataSize, BLUETOOTH_GATT_FLAG_NONE);
+					USHORT valueBufferSize = 0;
+					hr = BluetoothGATTGetDescriptorValue(hDevice, pCurrentDescriptorBuffer, 0, NULL, &valueBufferSize, BLUETOOTH_GATT_FLAG_NONE);
 
 					// Previous call was to determine how much memory we need to store the value.
-					if (valueDataSize > 0)
+					if (valueBufferSize > 0)
 					{
-						PBTH_LE_GATT_DESCRIPTOR_VALUE pValueBuffer = (PBTH_LE_GATT_DESCRIPTOR_VALUE)GlobalAlloc(GPTR, valueDataSize * sizeof(PBTH_LE_GATT_DESCRIPTOR_VALUE));
+						PBTH_LE_GATT_DESCRIPTOR_VALUE pValueBuffer = (PBTH_LE_GATT_DESCRIPTOR_VALUE)GlobalAlloc(GPTR, valueBufferSize);
 
 						if (pValueBuffer)
 						{
-							hr = BluetoothGATTGetDescriptorValue(hDevice, pCurrentDescriptorBuffer, 0, NULL, &valueDataSize, BLUETOOTH_GATT_FLAG_NONE);
-							setupCharacteristicUpdateCallback(hDevice);
+							RtlZeroMemory(pValueBuffer, valueBufferSize);
+
+							// Read the descriptor value.
+							hr = BluetoothGATTGetDescriptorValue(hDevice, pCurrentDescriptorBuffer, valueBufferSize, pValueBuffer, NULL, BLUETOOTH_GATT_FLAG_NONE);
+							setupCharacteristicUpdateCallback(hDevice, pCharBuffer);
 							GlobalFree(pValueBuffer);
 						}
 					}
@@ -265,8 +268,27 @@ void BluetoothScanner::didDiscoverCharacteristic(HANDLE hDevice, PBTH_LE_GATT_CH
 	}
 }
 
-void BluetoothScanner::setupCharacteristicUpdateCallback(HANDLE hDevice)
+void valueUpdated(BTH_LE_GATT_EVENT_TYPE EventType, PVOID EventOutParameter, PVOID Context)
 {
+	printf("here");
+}
+
+void BluetoothScanner::setupCharacteristicUpdateCallback(HANDLE hDevice, PBTH_LE_GATT_CHARACTERISTIC pCharBuffer)
+{
+	if (pCharBuffer->IsNotifiable)
+	{
+		BLUETOOTH_GATT_EVENT_HANDLE eventHandle;
+		BLUETOOTH_GATT_VALUE_CHANGED_EVENT_REGISTRATION eventParam;
+		eventParam.Characteristics[0] = *pCharBuffer;
+		eventParam.NumCharacteristics = 1;
+
+		HRESULT hr = BluetoothGATTRegisterEvent(hDevice, CharacteristicValueChangedEvent, &eventParam,
+			valueUpdated, NULL, &eventHandle, BLUETOOTH_GATT_FLAG_NONE);
+		if (hr == NO_ERROR)
+		{
+			m_eventHandles.push_back(eventHandle);
+		}
+	}
 }
 
 void BluetoothScanner::startScanning(const std::vector<GUID>& serviceIdsToScanFor,

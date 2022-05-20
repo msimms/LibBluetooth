@@ -23,6 +23,9 @@ public:
 	void stopScanning();
 
 private:
+	/// List of active event handles, i.e. running observers.
+	std::vector<BLUETOOTH_GATT_EVENT_HANDLE> m_eventHandles;
+
 	/// List of services that we are searching for. Array is a list of service UUIDs.
 	std::vector<GUID> m_serviceIdsToScanFor;
 
@@ -41,5 +44,5 @@ private:
 
 	void didDiscoverDevice(HANDLE hDevice);
 	void didDiscoverCharacteristic(HANDLE hDevice, PBTH_LE_GATT_CHARACTERISTIC pCharBuffer);
-	void setupCharacteristicUpdateCallback(HANDLE hDevice);
+	void setupCharacteristicUpdateCallback(HANDLE hDevice, PBTH_LE_GATT_CHARACTERISTIC pCharBuffer);
 };
