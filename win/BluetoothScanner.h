@@ -6,9 +6,9 @@
 #include <vector>
 
 /// Definitions for the various callback types: peripheral discovered, service discovered, value read.
-typedef bool (*peripheralCb)();
-typedef void (*serviceCB)(GUID*);
-typedef void (*valueCB)(GUID*, GUID*, unsigned char*);
+typedef bool (*peripheralDiscoveredCb)(GUID*);
+typedef void (*serviceEnumeratedCb)(GUID*);
+typedef void (*valueUpdatedCb)(GUID*, GUID*, uint8_t*);
 
 class BluetoothScanner
 {
@@ -16,11 +16,12 @@ public:
 	BluetoothScanner();
 	virtual ~BluetoothScanner();
 
-	void startScanning(const std::vector<GUID>& serviceIdsToScanFor,
-		peripheralCb peripheralCallback,
-		serviceCB serviceCallback,
-		valueCB valueUpdatedCallback);
-	void stopScanning();
+	void start(const std::vector<GUID>& serviceIdsToScanFor,
+		peripheralDiscoveredCb peripheralCallback,
+		serviceEnumeratedCb serviceCallback,
+		valueUpdatedCb valueUpdatedCallback);
+	void wait();
+	void stop();
 
 private:
 	/// List of active event handles, i.e. running observers.
@@ -30,13 +31,13 @@ private:
 	std::vector<GUID> m_serviceIdsToScanFor;
 
 	/// Callback for when a peripheral is discovered.
-	peripheralCb m_peripheralCallback;
+	peripheralDiscoveredCb m_peripheralCallback;
 
 	/// Callback for when a service is discovered.
-	serviceCB m_serviceCallback;
+	serviceEnumeratedCb m_serviceCallback;
 
 	/// Callback for when a value is updated.
-	valueCB m_valueUpdatedCallback;
+	valueUpdatedCb m_valueUpdatedCallback;
 
 private:
 	void enumerateBtLeDevices();

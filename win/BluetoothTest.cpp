@@ -4,7 +4,7 @@
 #include <iostream>
 #include "BluetoothScanner.h"
 
-bool peripheralDiscovered()
+bool peripheralDiscovered(GUID*)
 {
     return true;
 }
@@ -13,7 +13,7 @@ void serviceDiscovered(GUID* serviceid)
 {
 }
 
-void valueUpdated(GUID* periperalId, GUID* serviceId, unsigned char* value)
+void valueUpdated(GUID* periperalId, GUID* serviceId, uint8_t* value)
 {
 }
 
@@ -22,6 +22,7 @@ int main()
     std::vector<GUID> serviceIdsToScanFor;
     BluetoothScanner scanner;
 
-    scanner.startScanning(serviceIdsToScanFor, peripheralDiscovered, serviceDiscovered, valueUpdated);
-    scanner.stopScanning();
+    scanner.start(serviceIdsToScanFor, peripheralDiscovered, serviceDiscovered, valueUpdated);
+    scanner.wait();
+    scanner.stop();
 }

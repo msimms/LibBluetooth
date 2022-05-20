@@ -126,7 +126,7 @@ void BluetoothScanner::enumerateBtLeDevices()
 							if (deviceHandle)
 							{
 								// Call the peripheral discovered callback and continue if it returns TRUE.
-								if (this->m_peripheralCallback())
+								if (this->m_peripheralCallback(NULL))
 								{
 									didDiscoverDevice(deviceHandle);
 								}
@@ -291,10 +291,10 @@ void BluetoothScanner::setupCharacteristicUpdateCallback(HANDLE hDevice, PBTH_LE
 	}
 }
 
-void BluetoothScanner::startScanning(const std::vector<GUID>& serviceIdsToScanFor,
-	peripheralCb peripheralCallback,
-	serviceCB serviceCallback,
-	valueCB valueUpdatedCallback)
+void BluetoothScanner::start(const std::vector<GUID>& serviceIdsToScanFor,
+	peripheralDiscoveredCb peripheralCallback,
+	serviceEnumeratedCb serviceCallback,
+	valueUpdatedCb valueUpdatedCallback)
 {
 	m_serviceIdsToScanFor = serviceIdsToScanFor;
 	m_peripheralCallback = peripheralCallback;
@@ -304,6 +304,10 @@ void BluetoothScanner::startScanning(const std::vector<GUID>& serviceIdsToScanFo
 	enumerateBtLeDevices();
 }
 
-void BluetoothScanner::stopScanning()
+void BluetoothScanner::wait()
+{
+}
+
+void BluetoothScanner::stop()
 {
 }
