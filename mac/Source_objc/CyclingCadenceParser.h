@@ -6,7 +6,9 @@
 #ifndef CyclingCadenceParser_h
 #define CyclingCadenceParser_h
 
-@interface CyclingCadenceParser : NSObject
+#import "Parser.h"
+
+@interface CyclingCadenceParser : Parser
 
 /// @brief Returns all available data as a JSON string.
 + (NSString*)toJson:(NSData*)data;

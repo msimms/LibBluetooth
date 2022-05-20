@@ -29,7 +29,7 @@
 {
 	NSDictionary* msgData = [notification object];
 	NSNumber* power = [msgData objectForKey:@"Power"];
-	NSString* valueStr = [[NSString alloc] initWithFormat:@"%u", hr.intValue];
+	NSString* valueStr = [[NSString alloc] initWithFormat:@"%u", power.intValue];
 	[self->valueCyclingPower setStringValue:valueStr];
 }
 

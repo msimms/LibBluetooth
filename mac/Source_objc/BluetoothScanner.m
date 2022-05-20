@@ -72,7 +72,7 @@
 {
 	// Notify the callback.
 	// If the callback returns true then we should connect to the peripheral.
-	if (self->peripheralDiscoveryCallback(advertisementData.description))
+	if (self->peripheralDiscoveryCallback(peripheral, advertisementData.description))
 	{
 		[self->centralManager connectPeripheral:peripheral options:nil];
 		[self startTrackingConnectedPeripheral:peripheral];
@@ -159,7 +159,7 @@
 
 #pragma mark Public interface for this class
 
-- (void)startScanning:(NSArray*)serviceIdsToScanFor withPeripheralCallback:(peripheralCb)peripheralCallback withServiceCallback:(serviceCB)serviceCallback withValueUpdatedCallback:(valueCB)valueUpdatedCallback
+- (void)start:(NSArray*)serviceIdsToScanFor withPeripheralCallback:(peripheralDiscoveredCb)peripheralCallback withServiceCallback:(serviceEnumeratedCb)serviceCallback withValueUpdatedCallback:(valueUpdatedCb)valueUpdatedCallback
 {
 	self->serviceIdsToScanFor = serviceIdsToScanFor;
 	self->peripheralDiscoveryCallback = peripheralCallback;
@@ -168,7 +168,7 @@
 	self->centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
 }
 
-- (void)stopScanner
+- (void)stop
 {
 	self->centralManager = nil;
 }

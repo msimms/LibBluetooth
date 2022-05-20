@@ -10,9 +10,9 @@
 #import <CoreBluetooth/CoreBluetooth.h>
 
 /// @brief Definitions for the various callback types: peripheral discovered, service discovered, value read.
-typedef bool (*peripheralCb)(NSString* description);
-typedef void (*serviceCB)(CBUUID* serviceId);
-typedef void (*valueCB)(CBPeripheral* peripheralObj, CBUUID* serviceId, NSData* value);
+typedef bool (*peripheralDiscoveredCb)(CBPeripheral* peripheral, NSString* description);
+typedef void (*serviceEnumeratedCb)(CBUUID* serviceId);
+typedef void (*valueUpdatedCb)(CBPeripheral* peripheral, CBUUID* serviceId, NSData* value);
 
 /// @brief This class manages the bluetooth session, scanning for peripherals, querying their services, and reporting updated values.
 @interface BluetoothScanner : NSObject<CBCentralManagerDelegate, CBPeripheralDelegate>
@@ -27,23 +27,23 @@ typedef void (*valueCB)(CBPeripheral* peripheralObj, CBUUID* serviceId, NSData* 
 	NSArray* serviceIdsToScanFor;
 
 	/// @brief Callback for when a peripheral is discovered.
-	peripheralCb peripheralDiscoveryCallback;
+	peripheralDiscoveredCb peripheralDiscoveryCallback;
 
-	/// @brief Callback for when a service is discovered.
-	serviceCB serviceDiscoveryCallback;
+	/// @brief Callback for when a service is enumerated.
+	serviceEnumeratedCb serviceDiscoveryCallback;
 
 	/// @brief Callback for when a value is updated.
-	valueCB valueUpdatedCallback;
+	valueUpdatedCb valueUpdatedCallback;
 }
 
 /// @brief Initiates the scanning process. Events are reported through the various callbacks.
-- (void)startScanning:(NSArray*)serviceIdsToScanFor
-	withPeripheralCallback:(peripheralCb)peripheralCallback
-  	withServiceCallback:(serviceCB)serviceCallback
-	withValueUpdatedCallback:(valueCB)valueUpdatedCallback;
+- (void)start:(NSArray*)serviceIdsToScanFor
+	withPeripheralCallback:(peripheralDiscoveredCb)peripheralCallback
+  	withServiceCallback:(serviceEnumeratedCb)serviceCallback
+	withValueUpdatedCallback:(valueUpdatedCb)valueUpdatedCallback;
 
 /// @brief Terminates the scanning process.
-- (void)stopScanner;
+- (void)stop;
 
 @end
 

@@ -50,7 +50,7 @@ typedef struct HeartRateMeasurement
 	}
 
 	NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:nil];
-	return [[NSString alloc]initWithData: jsonData encoding: NSUTF8StringEncoding ];
+	return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
 }
 
 @end

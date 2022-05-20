@@ -6,7 +6,9 @@
 #ifndef CyclingPowerParser_h
 #define CyclingPowerParser_h
 
-@interface CyclingPowerParser : NSObject
+#import "Parser.h"
+
+@interface CyclingPowerParser : Parser
 
 /// @brief Simple parser, returns the power value.
 + (uint16_t)parse:(NSData*)data;

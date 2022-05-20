@@ -19,6 +19,8 @@
 		27C5745F2829DA790070D640 /* CyclingPowerParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 27C5745E2829DA790070D640 /* CyclingPowerParser.m */; };
 		27C57469282AEFC70070D640 /* LibBluetooth.h in Headers */ = {isa = PBXBuildFile; fileRef = 27C57468282AEFC70070D640 /* LibBluetooth.h */; };
 		27C5746B282AEFC70070D640 /* LibBluetooth.m in Sources */ = {isa = PBXBuildFile; fileRef = 27C5746A282AEFC70070D640 /* LibBluetooth.m */; };
+		27E21D2C2837D86500748280 /* Parser.m in Sources */ = {isa = PBXBuildFile; fileRef = 27E21D2B2837D80200748280 /* Parser.m */; };
+		27E21D312837DB8400748280 /* LibBluetoothApi.c in Sources */ = {isa = PBXBuildFile; fileRef = 27E21D302837DB8400748280 /* LibBluetoothApi.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +46,10 @@
 		27C57466282AEFC70070D640 /* libLibBluetooth.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libLibBluetooth.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		27C57468282AEFC70070D640 /* LibBluetooth.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LibBluetooth.h; sourceTree = "<group>"; };
 		27C5746A282AEFC70070D640 /* LibBluetooth.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LibBluetooth.m; sourceTree = "<group>"; };
+		27E21D2A2837D79400748280 /* Parser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Parser.h; sourceTree = "<group>"; };
+		27E21D2B2837D80200748280 /* Parser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Parser.m; sourceTree = "<group>"; };
+		27E21D2F2837DB5100748280 /* LibBluetoothApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LibBluetoothApi.h; path = ../api/LibBluetoothApi.h; sourceTree = "<group>"; };
+		27E21D302837DB8400748280 /* LibBluetoothApi.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = LibBluetoothApi.c; path = ../api/LibBluetoothApi.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +74,7 @@
 		27C574342829AA800070D640 = {
 			isa = PBXGroup;
 			children = (
+				27E21D2E2837DAB500748280 /* Api */,
 				27C57460282AE6D00070D640 /* Source_objc */,
 				27C5743F2829AA800070D640 /* Testing_objc */,
 				27C57467282AEFC70070D640 /* LibBluetooth */,
@@ -120,6 +127,8 @@
 				27C5745E2829DA790070D640 /* CyclingPowerParser.m */,
 				27C5745C2829D6F00070D640 /* HeartRateParser.h */,
 				27C5745A2829D6650070D640 /* HeartRateParser.m */,
+				27E21D2A2837D79400748280 /* Parser.h */,
+				27E21D2B2837D80200748280 /* Parser.m */,
 			);
 			path = Source_objc;
 			sourceTree = "<group>";
@@ -131,6 +140,15 @@
 				27C5746A282AEFC70070D640 /* LibBluetooth.m */,
 			);
 			path = LibBluetooth;
+			sourceTree = "<group>";
+		};
+		27E21D2E2837DAB500748280 /* Api */ = {
+			isa = PBXGroup;
+			children = (
+				27E21D2F2837DB5100748280 /* LibBluetoothApi.h */,
+				27E21D302837DB8400748280 /* LibBluetoothApi.c */,
+			);
+			name = Api;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -234,9 +252,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				27E21D2C2837D86500748280 /* Parser.m in Sources */,
 				27C5745F2829DA790070D640 /* CyclingPowerParser.m in Sources */,
 				27C574452829AA800070D640 /* ViewController.m in Sources */,
 				27C574592829AC410070D640 /* BluetoothScanner.m in Sources */,
+				27E21D312837DB8400748280 /* LibBluetoothApi.c in Sources */,
 				271B827F282C2C31002F5D2C /* CyclingCadenceParser.m in Sources */,
 				27C5744C2829AA800070D640 /* main.m in Sources */,
 				27C5745B2829D6650070D640 /* HeartRateParser.m in Sources */,

@@ -6,7 +6,9 @@
 #ifndef HeartRateParser_h
 #define HeartRateParser_h
 
-@interface HeartRateParser : NSObject
+#import "Parser.h"
+
+@interface HeartRateParser : Parser
 
 /// @brief Simple parser, returns the heart rate.
 + (uint16_t)parse:(NSData*)data;

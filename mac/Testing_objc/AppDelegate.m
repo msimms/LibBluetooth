@@ -21,7 +21,7 @@ CBUUID* intToCBUUID(uint16_t value)
 
 /// Called when a peripheral is discovered.
 /// Returns true to indicate that we should connect to this peripheral and discover its services.
-bool peripheralDiscovered(NSString* description)
+bool peripheralDiscovered(CBPeripheral* peripheral, NSString* description)
 {
 	return true;
 }
@@ -32,7 +32,7 @@ void serviceDiscovered(CBUUID* serviceId)
 }
 
 /// Called when a sensor characteristic is updated.
-void valueUpdated(CBPeripheral* peripheralObj, CBUUID* serviceId, NSData* value)
+void valueUpdated(CBPeripheral* peripheral, CBUUID* serviceId, NSData* value)
 {
 	if ([serviceId isEqual:extendUUID(BT_SERVICE_HEART_RATE)])
 	{
@@ -58,7 +58,7 @@ BluetoothScanner* startBluetoothScanning(void)
 	NSArray* interestingServices = [[NSArray alloc] initWithObjects:heartRateSvc, cyclingPowerSvc, nil];
 
 	// Start scanning for the services that we are interested in.
-	[scanner startScanning:interestingServices withPeripheralCallback:&peripheralDiscovered withServiceCallback:&serviceDiscovered withValueUpdatedCallback:&valueUpdated];
+	[scanner start:interestingServices withPeripheralCallback:&peripheralDiscovered withServiceCallback:&serviceDiscovered withValueUpdatedCallback:&valueUpdated];
 	return scanner;
 }
 
@@ -77,6 +77,10 @@ BluetoothScanner* startBluetoothScanning(void)
 - (void)applicationWillTerminate:(NSNotification*)aNotification
 {
 	// Insert code here to tear down your application
+	if (self->scanner)
+	{
+		[self->scanner stop];
+	}
 }
 
 - (BOOL)applicationSupportsSecureRestorableState:(NSApplication*)app
