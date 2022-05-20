@@ -24,6 +24,9 @@ public:
 	void stop();
 
 private:
+	/// List of handles to discovered peripherals.
+	std::vector<HANDLE> m_peripherals;
+
 	/// List of active event handles, i.e. running observers.
 	std::vector<BLUETOOTH_GATT_EVENT_HANDLE> m_eventHandles;
 
