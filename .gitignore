@@ -1,6 +1,7 @@
-#XCode
+# XCode
 *xcuserdata*
 
-#Visual Studio
+# Visual Studio
+/win/.vs
 /win/x64
 *.user
