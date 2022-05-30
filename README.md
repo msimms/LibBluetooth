@@ -1,11 +1,26 @@
 # LibBluetooth
-A cross platform Bluetooth library. The goal is to have a simple library that implements the functionality required for the most common Bluetooth uses cases, i.e. reading from a heart rate monitor, or similar device.
+A cross platform Bluetooth library. The goal is to have a simple library that implements the functionality required for the most common Bluetooth uses cases, i.e. reading from a heart rate monitor, or similar device. Initial focus is on Bluetooth LE devices, but more general Bluetooth support may be added in the future.
 
 ## Supported Platforms
-* macOS
-* iOS
-* Windows (in-progress)
+* macOS (Objective-C and Swift) - Successfully tested with a heart rate monitor and cycling power meter
+* iOS (Objective-C and Swift) - Successfully tested with a heart rate monitor and cycling power meter
+* Windows (C/C++) - Currently in-progress
 * Android (planned)
+
+## Interface
+The interface basically consists of just two methods: *start* and *stop*, with feedback being provided via callback functions.
+
+###mac OS and iOS###
+
+###Windows###
+`
+void start(const std::vector<GUID>& serviceIdsToScanFor,
+    peripheralDiscoveredCb peripheralCallback,
+    serviceEnumeratedCb serviceCallback,
+    valueUpdatedCb valueUpdatedCallback);
+void wait();
+void stop();
+`
 
 ## Version History
 In development
