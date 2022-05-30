@@ -42,11 +42,11 @@ typedef struct HeartRateMeasurement
 
 	if ((reportData->flags & FLAGS_HEART_RATE_VALUE) == 0)
 	{
-		[dict setValue:[[NSNumber alloc] initWithInt:(int)reportData->value8] forKey:@"Heart Rate"];
+		[dict setValue:[[NSNumber alloc] initWithInt:(int)reportData->value8] forKey:@KEY_NAME_HEART_RATE];
 	}
 	else	// uint16_t
 	{
-		[dict setValue:[[NSNumber alloc] initWithInt:(int)CFSwapInt16LittleToHost(reportData->value16)] forKey:@"Heart Rate"];
+		[dict setValue:[[NSNumber alloc] initWithInt:(int)CFSwapInt16LittleToHost(reportData->value16)] forKey:@KEY_NAME_HEART_RATE];
 	}
 
 	NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:nil];

@@ -7,6 +7,7 @@
 #import "BluetoothServices.h"
 #import "CyclingPowerParser.h"
 #import "HeartRateParser.h"
+#import "RadarParser.h"
 
 CBUUID* extendUUID(uint16_t value)
 {
@@ -36,15 +37,21 @@ void valueUpdated(CBPeripheral* peripheral, CBUUID* serviceId, NSData* value)
 {
 	if ([serviceId isEqual:extendUUID(BT_SERVICE_HEART_RATE)])
 	{
-		uint16_t hr = [HeartRateParser parse:value];
-		NSDictionary* heartRateData = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:hr], @"Heart Rate", nil];
+		uint16_t hrBpm = [HeartRateParser parse:value];
+		NSDictionary* heartRateData = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:hrBpm], @"Heart Rate", nil];
 		[[NSNotificationCenter defaultCenter] postNotificationName:@"Heart Rate Updated" object:heartRateData];
 	}
 	else if ([serviceId isEqual:extendUUID(BT_SERVICE_CYCLING_POWER)])
 	{
-		uint16_t power = [CyclingPowerParser parse:value];
-		NSDictionary* heartRateData = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:power], @"Power", nil];
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"Power Updated" object:heartRateData];
+		uint16_t powerWatts = [CyclingPowerParser parse:value];
+		NSDictionary* powerData = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:powerWatts], @"Power", nil];
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"Power Updated" object:powerData];
+	}
+	else if ([serviceId isEqual:[CBUUID UUIDWithString:@CUSTOM_BT_SERVICE_VARIA_RADAR]])
+	{
+		NSString* radarJson = [RadarParser toJson:value];
+		NSDictionary* radarData = [[NSDictionary alloc] initWithObjectsAndKeys:radarJson, @"Radar", nil];
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"Radar Updated" object:radarData];
 	}
 }
 
@@ -54,8 +61,9 @@ BluetoothScanner* startBluetoothScanning(void)
 
 	CBUUID* heartRateSvc = [CBUUID UUIDWithString:[[NSString alloc] initWithFormat:@"%X", BT_SERVICE_HEART_RATE]];
 	CBUUID* cyclingPowerSvc = [CBUUID UUIDWithString:[[NSString alloc] initWithFormat:@"%X", BT_SERVICE_CYCLING_POWER]];
+	CBUUID* radarSvc = [CBUUID UUIDWithString:@CUSTOM_BT_SERVICE_VARIA_RADAR];
 
-	NSArray* interestingServices = [[NSArray alloc] initWithObjects:heartRateSvc, cyclingPowerSvc, nil];
+	NSArray* interestingServices = [[NSArray alloc] initWithObjects:heartRateSvc, cyclingPowerSvc, radarSvc, nil];
 
 	// Start scanning for the services that we are interested in.
 	[scanner start:interestingServices withPeripheralCallback:&peripheralDiscovered withServiceCallback:&serviceDiscovered withValueUpdatedCallback:&valueUpdated];

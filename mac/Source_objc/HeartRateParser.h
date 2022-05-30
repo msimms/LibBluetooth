@@ -8,6 +8,9 @@
 
 #import "Parser.h"
 
+/// @brief Key names used with the JSON parser.
+#define KEY_NAME_HEART_RATE "Heart Rate"
+
 @interface HeartRateParser : Parser
 
 /// @brief Simple parser, returns the heart rate.

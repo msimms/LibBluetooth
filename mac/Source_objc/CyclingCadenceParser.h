@@ -8,6 +8,11 @@
 
 #import "Parser.h"
 
+/// @brief Key names used with the JSON parser.
+#define KEY_NAME_WHEEL_REV_COUNT   "Wheel Rev Count"
+#define KEY_NAME_WHEEL_CRANK_COUNT "Crank Count"
+#define KEY_NAME_WHEEL_CRANK_TIME  "Crank Time"
+
 @interface CyclingCadenceParser : Parser
 
 /// @brief Returns all available data as a JSON string.

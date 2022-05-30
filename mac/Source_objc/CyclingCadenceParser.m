@@ -30,28 +30,34 @@ typedef struct RevMeasurement
 
 @implementation CyclingCadenceParser
 
++ (uint16_t)parse:(NSData*)data
+{
+	[NSException raise:@"Unimplemented" format:@"Unimplemented method"];
+	return 0;
+}
+
 + (NSString*)toJson:(NSData*)data
 {
 	const CscMeasurement* cscData = [data bytes];
 	const RevMeasurement* revData = [data bytes];
+
 	NSMutableDictionary* dict = [[NSMutableDictionary alloc]init];
 
 	if (cscData->flags & WHEEL_REVOLUTION_DATA_PRESENT)
 	{
-		[dict setValue:[[NSNumber alloc] initWithInt:(int)CFSwapInt16LittleToHost(cscData->cumulativeWheelRevs)] forKey:@"Wheel Rev Count"];
+		[dict setValue:[[NSNumber alloc] initWithInt:(int)CFSwapInt16LittleToHost(cscData->cumulativeWheelRevs)] forKey:@KEY_NAME_WHEEL_REV_COUNT];
 	}
-
 	if (cscData->flags & CRANK_REVOLUTION_DATA_PRESENT)
 	{
 		if ([data length] > 5)
 		{
-			[dict setValue:[[NSNumber alloc] initWithInt:(int)CFSwapInt16LittleToHost(cscData->cumulativeCrankRevs)] forKey:@"Crank Count"];
-			[dict setValue:[[NSNumber alloc] initWithInt:(int)CFSwapInt16LittleToHost(cscData->lastCrankEventTime)] forKey:@"Crank Time"];
+			[dict setValue:[[NSNumber alloc] initWithInt:(int)CFSwapInt16LittleToHost(cscData->cumulativeCrankRevs)] forKey:@KEY_NAME_WHEEL_CRANK_COUNT];
+			[dict setValue:[[NSNumber alloc] initWithInt:(int)CFSwapInt16LittleToHost(cscData->lastCrankEventTime)] forKey:@KEY_NAME_WHEEL_CRANK_TIME];
 		}
 		else
 		{
-			[dict setValue:[[NSNumber alloc] initWithInt:(int)revData->cumulativeCrankRevs] forKey:@"Crank Count"];
-			[dict setValue:[[NSNumber alloc] initWithInt:(int)revData->lastCrankEventTime] forKey:@"Crank Time"];
+			[dict setValue:[[NSNumber alloc] initWithInt:(int)revData->cumulativeCrankRevs] forKey:@KEY_NAME_WHEEL_CRANK_COUNT];
+			[dict setValue:[[NSNumber alloc] initWithInt:(int)revData->lastCrankEventTime] forKey:@KEY_NAME_WHEEL_CRANK_TIME];
 		}
 	}
 

@@ -8,6 +8,11 @@
 
 #import "Parser.h"
 
+/// @brief Key names used with the JSON parser.
+#define KEY_NAME_CYCLING_POWER_WATTS           "Power"
+#define KEY_NAME_CYCLING_POWER_CRANK_REVS      "Crank Revs"
+#define KEY_NAME_CYCLING_POWER_LAST_CRANK_TIME "Last Crank Time"
+
 @interface CyclingPowerParser : Parser
 
 /// @brief Simple parser, returns the power value.

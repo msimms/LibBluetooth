@@ -7,8 +7,8 @@
 
 @interface ViewController : NSViewController
 {
-	IBOutlet NSTextField* valueHeartRate;
-	IBOutlet NSTextField* valueCyclingPower;
+	IBOutlet NSScrollView* valueScroll;
+	IBOutlet NSTextView* valueText;
 }
 
 @end

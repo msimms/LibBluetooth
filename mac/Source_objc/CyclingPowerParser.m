@@ -56,7 +56,7 @@
 
 		const uint8_t* powerBytes = reportBytes + reportBytesIndex;
 		int16_t power = CFSwapInt16LittleToHost(*(uint16_t*)powerBytes);
-		[dict setValue:[[NSNumber alloc] initWithInt:(int)power] forKey:@"Power"];
+		[dict setValue:[[NSNumber alloc] initWithInt:(int)power] forKey:@KEY_NAME_CYCLING_POWER_WATTS];
 		reportBytesIndex += sizeof(int16_t);
 
 		if (flags & FLAGS_PEDAL_POWER_BALANCE_PRESENT)
@@ -76,15 +76,15 @@
 		{
 			const uint8_t* crankRevsBytes = reportBytes + reportBytesIndex;
 			uint16_t crankRevs = CFSwapInt16LittleToHost(*(uint16_t*)crankRevsBytes);
-			[dict setValue:[[NSNumber alloc] initWithInt:(int)crankRevs] forKey:@"Crank Revs"];
+			[dict setValue:[[NSNumber alloc] initWithInt:(int)crankRevs] forKey:@KEY_NAME_CYCLING_POWER_CRANK_REVS];
 			reportBytesIndex += sizeof(uint16_t);
 
 			const uint8_t* lastCrankTimeBytes = reportBytes + reportBytesIndex;
 			uint16_t lastCrankTime = CFSwapInt16LittleToHost(*(uint16_t*)lastCrankTimeBytes);
-			[dict setValue:[[NSNumber alloc] initWithInt:(int)lastCrankTime] forKey:@"Last Crank Time"];
+			[dict setValue:[[NSNumber alloc] initWithInt:(int)lastCrankTime] forKey:@KEY_NAME_CYCLING_POWER_LAST_CRANK_TIME];
 			reportBytesIndex += sizeof(uint16_t);
 		}
-		
+
 		NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:nil];
 		return [[NSString alloc]initWithData: jsonData encoding: NSUTF8StringEncoding ];
 	}
