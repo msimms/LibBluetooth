@@ -1,4 +1,6 @@
-// BluetoothTest.cpp : This file contains the 'main' function. Program execution begins and ends there.
+//
+//  BluetoothTest.cpp : This file contains the 'main' function. Program execution begins and ends there.
+//  Created by Michael Simms on 5/5/22.
 //
 
 #include <iostream>

@@ -1,3 +1,8 @@
+//
+//  BluetoothScanner.h
+//  Created by Michael Simms on 5/7/22.
+//
+
 #pragma once
 
 #include <Windows.h>

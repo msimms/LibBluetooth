@@ -1,3 +1,8 @@
+//
+//  BluetoothScanner.cpp
+//  Created by Michael Simms on 5/7/22.
+//
+
 #include "BluetoothScanner.h"
 #include <devguid.h>
 #include <bthdef.h>
