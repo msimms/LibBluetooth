@@ -10,11 +10,13 @@
 
 + (uint16_t)parse:(NSData*)data
 {
+	[NSException raise:@"Unimplemented" format:@"Unimplemented method"];
 	return 0;
 }
 
 + (NSString*)toJson:(NSData*)data
 {
+	[NSException raise:@"Unimplemented" format:@"Unimplemented method"];
 	return [[NSString alloc] init];
 }
 

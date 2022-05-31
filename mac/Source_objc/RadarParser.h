@@ -18,9 +18,6 @@
 
 @interface RadarParser : Parser
 
-/// @brief Simple parser, returns the power value.
-+ (uint16_t)parse:(NSData*)data;
-
 /// @brief More complex parser, returns all available data as a JSON string.
 + (NSString*)toJson:(NSData*)data;
 

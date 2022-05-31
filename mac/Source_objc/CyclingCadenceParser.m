@@ -30,12 +30,6 @@ typedef struct RevMeasurement
 
 @implementation CyclingCadenceParser
 
-+ (uint16_t)parse:(NSData*)data
-{
-	[NSException raise:@"Unimplemented" format:@"Unimplemented method"];
-	return 0;
-}
-
 + (NSString*)toJson:(NSData*)data
 {
 	const CscMeasurement* cscData = [data bytes];
