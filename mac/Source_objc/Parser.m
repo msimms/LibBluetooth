@@ -1,5 +1,5 @@
 //
-//  HeartRateParser.m
+//  Parser.m
 //  Created by Michael Simms on 5/20/22.
 //
 
