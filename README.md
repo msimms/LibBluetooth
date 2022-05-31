@@ -1,5 +1,7 @@
 # LibBluetooth
-A cross platform Bluetooth library. The goal is to have a simple library that implements the functionality required for the most common Bluetooth uses cases, i.e. reading from a heart rate monitor, or similar device. Initial focus is on Bluetooth LE devices, but more general Bluetooth support may be added in the future.
+A cross platform Bluetooth library. The goal is to have a simple library that implements the functionality required for the most common Bluetooth uses cases, i.e. reading from a heart rate monitor, or similar device.
+
+Initial focus is on Bluetooth LE devices, but more general Bluetooth support may be added in the future.
 
 ## Supported Platforms
 * macOS (Objective-C and Swift) - Successfully tested with a heart rate monitor and cycling power meter
