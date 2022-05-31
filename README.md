@@ -10,17 +10,31 @@ A cross platform Bluetooth library. The goal is to have a simple library that im
 ## Interface
 The interface basically consists of just two methods: *start* and *stop*, with feedback being provided via callback functions.
 
-###mac OS and iOS###
+### mac OS and iOS ###
+In progress
 
-###Windows###
-`
-void start(const std::vector<GUID>& serviceIdsToScanFor,
-    peripheralDiscoveredCb peripheralCallback,
-    serviceEnumeratedCb serviceCallback,
-    valueUpdatedCb valueUpdatedCallback);
-void wait();
-void stop();
-`
+Objective C
+
+    - (void)start:(NSArray*)serviceIdsToScanFor
+	    withPeripheralCallback:(peripheralDiscoveredCb)peripheralCallback
+	    withServiceCallback:(serviceEnumeratedCb)serviceCallback
+	    withValueUpdatedCallback:(valueUpdatedCb)valueUpdatedCallback;
+    - (void)stop;
+
+### Windows ###
+In progress
+
+C++
+
+    void start(const std::vector<GUID>& serviceIdsToScanFor,
+        peripheralDiscoveredCb peripheralCallback,
+        serviceEnumeratedCb serviceCallback,
+        valueUpdatedCb valueUpdatedCallback);
+    void wait();
+    void stop();
+
+### Android ###
+Planned
 
 ## Version History
 In development
