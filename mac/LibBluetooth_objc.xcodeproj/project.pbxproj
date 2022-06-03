@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		271B827F282C2C31002F5D2C /* CyclingCadenceParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 271B827E282C2C31002F5D2C /* CyclingCadenceParser.m */; };
+		272AF9C6284AC024008D7E3D /* WeightParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 272AF9C4284AC024008D7E3D /* WeightParser.m */; };
 		27C574422829AA800070D640 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 27C574412829AA800070D640 /* AppDelegate.m */; };
 		27C574452829AA800070D640 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27C574442829AA800070D640 /* ViewController.m */; };
 		27C574472829AA800070D640 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 27C574462829AA800070D640 /* Assets.xcassets */; };
@@ -27,6 +28,8 @@
 /* Begin PBXFileReference section */
 		271B827E282C2C31002F5D2C /* CyclingCadenceParser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CyclingCadenceParser.m; sourceTree = "<group>"; };
 		271B8280282C2C51002F5D2C /* CyclingCadenceParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CyclingCadenceParser.h; sourceTree = "<group>"; };
+		272AF9C4284AC024008D7E3D /* WeightParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeightParser.m; sourceTree = "<group>"; };
+		272AF9C5284AC024008D7E3D /* WeightParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeightParser.h; sourceTree = "<group>"; };
 		27C5743D2829AA800070D640 /* BluetoothTest_objc.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BluetoothTest_objc.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		27C574402829AA800070D640 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		27C574412829AA800070D640 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -134,6 +137,8 @@
 				27E21D2B2837D80200748280 /* Parser.m */,
 				27D2764A28457917008E707B /* RadarParser.h */,
 				27D2764B28457917008E707B /* RadarParser.m */,
+				272AF9C5284AC024008D7E3D /* WeightParser.h */,
+				272AF9C4284AC024008D7E3D /* WeightParser.m */,
 			);
 			path = Source_objc;
 			sourceTree = "<group>";
@@ -267,6 +272,7 @@
 				27D2764C28457917008E707B /* RadarParser.m in Sources */,
 				27C5745B2829D6650070D640 /* HeartRateParser.m in Sources */,
 				27C574422829AA800070D640 /* AppDelegate.m in Sources */,
+				272AF9C6284AC024008D7E3D /* WeightParser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
