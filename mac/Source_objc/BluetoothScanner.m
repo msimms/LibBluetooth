@@ -72,7 +72,7 @@
 {
 	// Notify the callback.
 	// If the callback returns true then we should connect to the peripheral.
-	if (self->peripheralDiscoveryCallback(peripheral, advertisementData.description))
+	if (self->peripheralDiscoveryCallback(peripheral, advertisementData.description, self->callbackParam))
 	{
 		[self->centralManager connectPeripheral:peripheral options:nil];
 		[self startTrackingConnectedPeripheral:peripheral];
@@ -111,7 +111,7 @@
 			if ([value isEqual:[service UUID]])
 			{
 				// Notify callbacks.
-				self->serviceDiscoveryCallback([service UUID]);
+				self->serviceDiscoveryCallback(peripheral, [service UUID], self->callbackParam);
 				
 				// Discover characteristics.
 				[peripheral discoverCharacteristics:nil forService:service];
@@ -137,7 +137,7 @@
 {
 	if (characteristic.value != nil)
 	{
-		self->valueUpdatedCallback(peripheral, characteristic.service.UUID, characteristic.value);
+		self->valueUpdatedCallback(peripheral, characteristic.service.UUID, characteristic.value, self->callbackParam);
 	}
 }
 
@@ -159,12 +159,13 @@
 
 #pragma mark Public interface for this class
 
-- (void)start:(NSArray*)serviceIdsToScanFor withPeripheralCallback:(peripheralDiscoveredCb)peripheralCallback withServiceCallback:(serviceEnumeratedCb)serviceCallback withValueUpdatedCallback:(valueUpdatedCb)valueUpdatedCallback
+- (void)start:(NSArray*)serviceIdsToScanFor withPeripheralCallback:(peripheralDiscoveredCb)peripheralCallback withServiceCallback:(serviceEnumeratedCb)serviceCallback withValueUpdatedCallback:(valueUpdatedCb)valueUpdatedCallback withCallbackParam:(void*)callbackParam
 {
 	self->serviceIdsToScanFor = serviceIdsToScanFor;
 	self->peripheralDiscoveryCallback = peripheralCallback;
 	self->serviceDiscoveryCallback = serviceCallback;
 	self->valueUpdatedCallback = valueUpdatedCallback;
+	self->callbackParam = callbackParam;
 	self->centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
 }
 

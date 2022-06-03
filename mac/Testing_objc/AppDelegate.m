@@ -22,18 +22,18 @@ CBUUID* intToCBUUID(uint16_t value)
 
 /// Called when a peripheral is discovered.
 /// Returns true to indicate that we should connect to this peripheral and discover its services.
-bool peripheralDiscovered(CBPeripheral* peripheral, NSString* description)
+bool peripheralDiscovered(CBPeripheral* peripheral, NSString* description, void* cb)
 {
 	return true;
 }
 
 /// Called when a service is discovered.
-void serviceDiscovered(CBUUID* serviceId)
+void serviceDiscovered(CBPeripheral* peripheral, CBUUID* serviceId, void* cb)
 {
 }
 
 /// Called when a sensor characteristic is updated.
-void valueUpdated(CBPeripheral* peripheral, CBUUID* serviceId, NSData* value)
+void valueUpdated(CBPeripheral* peripheral, CBUUID* serviceId, NSData* value, void* cb)
 {
 	if ([serviceId isEqual:extendUUID(BT_SERVICE_HEART_RATE)])
 	{
@@ -55,21 +55,6 @@ void valueUpdated(CBPeripheral* peripheral, CBUUID* serviceId, NSData* value)
 	}
 }
 
-BluetoothScanner* startBluetoothScanning(void)
-{
-	BluetoothScanner* scanner = [[BluetoothScanner alloc] init];
-
-	CBUUID* heartRateSvc = [CBUUID UUIDWithString:[[NSString alloc] initWithFormat:@"%X", BT_SERVICE_HEART_RATE]];
-	CBUUID* cyclingPowerSvc = [CBUUID UUIDWithString:[[NSString alloc] initWithFormat:@"%X", BT_SERVICE_CYCLING_POWER]];
-	CBUUID* radarSvc = [CBUUID UUIDWithString:@CUSTOM_BT_SERVICE_VARIA_RADAR];
-
-	NSArray* interestingServices = [[NSArray alloc] initWithObjects:heartRateSvc, cyclingPowerSvc, radarSvc, nil];
-
-	// Start scanning for the services that we are interested in.
-	[scanner start:interestingServices withPeripheralCallback:&peripheralDiscovered withServiceCallback:&serviceDiscovered withValueUpdatedCallback:&valueUpdated];
-	return scanner;
-}
-
 @interface AppDelegate ()
 
 
@@ -79,7 +64,16 @@ BluetoothScanner* startBluetoothScanning(void)
 
 - (void)applicationDidFinishLaunching:(NSNotification*)aNotification
 {
-	self->scanner = startBluetoothScanning();
+	self->scanner = [[BluetoothScanner alloc] init];
+
+	CBUUID* heartRateSvc = [CBUUID UUIDWithString:[[NSString alloc] initWithFormat:@"%X", BT_SERVICE_HEART_RATE]];
+	CBUUID* cyclingPowerSvc = [CBUUID UUIDWithString:[[NSString alloc] initWithFormat:@"%X", BT_SERVICE_CYCLING_POWER]];
+	CBUUID* radarSvc = [CBUUID UUIDWithString:@CUSTOM_BT_SERVICE_VARIA_RADAR];
+
+	NSArray* interestingServices = [[NSArray alloc] initWithObjects:heartRateSvc, cyclingPowerSvc, radarSvc, nil];
+
+	// Start scanning for the services that we are interested in.
+	[scanner start:interestingServices withPeripheralCallback:&peripheralDiscovered withServiceCallback:&serviceDiscovered withValueUpdatedCallback:&valueUpdated withCallbackParam:(void*)self];
 }
 
 - (void)applicationWillTerminate:(NSNotification*)aNotification

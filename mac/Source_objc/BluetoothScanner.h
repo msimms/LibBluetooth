@@ -10,9 +10,9 @@
 #import <CoreBluetooth/CoreBluetooth.h>
 
 /// @brief Definitions for the various callback types: peripheral discovered, service discovered, value read.
-typedef bool (*peripheralDiscoveredCb)(CBPeripheral* peripheral, NSString* description);
-typedef void (*serviceEnumeratedCb)(CBUUID* serviceId);
-typedef void (*valueUpdatedCb)(CBPeripheral* peripheral, CBUUID* serviceId, NSData* value);
+typedef bool (*peripheralDiscoveredCb)(CBPeripheral* peripheral, NSString* description, void* cb);
+typedef void (*serviceEnumeratedCb)(CBPeripheral* peripheral, CBUUID* serviceId, void* cb);
+typedef void (*valueUpdatedCb)(CBPeripheral* peripheral, CBUUID* serviceId, NSData* value, void* cb);
 
 /// @brief This class manages the bluetooth session, scanning for peripherals, querying their services, and reporting updated values.
 @interface BluetoothScanner : NSObject<CBCentralManagerDelegate, CBPeripheralDelegate>
@@ -34,13 +34,17 @@ typedef void (*valueUpdatedCb)(CBPeripheral* peripheral, CBUUID* serviceId, NSDa
 
 	/// @brief Callback for when a value is updated.
 	valueUpdatedCb valueUpdatedCallback;
+	
+	/// @brief Parameter that is passed when invoking the callback functions.
+	void* callbackParam;
 }
 
 /// @brief Initiates the scanning process. Events are reported through the various callbacks.
 - (void)start:(NSArray*)serviceIdsToScanFor
 	withPeripheralCallback:(peripheralDiscoveredCb)peripheralCallback
   	withServiceCallback:(serviceEnumeratedCb)serviceCallback
-	withValueUpdatedCallback:(valueUpdatedCb)valueUpdatedCallback;
+	withValueUpdatedCallback:(valueUpdatedCb)valueUpdatedCallback
+	withCallbackParam:(void*)callbackParam;
 
 /// @brief Terminates the scanning process.
 - (void)stop;
