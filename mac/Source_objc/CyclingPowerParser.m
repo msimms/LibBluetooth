@@ -41,7 +41,7 @@
 	return 0;
 }
 
-+ (NSString*)toJson:(NSData*)data
++ (NSDictionary*)toDict:(NSData*)data
 {
 	const uint8_t* reportBytes = [data bytes];
 	NSUInteger reportLen = [data length];
@@ -85,8 +85,19 @@
 			reportBytesIndex += sizeof(uint16_t);
 		}
 
+		return dict;
+	}
+	return nil;
+}
+
++ (NSString*)toJson:(NSData*)data
+{
+	NSDictionary* dict = [CyclingPowerParser toDict:data];
+	
+	if (data)
+	{
 		NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:nil];
-		return [[NSString alloc]initWithData: jsonData encoding: NSUTF8StringEncoding ];
+		return [[NSString alloc]initWithData: jsonData encoding: NSUTF8StringEncoding];
 	}
 	return nil;
 }

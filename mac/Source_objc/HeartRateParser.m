@@ -35,7 +35,7 @@ typedef struct HeartRateMeasurement
 	return CFSwapInt16LittleToHost(reportData->value16);
 }
 
-+ (NSString*)toJson:(NSData*)data
++ (NSDictionary*)toDict:(NSData*)data
 {
 	const HeartRateMeasurement* reportData = [data bytes];
 	NSMutableDictionary* dict = [[NSMutableDictionary alloc]init];
@@ -49,8 +49,19 @@ typedef struct HeartRateMeasurement
 		[dict setValue:[[NSNumber alloc] initWithInt:(int)CFSwapInt16LittleToHost(reportData->value16)] forKey:@KEY_NAME_HEART_RATE];
 	}
 
-	NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:nil];
-	return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+	return dict;
+}
+
++ (NSString*)toJson:(NSData*)data
+{
+	NSDictionary* dict = [HeartRateParser toDict:data];
+	
+	if (data)
+	{
+		NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:nil];
+		return [[NSString alloc]initWithData: jsonData encoding: NSUTF8StringEncoding];
+	}
+	return nil;
 }
 
 @end

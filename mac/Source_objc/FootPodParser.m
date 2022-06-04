@@ -23,11 +23,11 @@ typedef struct RscMeasurement
 
 @implementation FootPodParser
 
-+ (NSString*)toJson:(NSData*)data
++ (NSDictionary*)toDict:(NSData*)data
 {
 	NSMutableDictionary* dict = [[NSMutableDictionary alloc]init];
 
-	if (data && ([data length] >= sizeof(RscMeasurement)))
+	if (data && [data length] >= sizeof(RscMeasurement))
 	{
 		const RscMeasurement* measurement = [data bytes];
 
@@ -46,8 +46,19 @@ typedef struct RscMeasurement
 		}
 	}
 
-	NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:nil];
-	return [[NSString alloc]initWithData: jsonData encoding: NSUTF8StringEncoding ];
+	return dict;
+}
+
++ (NSString*)toJson:(NSData*)data
+{
+	NSDictionary* dict = [FootPodParser toDict:data];
+	
+	if (data)
+	{
+		NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:nil];
+		return [[NSString alloc]initWithData: jsonData encoding: NSUTF8StringEncoding];
+	}
+	return nil;
 }
 
 @end

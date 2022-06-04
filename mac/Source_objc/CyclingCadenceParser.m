@@ -30,7 +30,7 @@ typedef struct RevMeasurement
 
 @implementation CyclingCadenceParser
 
-+ (NSString*)toJson:(NSData*)data
++ (NSDictionary*)toDict:(NSData*)data
 {
 	const CscMeasurement* cscData = [data bytes];
 	const RevMeasurement* revData = [data bytes];
@@ -55,8 +55,19 @@ typedef struct RevMeasurement
 		}
 	}
 
-	NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:nil];
-	return [[NSString alloc]initWithData: jsonData encoding: NSUTF8StringEncoding ];
+	return dict;
+}
+
++ (NSString*)toJson:(NSData*)data
+{
+	NSDictionary* dict = [CyclingCadenceParser toDict:data];
+	
+	if (data)
+	{
+		NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:nil];
+		return [[NSString alloc]initWithData: jsonData encoding: NSUTF8StringEncoding];
+	}
+	return nil;
 }
 
 @end

@@ -30,7 +30,7 @@ typedef struct RevMeasurement
 
 @implementation WheelSpeedAndCadenceParser
 
-+ (NSString*)toJson:(NSData*)data
++ (NSDictionary*)toDict:(NSData*)data
 {
 	NSMutableDictionary* dict = [[NSMutableDictionary alloc]init];
 
@@ -62,9 +62,21 @@ typedef struct RevMeasurement
 		[dict setObject:[NSNumber numberWithUnsignedInt:currentCrankCount] forKey:@KEY_NAME_CRANK_COUNT];
 		[dict setObject:[NSNumber numberWithUnsignedInt:currentCrankTime] forKey:@KEY_NAME_CRANK_TIME];
 	}
+	
+	return dict;
+}
 
-	NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:nil];
-	return [[NSString alloc]initWithData: jsonData encoding: NSUTF8StringEncoding ];
++ (NSString*)toJson:(NSData*)data
+{
+	NSDictionary* dict = [WheelSpeedAndCadenceParser toDict:data];
+
+	if (data)
+	{
+		NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:nil];
+		return [[NSString alloc]initWithData: jsonData encoding: NSUTF8StringEncoding];
+	}
+	return nil;
+
 }
 
 @end

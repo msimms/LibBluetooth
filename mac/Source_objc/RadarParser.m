@@ -8,17 +8,17 @@
 
 typedef struct RadarMeasurement
 {
-	uint8_t unknown;
+	uint8_t identifier;
 	uint8_t threatSpeedMeters;
 	uint8_t threatLevel;
 } __attribute__((packed)) RadarMeasurement;
 
 @implementation RadarParser
 
-+ (NSString*)toJson:(NSData*)data
++ (NSDictionary*)toDict:(NSData*)data
 {
 	//
-	// Not sure what the first byte is for, but threats appear to follow in 3 byte chunks.
+	// First byte appears to be an identifier and threats appear to follow in 3 byte chunks.
 	//
 
 	const uint8_t* reportBytes = [data bytes];
@@ -30,9 +30,9 @@ typedef struct RadarMeasurement
 		NSUInteger threatCount = (reportLen - 1) / sizeof(RadarMeasurement);
 		NSUInteger currentThreatNum = 1;
 
-		NSMutableDictionary* radarData = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
-										  [NSNumber numberWithUnsignedLong:threatCount], @KEY_NAME_RADAR_THREAT_COUNT,
-										  nil];
+		NSMutableDictionary* dict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
+									 [NSNumber numberWithUnsignedLong:threatCount], @KEY_NAME_RADAR_THREAT_COUNT,
+									 nil];
 
 		while (offset < reportLen)
 		{
@@ -42,16 +42,27 @@ typedef struct RadarMeasurement
 			NSString* keyNameSpeed = [[NSString alloc] initWithFormat:@"%@%lu", @KEY_NAME_RADAR_THREAT_DISTANCE, currentThreatNum];
 			NSString* keyNameLevel = [[NSString alloc] initWithFormat:@"%@%lu", @KEY_NAME_RADAR_THREAT_LEVEL, currentThreatNum];
 
-			[radarData setObject:[NSNumber numberWithUnsignedInt:reportData->unknown] forKey:keyNameID];
-			[radarData setObject:[NSNumber numberWithUnsignedInt:reportData->threatSpeedMeters] forKey:keyNameSpeed];
-			[radarData setObject:[NSNumber numberWithUnsignedInt:reportData->threatLevel] forKey:keyNameLevel];
+			[dict setObject:[NSNumber numberWithUnsignedInt:reportData->identifier] forKey:keyNameID];
+			[dict setObject:[NSNumber numberWithUnsignedInt:reportData->threatSpeedMeters] forKey:keyNameSpeed];
+			[dict setObject:[NSNumber numberWithUnsignedInt:reportData->threatLevel] forKey:keyNameLevel];
 
 			++currentThreatNum;
 			offset += sizeof(RadarMeasurement);
 		}
 
-		NSData* jsonData = [NSJSONSerialization dataWithJSONObject:radarData options:NSJSONWritingPrettyPrinted error:nil];
-		return [[NSString alloc]initWithData: jsonData encoding: NSUTF8StringEncoding ];
+		return dict;
+	}
+	return nil;
+}
+
++ (NSString*)toJson:(NSData*)data
+{
+	NSDictionary* dict = [RadarParser toDict:data];
+	
+	if (data)
+	{
+		NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:nil];
+		return [[NSString alloc]initWithData: jsonData encoding: NSUTF8StringEncoding];
 	}
 	return nil;
 }
