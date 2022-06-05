@@ -39,6 +39,8 @@ typedef void (*valueUpdatedCb)(CBPeripheral* peripheral, CBUUID* serviceId, NSDa
 	void* callbackParam;
 }
 
+- (void)restart;
+
 /// @brief Initiates the scanning process. Events are reported through the various callbacks.
 - (void)start:(NSArray*)serviceIdsToScanFor
 	withPeripheralCallback:(peripheralDiscoveredCb)peripheralCallback

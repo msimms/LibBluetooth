@@ -51,6 +51,15 @@
 	return false;
 }
 
+- (void)restart
+{
+	if ([self->centralManager state] == CBManagerStatePoweredOn)
+	{
+		NSDictionary* options = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:NO] forKey:CBCentralManagerScanOptionAllowDuplicatesKey];
+		[self->centralManager scanForPeripheralsWithServices:self->serviceIdsToScanFor options:options];
+	}
+}
+
 #pragma mark Central Manager callbacks
 
 - (void)centralManager:(CBCentralManager*)central didConnectPeripheral:(CBPeripheral*)peripheral
@@ -93,11 +102,7 @@
 
 - (void)centralManagerDidUpdateState:(CBCentralManager*)central
 {
-	if ([central state] == CBManagerStatePoweredOn)
-	{
-		NSDictionary* options = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:NO] forKey:CBCentralManagerScanOptionAllowDuplicatesKey];
-		[self->centralManager scanForPeripheralsWithServices:self->serviceIdsToScanFor options:options];
-	}
+	[self restart];
 }
 
 #pragma mark Peripheral callbacks
