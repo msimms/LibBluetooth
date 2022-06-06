@@ -143,11 +143,13 @@
   <ItemGroup>
     <ClCompile Include="BluetoothScanner.cpp" />
     <ClCompile Include="BluetoothTest.cpp" />
+    <ClCompile Include="CyclingPowerParser.cpp" />
     <ClCompile Include="HeartRateParser.cpp" />
     <ClCompile Include="Parser.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BluetoothScanner.h" />
+    <ClInclude Include="CyclingPowerParser.h" />
     <ClInclude Include="HeartRateParser.h" />
     <ClInclude Include="Parser.h" />
   </ItemGroup>
