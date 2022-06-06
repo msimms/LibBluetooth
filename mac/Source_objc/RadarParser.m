@@ -38,9 +38,9 @@ typedef struct RadarMeasurement
 		{
 			const RadarMeasurement* reportData = [data bytes] + offset;
 
-			NSString* keyNameID = [[NSString alloc] initWithFormat:@"%@%lu", @KEY_NAME_RADAR_THREAT_ID, currentThreatNum];
-			NSString* keyNameSpeed = [[NSString alloc] initWithFormat:@"%@%lu", @KEY_NAME_RADAR_THREAT_DISTANCE, currentThreatNum];
-			NSString* keyNameLevel = [[NSString alloc] initWithFormat:@"%@%lu", @KEY_NAME_RADAR_THREAT_LEVEL, currentThreatNum];
+			NSString* keyNameID = [[NSString alloc] initWithFormat:@"%@%lu", @KEY_NAME_RADAR_THREAT_ID, (unsigned long)currentThreatNum];
+			NSString* keyNameSpeed = [[NSString alloc] initWithFormat:@"%@%lu", @KEY_NAME_RADAR_THREAT_DISTANCE, (unsigned long)currentThreatNum];
+			NSString* keyNameLevel = [[NSString alloc] initWithFormat:@"%@%lu", @KEY_NAME_RADAR_THREAT_LEVEL, (unsigned long)currentThreatNum];
 
 			[dict setObject:[NSNumber numberWithUnsignedInt:reportData->identifier] forKey:keyNameID];
 			[dict setObject:[NSNumber numberWithUnsignedInt:reportData->threatSpeedMeters] forKey:keyNameSpeed];
