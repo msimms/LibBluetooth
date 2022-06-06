@@ -45,7 +45,8 @@ typedef struct WeightScaleFeature
 	if (data && [data length] >= sizeof(Weight))
 	{
 		const Weight* reportData = [data bytes];
-		return (float)CFSwapInt32LittleToHost(reportData->weight) / (float)1000.0;
+		float weightKg = (float)CFSwapInt32LittleToHost(reportData->weight) / (float)200.0;
+		return weightKg;
 	}
 	return 0.0;
 }
@@ -57,7 +58,7 @@ typedef struct WeightScaleFeature
 	if (data && [data length] >= sizeof(Weight))
 	{
 		const Weight* reportData = [data bytes];
-		float weightKg = (float)CFSwapInt32LittleToHost(reportData->weight) / (float)1000.0;
+		float weightKg = (float)CFSwapInt32LittleToHost(reportData->weight) / (float)200.0;
 		[dict setValue:[[NSNumber alloc] initWithFloat:weightKg] forKey:@KEY_NAME_WEIGHT_KG];
 		return dict;
 	}

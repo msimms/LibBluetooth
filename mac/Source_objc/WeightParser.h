@@ -11,6 +11,9 @@
 /// @brief Key names used with the JSON parser.
 #define KEY_NAME_WEIGHT_KG "WeightKg"
 
+/// @brief Live weight characteristic.
+#define CHARACTERISTIC_LIVE_WEIGHT 0x2B01
+
 @interface WeightParser : Parser
 
 /// @brief Simple parser, returns the weight.
