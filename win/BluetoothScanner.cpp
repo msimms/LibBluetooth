@@ -131,7 +131,7 @@ void BluetoothScanner::enumerateBtLeDevices()
 							if (deviceHandle)
 							{
 								// Call the peripheral discovered callback and continue if it returns TRUE.
-								if (this->m_peripheralCallback(NULL))
+								if (this->m_peripheralCallback(NULL, pDeviceInterfaceDetailData->DevicePath, this->m_callbackParam))
 								{
 									didDiscoverDevice(deviceHandle);
 								}
@@ -152,7 +152,7 @@ void BluetoothScanner::didDiscoverDevice(HANDLE hDevice)
 {
 	USHORT serviceBufferCount = 0;
 
-	// How much memory do we need to store the service list?
+	// How much memory do we need to store the service descriptor list?
 	HRESULT hr = BluetoothGATTGetServices(hDevice, 0, NULL, &serviceBufferCount, BLUETOOTH_GATT_FLAG_NONE);
 
 	// Previous call was to determine how much memory we need to store the service list.
@@ -176,7 +176,7 @@ void BluetoothScanner::didDiscoverDevice(HANDLE hDevice)
 					BTH_LE_GATT_SERVICE* pCurrentServiceBuffer = pServiceBuffer + serviceBufferIndex;
 
 					// Trigger the callback to let the caller know that we found a service.
-					this->m_serviceCallback(&pCurrentServiceBuffer->ServiceUuid.Value.LongUuid);
+					this->m_serviceCallback(&pCurrentServiceBuffer->ServiceUuid.Value.LongUuid, this->m_callbackParam);
 
 					// How much memory do we need to store the characteristics?
 					USHORT numCharacteristics = 0;
@@ -203,7 +203,7 @@ void BluetoothScanner::didDiscoverDevice(HANDLE hDevice)
 									PBTH_LE_GATT_CHARACTERISTIC pCurrentCharBuffer = pCharBuffer + characteristicIndex;
 
 									// Process the characteristics.
-									didDiscoverCharacteristic(hDevice, pCurrentCharBuffer);
+									didDiscoverCharacteristic(hDevice, pCurrentServiceBuffer, pCurrentCharBuffer);
 								}
 							}
 
@@ -218,7 +218,7 @@ void BluetoothScanner::didDiscoverDevice(HANDLE hDevice)
 	}
 }
 
-void BluetoothScanner::didDiscoverCharacteristic(HANDLE hDevice, PBTH_LE_GATT_CHARACTERISTIC pCharBuffer)
+void BluetoothScanner::didDiscoverCharacteristic(HANDLE hDevice, PBTH_LE_GATT_SERVICE pServiceBuffer, PBTH_LE_GATT_CHARACTERISTIC pCharBuffer)
 {
 	// How much memory do we need to store the descriptors?
 	USHORT numDescriptors = 0;
@@ -259,7 +259,7 @@ void BluetoothScanner::didDiscoverCharacteristic(HANDLE hDevice, PBTH_LE_GATT_CH
 
 							// Read the descriptor value.
 							hr = BluetoothGATTGetDescriptorValue(hDevice, pCurrentDescriptorBuffer, valueBufferSize, pValueBuffer, NULL, BLUETOOTH_GATT_FLAG_NONE);
-							setupCharacteristicUpdateCallback(hDevice, pCharBuffer);
+							setupCharacteristicUpdateCallback(hDevice, pServiceBuffer, pCharBuffer);
 							GlobalFree(pValueBuffer);
 						}
 					}
@@ -273,15 +273,16 @@ void BluetoothScanner::didDiscoverCharacteristic(HANDLE hDevice, PBTH_LE_GATT_CH
 
 VOID CALLBACK valueUpdated(BTH_LE_GATT_EVENT_TYPE EventType, PVOID EventOutParameter, PVOID Context)
 {
-	BluetoothScanner* scanner = (BluetoothScanner*)Context;
+	ValueUpdatedCbParams* params = (ValueUpdatedCbParams*)Context;
 	PBLUETOOTH_GATT_VALUE_CHANGED_EVENT valueChangedEventParams = (PBLUETOOTH_GATT_VALUE_CHANGED_EVENT)EventOutParameter;
 
 	if (valueChangedEventParams->CharacteristicValue->DataSize > 0)
 	{
+		params->cb(NULL, &params->serviceId, &params->characteristicId, valueChangedEventParams->CharacteristicValue->Data, params->callbackParam);
 	}
 }
 
-void BluetoothScanner::setupCharacteristicUpdateCallback(HANDLE hDevice, PBTH_LE_GATT_CHARACTERISTIC pCharBuffer)
+void BluetoothScanner::setupCharacteristicUpdateCallback(HANDLE hDevice, PBTH_LE_GATT_SERVICE pServiceBuffer, PBTH_LE_GATT_CHARACTERISTIC pCharBuffer)
 {
 	if (pCharBuffer->IsNotifiable)
 	{
@@ -291,8 +292,15 @@ void BluetoothScanner::setupCharacteristicUpdateCallback(HANDLE hDevice, PBTH_LE
 		eventParam.Characteristics[0] = *pCharBuffer;
 		eventParam.NumCharacteristics = 1;
 
+		ValueUpdatedCbParams* params = new ValueUpdatedCbParams;
+		params->serviceId = pServiceBuffer->ServiceUuid.Value.LongUuid;
+		params->characteristicId = pCharBuffer->CharacteristicUuid.Value.LongUuid;
+		params->cb = m_valueUpdatedCallback;
+		params->callbackParam = this->m_callbackParam;
+		m_valueUpdatedCallbackParams.push_back(params);
+
 		HRESULT hr = BluetoothGATTRegisterEvent(hDevice, CharacteristicValueChangedEvent, &eventParam, valueUpdated,
-			(PVOID)this, &eventHandle, BLUETOOTH_GATT_FLAG_NONE);
+			(PVOID)params, &eventHandle, BLUETOOTH_GATT_FLAG_NONE);
 		if (hr == S_OK)
 		{
 			m_eventHandles.push_back(eventHandle);
@@ -301,14 +309,16 @@ void BluetoothScanner::setupCharacteristicUpdateCallback(HANDLE hDevice, PBTH_LE
 }
 
 void BluetoothScanner::start(const std::vector<GUID>& serviceIdsToScanFor,
-	peripheralDiscoveredCb peripheralCallback,
-	serviceEnumeratedCb serviceCallback,
-	valueUpdatedCb valueUpdatedCallback)
+	PeripheralDiscoveredCb peripheralCallback,
+	ServiceEnumeratedCb serviceCallback,
+	ValueUpdatedCb valueUpdatedCallback,
+	void* callbackParam)
 {
 	m_serviceIdsToScanFor = serviceIdsToScanFor;
 	m_peripheralCallback = peripheralCallback;
 	m_serviceCallback = serviceCallback;
 	m_valueUpdatedCallback = valueUpdatedCallback;
+	m_callbackParam = callbackParam;
 
 	enumerateBtLeDevices();
 }
@@ -323,6 +333,12 @@ void BluetoothScanner::wait()
 
 void BluetoothScanner::stop()
 {
+	for (auto params = m_valueUpdatedCallbackParams.begin(); params != m_valueUpdatedCallbackParams.end(); ++params)
+	{
+		delete (*params);
+	}
+	m_valueUpdatedCallbackParams.clear();
+
 	for (auto handle = m_eventHandles.begin(); handle != m_eventHandles.end(); ++handle)
 	{
 		BluetoothGATTUnregisterEvent((*handle), BLUETOOTH_GATT_FLAG_NONE);
