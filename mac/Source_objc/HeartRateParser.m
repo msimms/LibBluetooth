@@ -48,7 +48,6 @@ typedef struct HeartRateMeasurement
 	{
 		[dict setValue:[[NSNumber alloc] initWithInt:(int)CFSwapInt16LittleToHost(reportData->value16)] forKey:@KEY_NAME_HEART_RATE];
 	}
-
 	return dict;
 }
 

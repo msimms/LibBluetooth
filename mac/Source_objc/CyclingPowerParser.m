@@ -29,14 +29,14 @@
 	const uint8_t* reportBytes = [data bytes];
 	NSUInteger reportLen = [data length];
 
+	// First two bytes are the flags
+	// Second two bytes are the power
 	if (reportBytes && (reportLen > 4))
 	{
 		size_t reportBytesIndex = sizeof(uint16_t);
 
 		const uint8_t* powerBytes = reportBytes + reportBytesIndex;
-		int16_t power = CFSwapInt16LittleToHost(*(uint16_t*)powerBytes);
-
-		return power;
+		return CFSwapInt16LittleToHost(*(uint16_t*)powerBytes);
 	}
 	return 0;
 }
@@ -46,6 +46,9 @@
 	const uint8_t* reportBytes = [data bytes];
 	NSUInteger reportLen = [data length];
 
+	// First two bytes are the flags
+	// Second two bytes are the power
+	// Optional data follows the power, as defined by the flags
 	if (reportBytes && (reportLen > 4))
 	{
 		NSMutableDictionary* dict = [[NSMutableDictionary alloc]init];

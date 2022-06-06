@@ -14,6 +14,12 @@
 	return 0;
 }
 
++ (NSDictionary*)toDict:(NSData*)data
+{
+	[NSException raise:@"Unimplemented" format:@"Unimplemented method"];
+	return [[NSDictionary alloc] init];
+}
+
 + (NSString*)toJson:(NSData*)data
 {
 	[NSException raise:@"Unimplemented" format:@"Unimplemented method"];

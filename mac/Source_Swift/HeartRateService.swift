@@ -12,22 +12,21 @@ let FLAGS_ENERGY_EXPENDED_STATUS_VALUE: UInt8 = 0x04
 let FLAGS_RR_VALUE: UInt8 = 0x08
 
 struct HeartRateMeasurement {
-	let flags: UInt8 = 0
-	let value8: UInt8 = 0
-	let value16: UInt16 = 0
-	let energyExpended: UInt16 = 0
-	let rrInterval: UInt16 = 0
+	var flags: UInt8 = 0
+	var value8: UInt8 = 0
+	var value16: UInt16 = 0
+	var energyExpended: UInt16 = 0
+	var rrInterval: UInt16 = 0
 }
 
 func decodeHeartRateReading(data: Data) -> UInt16 {
-	data.withUnsafeBytes { (rawBytes: UnsafePointer<UInt8>!) -> () in
-	}
+	var hrm = HeartRateMeasurement()
+	hrm.flags = data[0];
+	hrm.value8 = data[1];
+	hrm.value16 = (UInt16(data[1]) >> 8) | (UInt16(data[2]));
 
 	if ((data[0] & FLAGS_HEART_RATE_VALUE) == 0) {
-		return UInt16(data[1])
+		return UInt16(hrm.value8)
 	}
-	else {
-		//return CFSwapInt16LittleToHost(reportData.value16)
-	}
-	return 0
+	return CFSwapInt16LittleToHost(hrm.value16)
 }
