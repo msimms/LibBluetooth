@@ -8,6 +8,7 @@
 #import "CyclingPowerParser.h"
 #import "HeartRateParser.h"
 #import "RadarParser.h"
+#import "WeightParser.h"
 
 CBUUID* extendUUID(uint16_t value)
 {
@@ -33,7 +34,7 @@ void serviceDiscovered(CBPeripheral* peripheral, CBUUID* serviceId, void* cb)
 }
 
 /// Called when a sensor characteristic is updated.
-void valueUpdated(CBPeripheral* peripheral, CBUUID* serviceId, NSData* value, void* cb)
+void valueUpdated(CBPeripheral* peripheral, CBUUID* serviceId, CBUUID* characteristicId, NSData* value, void* cb)
 {
 	if ([serviceId isEqual:extendUUID(BT_SERVICE_HEART_RATE)])
 	{
@@ -46,6 +47,14 @@ void valueUpdated(CBPeripheral* peripheral, CBUUID* serviceId, NSData* value, vo
 		uint16_t powerWatts = [CyclingPowerParser parse:value];
 		NSDictionary* powerData = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:powerWatts], @"Power", nil];
 		[[NSNotificationCenter defaultCenter] postNotificationName:@"Power Updated" object:powerData];
+	}
+	else if ([serviceId isEqual:extendUUID(BT_SERVICE_WEIGHT)])
+	{
+		if ([characteristicId isEqual:extendUUID(CHARACTERISTIC_LIVE_WEIGHT)])
+		{
+			NSDictionary* weightData = [WeightParser toDict:value];
+			[[NSNotificationCenter defaultCenter] postNotificationName:@"Weight Updated" object:weightData];
+		}
 	}
 	else if ([serviceId isEqual:[CBUUID UUIDWithString:@CUSTOM_BT_SERVICE_VARIA_RADAR]])
 	{
@@ -68,9 +77,10 @@ void valueUpdated(CBPeripheral* peripheral, CBUUID* serviceId, NSData* value, vo
 
 	CBUUID* heartRateSvc = [CBUUID UUIDWithString:[[NSString alloc] initWithFormat:@"%X", BT_SERVICE_HEART_RATE]];
 	CBUUID* cyclingPowerSvc = [CBUUID UUIDWithString:[[NSString alloc] initWithFormat:@"%X", BT_SERVICE_CYCLING_POWER]];
+	CBUUID* weightSvc = [CBUUID UUIDWithString:[[NSString alloc] initWithFormat:@"%X", BT_SERVICE_WEIGHT]];
 	CBUUID* radarSvc = [CBUUID UUIDWithString:@CUSTOM_BT_SERVICE_VARIA_RADAR];
 
-	NSArray* interestingServices = [[NSArray alloc] initWithObjects:heartRateSvc, cyclingPowerSvc, radarSvc, nil];
+	NSArray* interestingServices = [[NSArray alloc] initWithObjects:heartRateSvc, cyclingPowerSvc, weightSvc, radarSvc, nil];
 
 	// Start scanning for the services that we are interested in.
 	[scanner start:interestingServices withPeripheralCallback:&peripheralDiscovered withServiceCallback:&serviceDiscovered withValueUpdatedCallback:&valueUpdated withCallbackParam:(void*)self];

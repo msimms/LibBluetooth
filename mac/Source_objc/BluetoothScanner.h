@@ -12,7 +12,7 @@
 /// @brief Definitions for the various callback types: peripheral discovered, service discovered, value read.
 typedef bool (*peripheralDiscoveredCb)(CBPeripheral* peripheral, NSString* description, void* cb);
 typedef void (*serviceEnumeratedCb)(CBPeripheral* peripheral, CBUUID* serviceId, void* cb);
-typedef void (*valueUpdatedCb)(CBPeripheral* peripheral, CBUUID* serviceId, NSData* value, void* cb);
+typedef void (*valueUpdatedCb)(CBPeripheral* peripheral, CBUUID* serviceId, CBUUID* characteristicId, NSData* value, void* cb);
 
 /// @brief This class manages the bluetooth session, scanning for peripherals, querying their services, and reporting updated values.
 @interface BluetoothScanner : NSObject<CBCentralManagerDelegate, CBPeripheralDelegate>
@@ -39,6 +39,7 @@ typedef void (*valueUpdatedCb)(CBPeripheral* peripheral, CBUUID* serviceId, NSDa
 	void* callbackParam;
 }
 
+/// @brief In some situations it may be necessary to restart the scanning process, if a sensor disconnects for example.
 - (void)restart;
 
 /// @brief Initiates the scanning process. Events are reported through the various callbacks.

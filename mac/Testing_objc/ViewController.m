@@ -40,6 +40,17 @@
 	[self->valueText.textStorage appendAttributedString:attrValueStr];
 }
 
+/// @brief Notification callback for a weight sensor reading.
+- (void)weightUpdated:(NSNotification*)notification
+{
+	NSDictionary* msgData = [notification object];
+	NSNumber* weight = [msgData objectForKey:@"Weight"];
+	NSString* valueStr = [[NSString alloc] initWithFormat:@"Weight: %u kgs\n", weight.intValue];
+	NSAttributedString* attrValueStr = [[NSAttributedString alloc] initWithString:valueStr];
+
+	[self->valueText.textStorage appendAttributedString:attrValueStr];
+}
+
 /// @brief Notification callback for a radar sensor reading.
 - (void)radarUpdated:(NSNotification*)notification
 {

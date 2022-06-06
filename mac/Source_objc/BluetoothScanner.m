@@ -142,7 +142,7 @@
 {
 	if (characteristic.value != nil)
 	{
-		self->valueUpdatedCallback(peripheral, characteristic.service.UUID, characteristic.value, self->callbackParam);
+		self->valueUpdatedCallback(peripheral, characteristic.service.UUID, characteristic.UUID, characteristic.value, self->callbackParam);
 	}
 }
 
