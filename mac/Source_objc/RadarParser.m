@@ -9,7 +9,7 @@
 typedef struct RadarMeasurement
 {
 	uint8_t identifier;
-	uint8_t threatSpeedMeters;
+	uint8_t threatMeters;
 	uint8_t threatLevel;
 } __attribute__((packed)) RadarMeasurement;
 
@@ -43,7 +43,7 @@ typedef struct RadarMeasurement
 			NSString* keyNameLevel = [[NSString alloc] initWithFormat:@"%@%lu", @KEY_NAME_RADAR_THREAT_LEVEL, (unsigned long)currentThreatNum];
 
 			[dict setObject:[NSNumber numberWithUnsignedInt:reportData->identifier] forKey:keyNameID];
-			[dict setObject:[NSNumber numberWithUnsignedInt:reportData->threatSpeedMeters] forKey:keyNameDistance];
+			[dict setObject:[NSNumber numberWithUnsignedInt:reportData->threatMeters] forKey:keyNameDistance];
 			[dict setObject:[NSNumber numberWithUnsignedInt:reportData->threatLevel] forKey:keyNameLevel];
 
 			++currentThreatNum;
