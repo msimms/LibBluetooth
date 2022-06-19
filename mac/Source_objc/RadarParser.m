@@ -34,6 +34,8 @@ typedef struct RadarMeasurement
 									 [NSNumber numberWithUnsignedLong:threatCount], @KEY_NAME_RADAR_THREAT_COUNT,
 									 nil];
 
+		[dict setObject:[NSNumber numberWithUnsignedLong:[[NSDate date] timeIntervalSince1970] * 1000] forKey:@KEY_NAME_RADAR_TIMESTAMP_MS];
+
 		while (offset < reportLen)
 		{
 			const RadarMeasurement* reportData = [data bytes] + offset;
