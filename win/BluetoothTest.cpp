@@ -12,14 +12,18 @@ bool peripheralDiscovered(GUID* peripheralId, const wchar_t* description, void* 
     return true;
 }
 
-void serviceDiscovered(GUID* serviceid, void* cb)
+void serviceDiscovered(GUID* serviceId, void* cb)
 {
-    printf("Service discovered.\n");
+    wchar_t szGuidW[40] = { 0 };
+    StringFromGUID2(*serviceId, szGuidW, sizeof(szGuidW) / sizeof(wchar_t));
+    wprintf(L"Service discovered: %ws\n", szGuidW);
 }
 
 void valueUpdated(GUID* periperalId, GUID* serviceId, GUID* characteristicId, uint8_t* value, void* cb)
 {
-    printf("Value updated.\n");
+    wchar_t szGuidW[40] = { 0 };
+    StringFromGUID2(*serviceId, szGuidW, sizeof(szGuidW) / sizeof(wchar_t));
+    wprintf(L"Value updated for service ID: %ws\n", szGuidW);
 }
 
 int main()
@@ -27,7 +31,10 @@ int main()
     std::vector<GUID> serviceIdsToScanFor;
     BluetoothScanner scanner;
 
+    printf("Starting...\n");
     scanner.start(serviceIdsToScanFor, peripheralDiscovered, serviceDiscovered, valueUpdated, NULL);
+    printf("Listening...\n");
     scanner.wait();
+    printf("Stopping...\n");
     scanner.stop();
 }

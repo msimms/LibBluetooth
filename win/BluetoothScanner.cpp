@@ -88,7 +88,7 @@ void BluetoothScanner::enumerateBtLeDevices()
 {
 	GUID btLeInterfaceGuid = GUID_BLUETOOTH_GATT_SERVICE_DEVICE_INTERFACE;
 	HDEVINFO hDeviceInterface = SetupDiGetClassDevs(&btLeInterfaceGuid, NULL, NULL, DIGCF_DEVICEINTERFACE | DIGCF_PRESENT);
-	
+
 	if (hDeviceInterface)
 	{
 		SP_DEVICE_INTERFACE_DATA devIfaceData;
@@ -106,13 +106,7 @@ void BluetoothScanner::enumerateBtLeDevices()
 			DWORD size = 0;
 			if (!SetupDiGetDeviceInterfaceDetail(hDeviceInterface, &devIfaceData, NULL, 0, &size, NULL))
 			{
-				DWORD err = GetLastError();
-
-				if (err == ERROR_NO_MORE_ITEMS)
-				{
-					break;
-				}
-				if (err == ERROR_INSUFFICIENT_BUFFER)
+				if (GetLastError() == ERROR_INSUFFICIENT_BUFFER)
 				{
 					// Allocate a buffer of the specified size and call the function again.
 					PSP_DEVICE_INTERFACE_DETAIL_DATA pDeviceInterfaceDetailData = (PSP_DEVICE_INTERFACE_DETAIL_DATA)GlobalAlloc(GPTR, size);
@@ -145,6 +139,8 @@ void BluetoothScanner::enumerateBtLeDevices()
 				}
 			}
 		}
+
+		SetupDiDestroyDeviceInfoList(hDeviceInterface);
 	}
 }
 
