@@ -255,7 +255,11 @@ void BluetoothScanner::didDiscoverCharacteristic(HANDLE hDevice, PBTH_LE_GATT_SE
 
 							// Read the descriptor value.
 							hr = BluetoothGATTGetDescriptorValue(hDevice, pCurrentDescriptorBuffer, valueBufferSize, pValueBuffer, NULL, BLUETOOTH_GATT_FLAG_NONE);
+
+							// Trigger the callback.
 							setupCharacteristicUpdateCallback(hDevice, pServiceBuffer, pCharBuffer);
+
+							// Free the memory used to read the value.
 							GlobalFree(pValueBuffer);
 						}
 					}
@@ -300,6 +304,29 @@ void BluetoothScanner::setupCharacteristicUpdateCallback(HANDLE hDevice, PBTH_LE
 		if (hr == S_OK)
 		{
 			m_eventHandles.push_back(eventHandle);
+		}
+	}
+
+	if (pCharBuffer->IsReadable)
+	{
+		// How much memory do we need?
+		USHORT charValueDataSize = 0;
+		HRESULT hr = BluetoothGATTGetCharacteristicValue(hDevice, pCharBuffer, 0, NULL, &charValueDataSize, BLUETOOTH_GATT_FLAG_NONE);
+		if (hr == HRESULT_FROM_WIN32(ERROR_MORE_DATA) && charValueDataSize > 0)
+		{
+			// Previous call was to determine how much memory we need to store the value.
+			PBTH_LE_GATT_CHARACTERISTIC_VALUE pCharValueBuffer = (PBTH_LE_GATT_CHARACTERISTIC_VALUE)GlobalAlloc(GPTR, charValueDataSize);
+			if (pCharValueBuffer)
+			{
+				// Read the value.
+				hr = BluetoothGATTGetCharacteristicValue(hDevice, pCharBuffer, 0, pCharValueBuffer, &charValueDataSize, BLUETOOTH_GATT_FLAG_NONE);
+				if (hr == S_OK)
+				{
+					m_valueUpdatedCallback(NULL, &pServiceBuffer->ServiceUuid.Value.LongUuid, &pCharBuffer->CharacteristicUuid.Value.LongUuid, pCharValueBuffer->Data, this->m_callbackParam);
+				}
+
+				GlobalFree(pCharValueBuffer);
+			}
 		}
 	}
 }
