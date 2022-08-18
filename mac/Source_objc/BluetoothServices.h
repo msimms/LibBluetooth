@@ -50,6 +50,7 @@ typedef enum BluetoothServiceId
 	BT_SERVICE_WEIGHT =                        0x1901
 } BluetoothServiceId;
 
-#define CUSTOM_BT_SERVICE_VARIA_RADAR "6a4e3200-667b-11e3-949a-0800200c9a66" // Garmin Varia
+#define CUSTOM_BT_SERVICE_VARIA_RADAR     "6a4e3200-667b-11e3-949a-0800200c9a66" // Garmin Varia radar
+#define CUSTOM_BT_SERVICE_TILT_HYDROMETER "a495bb30-c5b1-4b44-b512-1370f02d74de" // Tilt hydrometer
 
 #endif /* BluetoothServices_h */
