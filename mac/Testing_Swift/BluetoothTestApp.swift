@@ -15,6 +15,7 @@ class AppState : ObservableObject {
 	/// Called when a peripheral is discovered.
 	/// Returns true to indicate that we should connect to this peripheral and discover its services.
 	func peripheralDiscovered(description: String) -> Bool {
+		print(description)
 		return true
 	}
 
@@ -24,12 +25,24 @@ class AppState : ObservableObject {
 
 	/// Called when a sensor characteristic is updated.
 	func valueUpdated(peripheral: CBPeripheral, serviceId: CBUUID, value: Data) {
-		currentHeartRateBpm = decodeHeartRateReading(data: value)
+		if serviceId == CBUUID(data: BT_SERVICE_HEART_RATE) {
+			print("Heart rate updated")
+			currentHeartRateBpm = decodeHeartRateReading(data: value)
+		}
+		else if serviceId == CBUUID(data: BT_SERVICE_CYCLING_POWER) {
+			print("Cycling power updated")
+		}
+		else if serviceId == CBUUID(data: CUSTOM_BT_SERVICE_TILT_HYDROMETER) {
+			print("Hydrometer updated")
+		}
+		else if serviceId == CBUUID(data: CUSTOM_BT_SERVICE_VARIA_RADAR) {
+			print("Radar updated")
+		}
 	}
 
 	func startBluetoothScanning() -> BluetoothScanner {
 		let scanner = BluetoothScanner()
-		let interestingServices = [CBUUID(data: BT_SERVICE_HEART_RATE)]
+		let interestingServices = [CBUUID(data: BT_SERVICE_HEART_RATE), CBUUID(data: BT_SERVICE_CYCLING_POWER), CBUUID(data: CUSTOM_BT_SERVICE_TILT_HYDROMETER), CBUUID(data: CUSTOM_BT_SERVICE_VARIA_RADAR)]
 
 		// Start scanning for the services that we are interested in.
 		scanner.startScanning(serviceIdsToScanFor: interestingServices, peripheralCallbacks: [peripheralDiscovered], serviceCallbacks: [serviceDiscovered], valueUpdatedCallbacks: [valueUpdated])
