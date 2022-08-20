@@ -50,7 +50,14 @@ typedef enum BluetoothServiceId
 	BT_SERVICE_WEIGHT =                        0x1901
 } BluetoothServiceId;
 
-#define CUSTOM_BT_SERVICE_VARIA_RADAR     "6a4e3200-667b-11e3-949a-0800200c9a66" // Garmin Varia radar
-#define CUSTOM_BT_SERVICE_TILT_HYDROMETER "a495bb30-c5b1-4b44-b512-1370f02d74de" // Tilt hydrometer
+#define CUSTOM_BT_SERVICE_VARIA_RADAR      "6a4e3200-667b-11e3-949a-0800200c9a66" // Garmin Varia radar
+#define CUSTOM_BT_SERVICE_TILT_HYDROMETER1 "a495bb10-c5b1-4b44-b512-1370f02d74de" // Tilt hydrometer
+#define CUSTOM_BT_SERVICE_TILT_HYDROMETER2 "a495bb20-c5b1-4b44-b512-1370f02d74de" // Tilt hydrometer
+#define CUSTOM_BT_SERVICE_TILT_HYDROMETER3 "a495bb30-c5b1-4b44-b512-1370f02d74de" // Tilt hydrometer
+#define CUSTOM_BT_SERVICE_TILT_HYDROMETER4 "a495bb40-c5b1-4b44-b512-1370f02d74de" // Tilt hydrometer
+#define CUSTOM_BT_SERVICE_TILT_HYDROMETER5 "a495bb50-c5b1-4b44-b512-1370f02d74de" // Tilt hydrometer
+#define CUSTOM_BT_SERVICE_TILT_HYDROMETER6 "a495bb60-c5b1-4b44-b512-1370f02d74de" // Tilt hydrometer
+#define CUSTOM_BT_SERVICE_TILT_HYDROMETER7 "a495bb70-c5b1-4b44-b512-1370f02d74de" // Tilt hydrometer
+#define CUSTOM_BT_SERVICE_TILT_HYDROMETER8 "a495bb80-c5b1-4b44-b512-1370f02d74de" // Tilt hydrometer
 
 #endif /* BluetoothServices_h */
