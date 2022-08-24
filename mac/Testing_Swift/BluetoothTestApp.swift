@@ -42,7 +42,7 @@ class AppState : ObservableObject {
 				serviceId == CBUUID(data: CUSTOM_BT_SERVICE_TILT_HYDROMETER7) ||
 				serviceId == CBUUID(data: CUSTOM_BT_SERVICE_TILT_HYDROMETER8) {
 			print("Hydrometer updated")
-			decodeHydrometerReading(data: value)
+			let (temperature, gravity) = decodeHydrometerReading(data: value)
 		}
 		else if serviceId == CBUUID(data: CUSTOM_BT_SERVICE_VARIA_RADAR) {
 			print("Radar updated")

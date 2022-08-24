@@ -72,8 +72,6 @@ class BluetoothScanner: NSObject, CBPeripheralDelegate, CBCentralManagerDelegate
 			centralManager.scanForPeripherals(withServices: self.serviceIdsToScanFor, options: [CBCentralManagerScanOptionAllowDuplicatesKey: true])
 		}
 	}
-	func centralManager(_ central: CBCentralManager, willRestoreState dict: [String : Any]) {
-	}
 	func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
 
 		// Notify callbacks
