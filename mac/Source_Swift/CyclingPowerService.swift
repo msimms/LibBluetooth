@@ -27,6 +27,8 @@ struct CyclingPowerMeasurement {
 }
 
 func decodeCyclingPowerReading(data: Data) -> UInt16 {
-	let pwr = CyclingPowerMeasurement()
+	var pwr = CyclingPowerMeasurement()
+	pwr.flags = (UInt16)(data[0] << 8) | (UInt16)(data[1])
+	pwr.power = (UInt16)(data[2] << 8) | (UInt16)(data[3])
 	return CFSwapInt16LittleToHost(pwr.power)
 }
