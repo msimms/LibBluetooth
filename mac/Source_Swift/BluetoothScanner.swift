@@ -11,36 +11,39 @@ class BluetoothScanner: NSObject, CBPeripheralDelegate, CBCentralManagerDelegate
 	
 	/// @brief List of peripheral objects currently connected.
 	@Published var connectedPeripherals: Array<CBPeripheral> = []
-
+	
 	/// @brief Apple's Bluetooth interface.
 	private var centralManager: CBCentralManager!
-
+	
 	/// @brief List of services that we are searching for.
 	private var serviceIdsToScanFor: Array<CBUUID> = []
-
+	
+	/// @brief Callbacks for when a service is discovered.
+	private var manufacturerDataReadCallbacks: Array<(Data) -> Void> = []
+	
 	/// @brief Callbacks for when a peripheral is discovered.
 	private var peripheralDiscoveryCallbacks: Array<(String) -> Bool> = []
-
+	
 	/// @brief Callbacks for when a service is discovered.
 	private var serviceDiscoveryCallbacks: Array<(CBUUID) -> Void> = []
-
+	
 	/// @brief Callbacks for when a value is updated.
 	private var valueUpdatedCallbacks: Array<(CBPeripheral, CBUUID, Data) -> Void> = []
-
+	
 	///
 	/// Internal state management functions
 	///
-
+	
 	private func startTrackingConnectedPeripheral(peripheral: CBPeripheral) {
 		var found = false
-
+		
 		for temp in self.connectedPeripherals {
 			if temp == peripheral {
 				found = true
 				break
 			}
 		}
-	
+		
 		if !found {
 			self.connectedPeripherals.append(peripheral)
 			peripheral.delegate = self
@@ -62,30 +65,56 @@ class BluetoothScanner: NSObject, CBPeripheralDelegate, CBCentralManagerDelegate
 		}
 		return false
 	}
-
+	
 	///
 	/// Central Manager callbacks
 	///
-
+	
 	func centralManagerDidUpdateState(_ central: CBCentralManager) {
 		if central.state == .poweredOn {
-			centralManager.scanForPeripherals(withServices: self.serviceIdsToScanFor, options: [CBCentralManagerScanOptionAllowDuplicatesKey: true])
+			
+			// If services were not specified, then we have to scan for every possible peripheral. This can be useful
+			// if we looking for manufacturer data but is inefficient if we're looking for peripherals that properly
+			// advertise services.
+			if self.serviceIdsToScanFor.count == 0 {
+				centralManager.scanForPeripherals(withServices: nil, options: [ CBCentralManagerScanOptionAllowDuplicatesKey: true ] )
+			}
+			else {
+				centralManager.scanForPeripherals(withServices: self.serviceIdsToScanFor, options: [ CBCentralManagerScanOptionAllowDuplicatesKey: true ] )
+			}
 		}
 	}
 	func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
-
-		// Notify callbacks
-		for cb in self.peripheralDiscoveryCallbacks {
-
-			// If the callback returns true then we should connect to the peripheral.
-			if cb(advertisementData.description) {
-				self.centralManager.connect(peripheral, options: nil)
-				self.startTrackingConnectedPeripheral(peripheral: peripheral)
+		
+		// Are we scanning for and connecting to services, or just reading manufacturer data from all peripherals?
+		if self.serviceIdsToScanFor.count == 0 {
+			
+			let manufacturerData = advertisementData[CBAdvertisementDataManufacturerDataKey]
+			if manufacturerData != nil {
+				let data = advertisementData[CBAdvertisementDataManufacturerDataKey] as? Data
+				
+				if data != nil && data!.count >= 0 {
+					for cb in self.manufacturerDataReadCallbacks {
+						cb(data!)
+					}
+				}
+			}
+		}
+		else {
+			
+			// Notify callbacks
+			for cb in self.peripheralDiscoveryCallbacks {
+				
+				// If the callback returns true then we should connect to the peripheral.
+				if cb(advertisementData.debugDescription) {
+					self.centralManager.connect(peripheral, options: nil)
+					self.startTrackingConnectedPeripheral(peripheral: peripheral)
+				}
 			}
 		}
 	}
 	func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
-
+		
 		// Discover any relevant services.
 		if self.isTrackedPeripheral(peripheral: peripheral) {
 			peripheral.discoverServices(self.serviceIdsToScanFor)
@@ -98,21 +127,21 @@ class BluetoothScanner: NSObject, CBPeripheralDelegate, CBCentralManagerDelegate
 		// Remove the peripheral from the connected list.
 		self.stopTrackingConnectedPeripheral(peripheral: peripheral)
 	}
-
+	
 	///
 	/// Peripheral callbacks
 	///
-
+	
 	func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
 		
 		// Enumerate the discovered services.
 		if let services = peripheral.services {
 			for service in services {
-
+				
 				// Make sure this is a service that we're interested in.
 				for (_, value) in self.serviceIdsToScanFor.enumerated() {
 					if value == service.uuid {
-
+						
 						// Notify callbacks.
 						for cb in self.serviceDiscoveryCallbacks {
 							cb(service.uuid)
@@ -142,12 +171,21 @@ class BluetoothScanner: NSObject, CBPeripheralDelegate, CBCentralManagerDelegate
 	}
 	func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
 	}
-
+	
 	///
 	/// Public interface for this class
 	///
-
-	func startScanning(serviceIdsToScanFor: Array<CBUUID>, peripheralCallbacks: Array<(String) -> Bool>, serviceCallbacks: Array<(CBUUID) -> Void>, valueUpdatedCallbacks: Array<(CBPeripheral, CBUUID, Data) -> Void>) {
+	
+	func startScanningForManufactuerData(manufacturerDataRead: Array<(Data) -> Void>) {
+		self.manufacturerDataReadCallbacks = manufacturerDataRead
+		self.serviceIdsToScanFor = []
+		self.peripheralDiscoveryCallbacks = []
+		self.serviceDiscoveryCallbacks = []
+		self.valueUpdatedCallbacks = []
+		self.centralManager = CBCentralManager(delegate: self, queue: nil)
+	}
+	func startScanningForServices(serviceIdsToScanFor: Array<CBUUID>, peripheralCallbacks: Array<(String) -> Bool>, serviceCallbacks: Array<(CBUUID) -> Void>, valueUpdatedCallbacks: Array<(CBPeripheral, CBUUID, Data) -> Void>) {
+		self.manufacturerDataReadCallbacks = []
 		self.serviceIdsToScanFor = serviceIdsToScanFor
 		self.peripheralDiscoveryCallbacks = peripheralCallbacks
 		self.serviceDiscoveryCallbacks = serviceCallbacks
