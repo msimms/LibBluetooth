@@ -11,6 +11,7 @@ class AppState : ObservableObject {
 	static let shared = AppState()
 	@Published var currentHeartRateBpm: UInt16 = 0
 	@Published var currentPowerWatts: UInt16 = 0
+	@Published var radarMeasurements: Array<RadarMeasurement> = []
 
 	/// Called when a peripheral is discovered.
 	/// Returns true to indicate that we should connect to this peripheral and discover its services.
@@ -35,6 +36,7 @@ class AppState : ObservableObject {
 		}
 		else if serviceId == CBUUID(data: CUSTOM_BT_SERVICE_VARIA_RADAR) {
 			print("Radar updated")
+			radarMeasurements = decodeCyclingRadarReading(data: value)
 		}
 	}
 
