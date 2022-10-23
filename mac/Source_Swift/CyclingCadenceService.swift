@@ -15,6 +15,10 @@ let ERROR_CLIENT_CHARACTERISTIC_CONFIG_DESC_IMPROPERLY_CONFIGURED: UInt8 = 0x81
 let WHEEL_REVOLUTION_DATA_PRESENT: UInt8 = 0x01
 let CRANK_REVOLUTION_DATA_PRESENT: UInt8 = 0x02
 
+enum CyclingCadenceException: Error {
+	case runtimeError(String)
+}
+
 struct CscMeasurement {
 	var flags: UInt8 = 0
 	var cumulativeWheelRevs: UInt32 = 0
@@ -29,7 +33,11 @@ struct RevMeasurement {
 	var lastCrankEventTime: UInt16 = 0
 }
 
-func decodeCyclingCadenceReading(data: Data) -> Dictionary<String, UInt32> {
+func decodeCyclingCadenceReading(data: Data) throws -> Dictionary<String, UInt32> {
+	if data.count < 11 {
+		throw CyclingCadenceException.runtimeError("Not enough data")
+	}
+
 	var result : Dictionary<String, UInt32> = [:]
 
 	var cscData = CscMeasurement()

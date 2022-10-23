@@ -21,12 +21,20 @@ let FLAGS_BOTTOM_DEAD_SPOT_ANGLE_PRESENT: UInt16 = 0x0400
 let FLAGS_ACCUMULATED_ENERGY_PRESENT: UInt16 = 0x0800
 let FLAGS_OFFSET_COMPENSATION_INDICATOR: UInt16 = 0x1000
 
+enum CyclingPowerException: Error {
+	case runtimeError(String)
+}
+
 struct CyclingPowerMeasurement {
 	var flags: UInt16 = 0
 	var power: UInt16 = 0
 }
 
-func decodeCyclingPowerReading(data: Data) -> UInt16 {
+func decodeCyclingPowerReading(data: Data) throws -> UInt16 {
+	if data.count < 4 {
+		throw CyclingPowerException.runtimeError("Not enough data")
+	}
+
 	var pwr = CyclingPowerMeasurement()
 	pwr.flags = (UInt16)(data[0] << 8) | (UInt16)(data[1])
 	pwr.power = (UInt16)(data[2] << 8) | (UInt16)(data[3])

@@ -28,7 +28,7 @@ func decodeCyclingRadarReading(data: Data) -> Array<RadarMeasurement> {
 
 	if threatCount > 0 {
 		var offset: Int = 1
-		var threatIndex: Int = 0		
+		var threatIndex: Int = 0
 		let threatSize = MemoryLayout<RadarMeasurement>.size
 		
 		while threatIndex < threatCount - 1 && offset < data.count - threatSize {
