@@ -5,8 +5,7 @@
 
 import Foundation
 
-struct RadarMeasurement : Identifiable, Hashable
-{
+struct RadarMeasurement : Identifiable, Hashable {
 	var id: UInt8 = 0
 	var threatMeters: UInt8 = 0
 	var threatLevel: UInt8 = 0
