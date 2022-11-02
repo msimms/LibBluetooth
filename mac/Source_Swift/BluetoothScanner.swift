@@ -106,9 +106,11 @@ class BluetoothScanner: NSObject, CBPeripheralDelegate, CBCentralManagerDelegate
 			for cb in self.peripheralDiscoveryCallbacks {
 				
 				// If the callback returns true then we should connect to the peripheral.
-				if cb(advertisementData.debugDescription) {
-					self.centralManager.connect(peripheral, options: nil)
-					self.startTrackingConnectedPeripheral(peripheral: peripheral)
+				if let name = advertisementData["kCBAdvDataLocalName"] as? String {
+					if cb(name) {
+						self.centralManager.connect(peripheral, options: nil)
+						self.startTrackingConnectedPeripheral(peripheral: peripheral)
+					}
 				}
 			}
 		}
