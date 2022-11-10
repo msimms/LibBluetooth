@@ -39,18 +39,27 @@ func serviceIdCompare(serviceId: [UInt8], tiltId: Data) -> Bool {
 func decodeHydrometerReading(data: Data) throws -> HydrometerMeasurement {
 	var measure = HydrometerMeasurement()
 	
-	if data.count < MemoryLayout.size(ofValue: measure) {
+	// For debugging
+/*	var packetStr = ""
+	for i in 0...data.count - 1 {
+		packetStr += String(format: "%02X", data[i])
+	}
+	print(packetStr) */
+	
+	// We need enough bytes to cover the structure and two bytes for the manufacturer ID.
+	let bytesNeeded = MemoryLayout<HydrometerMeasurement>.size + 2
+	if data.count < bytesNeeded {
 		throw HydrometerException.runtimeError("Not enough data")
 	}
 	
-	measure.beacon = (UInt16)(data[0] << 8) | (UInt16)(data[1])
-	measure.type = data[2]
-	measure.len = data[3]
+	measure.beacon = (UInt16)(data[2] << 8) | (UInt16)(data[3])
+	measure.type = data[4]
+	measure.len = data[5]
 	for i in 0...15 {
-		measure.serviceId[i] = data[i + 5]
+		measure.serviceId[i] = data[i + 6]
 	}
-	measure.temperature = (UInt16)(data[19] << 8) | (UInt16)(data[20])
-	measure.gravity = (UInt16)(data[21] << 8) | (UInt16)(data[22])
+	measure.temperature = (UInt16)(data[22] << 8) | (UInt16)(data[23])
+	measure.gravity = (UInt16)(data[24] << 8) | (UInt16)(data[25])
 	
 	if (!(serviceIdCompare(serviceId: measure.serviceId, tiltId: CUSTOM_BT_SERVICE_TILT_HYDROMETER1) ||
 		  serviceIdCompare(serviceId: measure.serviceId, tiltId: CUSTOM_BT_SERVICE_TILT_HYDROMETER2) ||
