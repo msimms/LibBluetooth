@@ -22,7 +22,7 @@ class BluetoothScanner: NSObject, CBPeripheralDelegate, CBCentralManagerDelegate
 	private var manufacturerDataReadCallbacks: Array<(Data) -> Void> = []
 	
 	/// @brief Callbacks for when a peripheral is discovered.
-	private var peripheralDiscoveryCallbacks: Array<(String) -> Bool> = []
+	private var peripheralDiscoveryCallbacks: Array<(CBPeripheral, String) -> Bool> = []
 	
 	/// @brief Callbacks for when a service is discovered.
 	private var serviceDiscoveryCallbacks: Array<(CBUUID) -> Void> = []
@@ -107,7 +107,7 @@ class BluetoothScanner: NSObject, CBPeripheralDelegate, CBCentralManagerDelegate
 				
 				// If the callback returns true then we should connect to the peripheral.
 				if let name = advertisementData["kCBAdvDataLocalName"] as? String {
-					if cb(name) {
+					if cb(peripheral, name) {
 						self.centralManager.connect(peripheral, options: nil)
 						self.startTrackingConnectedPeripheral(peripheral: peripheral)
 					}
@@ -186,7 +186,7 @@ class BluetoothScanner: NSObject, CBPeripheralDelegate, CBCentralManagerDelegate
 		self.valueUpdatedCallbacks = []
 		self.centralManager = CBCentralManager(delegate: self, queue: nil)
 	}
-	func startScanningForServices(serviceIdsToScanFor: Array<CBUUID>, peripheralCallbacks: Array<(String) -> Bool>, serviceCallbacks: Array<(CBUUID) -> Void>, valueUpdatedCallbacks: Array<(CBPeripheral, CBUUID, Data) -> Void>) {
+	func startScanningForServices(serviceIdsToScanFor: Array<CBUUID>, peripheralCallbacks: Array<(CBPeripheral, String) -> Bool>, serviceCallbacks: Array<(CBUUID) -> Void>, valueUpdatedCallbacks: Array<(CBPeripheral, CBUUID, Data) -> Void>) {
 		self.manufacturerDataReadCallbacks = []
 		self.serviceIdsToScanFor = serviceIdsToScanFor
 		self.peripheralDiscoveryCallbacks = peripheralCallbacks

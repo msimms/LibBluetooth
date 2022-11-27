@@ -20,7 +20,7 @@ class AppState : ObservableObject {
 
 	/// Called when a peripheral is discovered.
 	/// Returns true to indicate that we should connect to this peripheral and discover its services.
-	func peripheralDiscovered(description: String) -> Bool {
+	func peripheralDiscovered(peripheral: CBPeripheral, description: String) -> Bool {
 		print(description)
 		return true
 	}
