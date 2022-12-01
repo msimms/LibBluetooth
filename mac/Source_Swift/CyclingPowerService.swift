@@ -36,7 +36,7 @@ func decodeCyclingPowerReading(data: Data) throws -> UInt16 {
 	}
 
 	var pwr = CyclingPowerMeasurement()
-	pwr.flags = (UInt16)(data[0] << 8) | (UInt16)(data[1])
-	pwr.power = (UInt16)(data[2] << 8) | (UInt16)(data[3])
-	return CFSwapInt16LittleToHost(pwr.power)
+	pwr.flags = ((UInt16)(data[0]) << 8) | (UInt16)(data[1])
+	pwr.power = ((UInt16)(data[2]) << 8) | (UInt16)(data[3])
+	return CFSwapInt16BigToHost(pwr.power)
 }
