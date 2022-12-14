@@ -29,7 +29,10 @@ class BluetoothScanner: NSObject, CBPeripheralDelegate, CBCentralManagerDelegate
 	
 	/// @brief Callbacks for when a value is updated.
 	private var valueUpdatedCallbacks: Array<(CBPeripheral, CBUUID, Data) -> Void> = []
-	
+
+	/// @brief Callbacks for when a peripheral disconnects.
+	private var peripheralDisconnectedCallbacks: Array<(CBPeripheral) -> Void> = []
+
 	///
 	/// Internal state management functions
 	///
@@ -128,6 +131,11 @@ class BluetoothScanner: NSObject, CBPeripheralDelegate, CBCentralManagerDelegate
 		
 		// Remove the peripheral from the connected list.
 		self.stopTrackingConnectedPeripheral(peripheral: peripheral)
+
+		// Call the callbacks
+		for cb in self.peripheralDisconnectedCallbacks {
+			cb(peripheral)
+		}
 	}
 	
 	///
@@ -184,14 +192,16 @@ class BluetoothScanner: NSObject, CBPeripheralDelegate, CBCentralManagerDelegate
 		self.peripheralDiscoveryCallbacks = []
 		self.serviceDiscoveryCallbacks = []
 		self.valueUpdatedCallbacks = []
+		self.peripheralDisconnectedCallbacks = []
 		self.centralManager = CBCentralManager(delegate: self, queue: nil)
 	}
-	func startScanningForServices(serviceIdsToScanFor: Array<CBUUID>, peripheralCallbacks: Array<(CBPeripheral, String) -> Bool>, serviceCallbacks: Array<(CBUUID) -> Void>, valueUpdatedCallbacks: Array<(CBPeripheral, CBUUID, Data) -> Void>) {
+	func startScanningForServices(serviceIdsToScanFor: Array<CBUUID>, peripheralCallbacks: Array<(CBPeripheral, String) -> Bool>, serviceCallbacks: Array<(CBUUID) -> Void>, valueUpdatedCallbacks: Array<(CBPeripheral, CBUUID, Data) -> Void>, peripheralDisconnectedCallbacks: Array<(CBPeripheral) -> Void>) {
 		self.manufacturerDataReadCallbacks = []
 		self.serviceIdsToScanFor = serviceIdsToScanFor
 		self.peripheralDiscoveryCallbacks = peripheralCallbacks
 		self.serviceDiscoveryCallbacks = serviceCallbacks
 		self.valueUpdatedCallbacks = valueUpdatedCallbacks
+		self.peripheralDisconnectedCallbacks = []
 		self.centralManager = CBCentralManager(delegate: self, queue: nil)
 	}
 	func stopScanning() {

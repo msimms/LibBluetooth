@@ -102,7 +102,8 @@ class AppState : ObservableObject {
 		scanner.startScanningForServices(serviceIdsToScanFor: interestingServices,
 										 peripheralCallbacks: [peripheralDiscovered],
 										 serviceCallbacks: [serviceDiscovered],
-										 valueUpdatedCallbacks: [valueUpdated])
+										 valueUpdatedCallbacks: [valueUpdated],
+										 peripheralDisconnectedCallbacks: [])
 		return scanner
 	}
 }
