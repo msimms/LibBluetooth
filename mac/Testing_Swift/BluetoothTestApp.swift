@@ -26,7 +26,7 @@ class AppState : ObservableObject {
 	}
 
 	/// Called when a service is discovered.
-	func serviceDiscovered(serviceId: CBUUID) {
+	func serviceDiscovered(peripheral: CBPeripheral, serviceId: CBUUID) {
 	}
 
 	func calculateCadence(curTimeMs: UInt64, currentCrankCount: UInt16, currentCrankTime: UInt64) {
