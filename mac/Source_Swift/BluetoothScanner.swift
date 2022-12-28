@@ -25,7 +25,7 @@ class BluetoothScanner: NSObject, CBPeripheralDelegate, CBCentralManagerDelegate
 	private var peripheralDiscoveryCallbacks: Array<(CBPeripheral, String) -> Bool> = []
 	
 	/// @brief Callbacks for when a service is discovered.
-	private var serviceDiscoveryCallbacks: Array<(CBUUID) -> Void> = []
+	private var serviceDiscoveryCallbacks: Array<(CBPeripheral, CBUUID) -> Void> = []
 	
 	/// @brief Callbacks for when a value is updated.
 	private var valueUpdatedCallbacks: Array<(CBPeripheral, CBUUID, Data) -> Void> = []
@@ -154,7 +154,7 @@ class BluetoothScanner: NSObject, CBPeripheralDelegate, CBCentralManagerDelegate
 						
 						// Notify callbacks.
 						for cb in self.serviceDiscoveryCallbacks {
-							cb(service.uuid)
+							cb(peripheral, service.uuid)
 						}
 						
 						// Discover characteristics.
@@ -195,7 +195,7 @@ class BluetoothScanner: NSObject, CBPeripheralDelegate, CBCentralManagerDelegate
 		self.peripheralDisconnectedCallbacks = []
 		self.centralManager = CBCentralManager(delegate: self, queue: nil)
 	}
-	func startScanningForServices(serviceIdsToScanFor: Array<CBUUID>, peripheralCallbacks: Array<(CBPeripheral, String) -> Bool>, serviceCallbacks: Array<(CBUUID) -> Void>, valueUpdatedCallbacks: Array<(CBPeripheral, CBUUID, Data) -> Void>, peripheralDisconnectedCallbacks: Array<(CBPeripheral) -> Void>) {
+	func startScanningForServices(serviceIdsToScanFor: Array<CBUUID>, peripheralCallbacks: Array<(CBPeripheral, String) -> Bool>, serviceCallbacks: Array<(CBPeripheral, CBUUID) -> Void>, valueUpdatedCallbacks: Array<(CBPeripheral, CBUUID, Data) -> Void>, peripheralDisconnectedCallbacks: Array<(CBPeripheral) -> Void>) {
 		self.manufacturerDataReadCallbacks = []
 		self.serviceIdsToScanFor = serviceIdsToScanFor
 		self.peripheralDiscoveryCallbacks = peripheralCallbacks
