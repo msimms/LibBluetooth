@@ -29,10 +29,10 @@ class BluetoothScanner: NSObject, CBPeripheralDelegate, CBCentralManagerDelegate
 	
 	/// @brief Callbacks for when a value is updated.
 	private var valueUpdatedCallbacks: Array<(CBPeripheral, CBUUID, Data) -> Void> = []
-
+	
 	/// @brief Callbacks for when a peripheral disconnects.
 	private var peripheralDisconnectedCallbacks: Array<(CBPeripheral) -> Void> = []
-
+	
 	///
 	/// Internal state management functions
 	///
@@ -131,7 +131,7 @@ class BluetoothScanner: NSObject, CBPeripheralDelegate, CBCentralManagerDelegate
 		
 		// Remove the peripheral from the connected list.
 		self.stopTrackingConnectedPeripheral(peripheral: peripheral)
-
+		
 		// Call the callbacks
 		for cb in self.peripheralDisconnectedCallbacks {
 			cb(peripheral)
@@ -149,8 +149,8 @@ class BluetoothScanner: NSObject, CBPeripheralDelegate, CBCentralManagerDelegate
 			for service in services {
 				
 				// Make sure this is a service that we're interested in.
-				for (_, value) in self.serviceIdsToScanFor.enumerated() {
-					if value == service.uuid {
+				for serviceIdToScanFor in self.serviceIdsToScanFor {
+					if serviceIdToScanFor == service.uuid {
 						
 						// Notify callbacks.
 						for cb in self.serviceDiscoveryCallbacks {
