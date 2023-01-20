@@ -5,6 +5,11 @@
 
 import Foundation
 
+/// @brief Key names used with the JSON parser.
+let KEY_NAME_CYCLING_POWER_WATTS = "Power"
+let KEY_NAME_CYCLING_POWER_CRANK_REVS = "Crank Revs"
+let KEY_NAME_CYCLING_POWER_LAST_CRANK_TIME = "Last Crank Time"
+
 let ERROR_INAPPROPRIATE_CONNECTION_PARAMETER: UInt8 = 0x80
 
 let FLAGS_PEDAL_POWER_BALANCE_PRESENT: UInt16 = 0x0001
@@ -39,4 +44,42 @@ func decodeCyclingPowerReading(data: Data) throws -> UInt16 {
 	pwr.flags = ((UInt16)(data[0]) << 8) | (UInt16)(data[1])
 	pwr.power = ((UInt16)(data[2]) << 8) | (UInt16)(data[3])
 	return CFSwapInt16BigToHost(pwr.power)
+}
+
+func decodeCyclingPowerReadingAsDict(data: Data) throws -> Dictionary<String, UInt32> {
+	if data.count < 4 {
+		throw CyclingPowerException.runtimeError("Not enough data")
+	}
+	
+	var result: Dictionary<String, UInt32> = [:]
+	var reportBytesIndex = 0
+
+	let flags = ((UInt16)(data[1]) << 8) | (UInt16)(data[0])
+	reportBytesIndex += MemoryLayout<UInt16>.size
+
+	let pwr = ((UInt16)(data[2]) << 8) | (UInt16)(data[3])
+	reportBytesIndex += MemoryLayout<UInt16>.size
+	result[KEY_NAME_CYCLING_POWER_WATTS] = UInt32(pwr)
+
+	if flags & FLAGS_PEDAL_POWER_BALANCE_PRESENT != 0 {
+		reportBytesIndex += MemoryLayout<UInt8>.size
+	}
+	if flags & FLAGS_ACCUMULATED_TORQUE_PRESENT != 0{
+		reportBytesIndex += MemoryLayout<UInt16>.size
+	}
+	if flags & FLAGS_WHEEL_REVOLUTION_DATA_PRESENT != 0 {
+		reportBytesIndex += MemoryLayout<UInt32>.size
+		reportBytesIndex += MemoryLayout<UInt16>.size
+	}
+	if (flags & FLAGS_CRANK_REVOLUTION_DATA_PRESENT != 0) && (reportBytesIndex <= data.count - MemoryLayout<UInt16>.size - MemoryLayout<UInt16>.size) {
+		let crankRevsBytes = ((UInt16)(data[reportBytesIndex]) << 8) | (UInt16)(data[reportBytesIndex + 1])
+		result[KEY_NAME_CYCLING_POWER_CRANK_REVS] = UInt32(crankRevsBytes)
+		reportBytesIndex += MemoryLayout<UInt16>.size
+
+		let lastCrankTime = ((UInt16)(data[reportBytesIndex]) << 8) | (UInt16)(data[reportBytesIndex + 1])
+		result[KEY_NAME_CYCLING_POWER_LAST_CRANK_TIME] = UInt32(lastCrankTime)
+		reportBytesIndex += MemoryLayout<UInt16>.size
+	}
+		
+	return result
 }

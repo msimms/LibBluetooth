@@ -38,7 +38,7 @@ func decodeCyclingCadenceReading(data: Data) throws -> Dictionary<String, UInt32
 		throw CyclingCadenceException.runtimeError("Not enough data")
 	}
 
-	var result : Dictionary<String, UInt32> = [:]
+	var result: Dictionary<String, UInt32> = [:]
 
 	var cscData = CscMeasurement()
 	var revData = RevMeasurement()
