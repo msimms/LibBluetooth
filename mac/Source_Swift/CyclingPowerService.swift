@@ -59,7 +59,7 @@ func decodeCyclingPowerReadingAsDict(data: Data) throws -> Dictionary<String, UI
 
 	let pwr = ((UInt16)(data[2]) << 8) | (UInt16)(data[3])
 	reportBytesIndex += MemoryLayout<UInt16>.size
-	result[KEY_NAME_CYCLING_POWER_WATTS] = UInt32(pwr)
+	result[KEY_NAME_CYCLING_POWER_WATTS] = UInt32(CFSwapInt16BigToHost(pwr))
 
 	if flags & FLAGS_PEDAL_POWER_BALANCE_PRESENT != 0 {
 		reportBytesIndex += MemoryLayout<UInt8>.size
@@ -73,11 +73,11 @@ func decodeCyclingPowerReadingAsDict(data: Data) throws -> Dictionary<String, UI
 	}
 	if (flags & FLAGS_CRANK_REVOLUTION_DATA_PRESENT != 0) && (reportBytesIndex <= data.count - MemoryLayout<UInt16>.size - MemoryLayout<UInt16>.size) {
 		let crankRevsBytes = ((UInt16)(data[reportBytesIndex]) << 8) | (UInt16)(data[reportBytesIndex + 1])
-		result[KEY_NAME_CYCLING_POWER_CRANK_REVS] = UInt32(crankRevsBytes)
+		result[KEY_NAME_CYCLING_POWER_CRANK_REVS] = UInt32(CFSwapInt16BigToHost(crankRevsBytes))
 		reportBytesIndex += MemoryLayout<UInt16>.size
 
 		let lastCrankTime = ((UInt16)(data[reportBytesIndex]) << 8) | (UInt16)(data[reportBytesIndex + 1])
-		result[KEY_NAME_CYCLING_POWER_LAST_CRANK_TIME] = UInt32(lastCrankTime)
+		result[KEY_NAME_CYCLING_POWER_LAST_CRANK_TIME] = UInt32(CFSwapInt16BigToHost(lastCrankTime))
 		reportBytesIndex += MemoryLayout<UInt16>.size
 	}
 		
