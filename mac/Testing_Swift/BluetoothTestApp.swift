@@ -21,7 +21,7 @@ class AppState : ObservableObject {
 	/// Called when a peripheral is discovered.
 	/// Returns true to indicate that we should connect to this peripheral and discover its services.
 	func peripheralDiscovered(peripheral: CBPeripheral, description: String) -> Bool {
-		print(description)
+		print("Discovered: " + description)
 		return true
 	}
 
@@ -82,6 +82,30 @@ class AppState : ObservableObject {
 				let timestamp = NSDate().timeIntervalSince1970
 				self.calculateCadence(curTimeMs: UInt64(timestamp), currentCrankCount: UInt16(currentCrankCount!), currentCrankTime: UInt64(currentCrankTime!))
 			}
+			else if serviceId == CBUUID(data: BT_SERVICE_FITNESS_MACHINE) {
+				print("Fitness machine data received")
+				let reading = try decodeFitnessMachineService(data: value)
+				if let fitnessMachineType = reading[KEY_NAME_FITNESS_MACHINE_TYPE] {
+					if fitnessMachineType & UInt32(TREADMILL_SUPPORTED) != 0 {
+						print("Found a treadmill.")
+					}
+					if fitnessMachineType & UInt32(CROSS_TRAINER_SUPPORTED) != 0 {
+						print("Found a cross trainer.")
+					}
+					if fitnessMachineType & UInt32(STEP_CLIMBER_SUPPORTED) != 0 {
+						print("Found a step climber.")
+					}
+					if fitnessMachineType & UInt32(STAIR_CLIMBER_SUPPORTED) != 0 {
+						print("Found a stair climber.")
+					}
+					if fitnessMachineType & UInt32(ROWER_SUPPORTED) != 0 {
+						print("Found a rower.")
+					}
+					if fitnessMachineType & UInt32(INDOOR_BIKE_SUPPORTED) != 0 {
+						print("Found an indoor bike.")
+					}
+				}
+			}
 			else if serviceId == CBUUID(data: CUSTOM_BT_SERVICE_VARIA_RADAR) {
 				print("Radar updated")
 				radarMeasurements = decodeCyclingRadarReading(data: value)
@@ -96,6 +120,7 @@ class AppState : ObservableObject {
 		let interestingServices = [ CBUUID(data: BT_SERVICE_HEART_RATE),
 									CBUUID(data: BT_SERVICE_CYCLING_POWER),
 									CBUUID(data: BT_SERVICE_CYCLING_SPEED_AND_CADENCE),
+									CBUUID(data: BT_SERVICE_FITNESS_MACHINE),
 								    CBUUID(data: CUSTOM_BT_SERVICE_VARIA_RADAR) ]
 
 		// Start scanning for the services that we are interested in.
