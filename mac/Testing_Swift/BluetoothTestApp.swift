@@ -17,6 +17,8 @@ class AppState : ObservableObject {
 	private var lastCrankCountTime: UInt64 = 0
 	private var lastCadenceUpdateTimeMs: UInt64 = 0
 	private var firstCadenceUpdate: Bool = true
+	private var fitnessMachineType: UInt16 = 0
+	private var fitnessMachineChars: UInt16 = 0
 
 	/// Called when a peripheral is discovered.
 	/// Returns true to indicate that we should connect to this peripheral and discover its services.
@@ -67,16 +69,15 @@ class AppState : ObservableObject {
 		do {
 			if serviceId == CBUUID(data: BT_SERVICE_HEART_RATE) {
 				print("Heart rate updated")
-				currentHeartRateBpm = decodeHeartRateReading(data: value)
+				self.currentHeartRateBpm = decodeHeartRateReading(data: value)
 			}
 			else if serviceId == CBUUID(data: BT_SERVICE_CYCLING_POWER) {
 				print("Cycling power updated")
-				currentPowerWatts = try decodeCyclingPowerReading(data: value)
+				self.currentPowerWatts = try decodeCyclingPowerReading(data: value)
 			}
 			else if serviceId == CBUUID(data: BT_SERVICE_CYCLING_SPEED_AND_CADENCE) {
 				print("Cycling cadence updated")
 				let reading = try decodeCyclingCadenceReading(data: value)
-				//let currentWheelRevCount = reading[KEY_NAME_WHEEL_REV_COUNT]
 				let currentCrankCount = reading[KEY_NAME_WHEEL_CRANK_COUNT]
 				let currentCrankTime = reading[KEY_NAME_WHEEL_CRANK_TIME]
 				let timestamp = NSDate().timeIntervalSince1970
@@ -84,31 +85,37 @@ class AppState : ObservableObject {
 			}
 			else if serviceId == CBUUID(data: BT_SERVICE_FITNESS_MACHINE) {
 				print("Fitness machine data received")
-				let reading = try decodeFitnessMachineService(data: value)
+				let reading = try decodeFitnessMachineData(data: value, fitnessMachineType: self.fitnessMachineType, fitnessMachineChars: self.fitnessMachineChars)
 				if let fitnessMachineType = reading[KEY_NAME_FITNESS_MACHINE_TYPE] {
-					if fitnessMachineType & UInt32(TREADMILL_SUPPORTED) != 0 {
+					self.fitnessMachineType = numericCast(fitnessMachineType)
+
+					if self.fitnessMachineType & TREADMILL_SUPPORTED != 0 {
 						print("Found a treadmill.")
 					}
-					if fitnessMachineType & UInt32(CROSS_TRAINER_SUPPORTED) != 0 {
+					if self.fitnessMachineType & CROSS_TRAINER_SUPPORTED != 0 {
 						print("Found a cross trainer.")
 					}
-					if fitnessMachineType & UInt32(STEP_CLIMBER_SUPPORTED) != 0 {
+					if self.fitnessMachineType & STEP_CLIMBER_SUPPORTED != 0 {
 						print("Found a step climber.")
 					}
-					if fitnessMachineType & UInt32(STAIR_CLIMBER_SUPPORTED) != 0 {
+					if self.fitnessMachineType & STAIR_CLIMBER_SUPPORTED != 0 {
 						print("Found a stair climber.")
 					}
-					if fitnessMachineType & UInt32(ROWER_SUPPORTED) != 0 {
+					if self.fitnessMachineType & ROWER_SUPPORTED != 0 {
 						print("Found a rower.")
 					}
-					if fitnessMachineType & UInt32(INDOOR_BIKE_SUPPORTED) != 0 {
+					if self.fitnessMachineType & INDOOR_BIKE_SUPPORTED != 0 {
 						print("Found an indoor bike.")
 					}
+				}
+				if let fitnessMachineChars = reading[KEY_NAME_FITNESS_MACHINE_TYPE] {
+					print("Characteristics: " + String(format:"%04X", fitnessMachineChars))
+					self.fitnessMachineChars = numericCast(fitnessMachineChars)
 				}
 			}
 			else if serviceId == CBUUID(data: CUSTOM_BT_SERVICE_VARIA_RADAR) {
 				print("Radar updated")
-				radarMeasurements = decodeCyclingRadarReading(data: value)
+				self.radarMeasurements = decodeCyclingRadarReading(data: value)
 			}
 		} catch {
 			print(error.localizedDescription)
