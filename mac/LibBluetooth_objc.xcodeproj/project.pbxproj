@@ -20,8 +20,6 @@
 		27C574592829AC410070D640 /* BluetoothScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 27C574582829AC410070D640 /* BluetoothScanner.m */; };
 		27C5745B2829D6650070D640 /* HeartRateParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 27C5745A2829D6650070D640 /* HeartRateParser.m */; };
 		27C5745F2829DA790070D640 /* CyclingPowerParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 27C5745E2829DA790070D640 /* CyclingPowerParser.m */; };
-		27C57469282AEFC70070D640 /* LibBluetooth.h in Headers */ = {isa = PBXBuildFile; fileRef = 27C57468282AEFC70070D640 /* LibBluetooth.h */; };
-		27C5746B282AEFC70070D640 /* LibBluetooth.m in Sources */ = {isa = PBXBuildFile; fileRef = 27C5746A282AEFC70070D640 /* LibBluetooth.m */; };
 		27D2764C28457917008E707B /* RadarParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 27D2764B28457917008E707B /* RadarParser.m */; };
 		27E21D2C2837D86500748280 /* Parser.m in Sources */ = {isa = PBXBuildFile; fileRef = 27E21D2B2837D80200748280 /* Parser.m */; };
 /* End PBXBuildFile section */
@@ -53,8 +51,6 @@
 		27C5745D2829D9D90070D640 /* CyclingPowerParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CyclingPowerParser.h; sourceTree = "<group>"; };
 		27C5745E2829DA790070D640 /* CyclingPowerParser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CyclingPowerParser.m; sourceTree = "<group>"; };
 		27C57466282AEFC70070D640 /* libLibBluetooth.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libLibBluetooth.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
-		27C57468282AEFC70070D640 /* LibBluetooth.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LibBluetooth.h; sourceTree = "<group>"; };
-		27C5746A282AEFC70070D640 /* LibBluetooth.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LibBluetooth.m; sourceTree = "<group>"; };
 		27D2764A28457917008E707B /* RadarParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RadarParser.h; sourceTree = "<group>"; };
 		27D2764B28457917008E707B /* RadarParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RadarParser.m; sourceTree = "<group>"; };
 		27E21D2A2837D79400748280 /* Parser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Parser.h; sourceTree = "<group>"; };
@@ -85,7 +81,6 @@
 			children = (
 				27C57460282AE6D00070D640 /* Source_objc */,
 				27C5743F2829AA800070D640 /* Testing_objc */,
-				27C57467282AEFC70070D640 /* LibBluetooth */,
 				27C5743E2829AA800070D640 /* Products */,
 				27C574532829AC330070D640 /* Frameworks */,
 			);
@@ -149,15 +144,6 @@
 			path = Source_objc;
 			sourceTree = "<group>";
 		};
-		27C57467282AEFC70070D640 /* LibBluetooth */ = {
-			isa = PBXGroup;
-			children = (
-				27C57468282AEFC70070D640 /* LibBluetooth.h */,
-				27C5746A282AEFC70070D640 /* LibBluetooth.m */,
-			);
-			path = LibBluetooth;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -165,7 +151,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				27C57469282AEFC70070D640 /* LibBluetooth.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -213,7 +198,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastUpgradeCheck = 1330;
+				LastUpgradeCheck = 1420;
 				TargetAttributes = {
 					27C5743C2829AA800070D640 = {
 						CreatedOnToolsVersion = 13.3.1;
@@ -278,7 +263,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				27C5746B282AEFC70070D640 /* LibBluetooth.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -329,6 +313,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -387,6 +372,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -411,9 +397,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Testing_objc/BluetoothTest_objc.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = F42C985T48;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -439,9 +427,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Testing_objc/BluetoothTest_objc.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = F42C985T48;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -465,6 +455,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = F42C985T48;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -478,6 +469,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = F42C985T48;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;

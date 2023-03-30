@@ -2,6 +2,12 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:BluetoothCppExample/BluetoothCppExample.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/mike/Code/GitHub/LibBluetooth/mac/Bluetooth.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:LibBluetooth_objc.xcodeproj">
    </FileRef>
    <FileRef

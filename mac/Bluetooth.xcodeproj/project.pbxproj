@@ -1,0 +1,338 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		277E72AD29D32A8B00583C53 /* LibBluetooth.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 277E72AB29D32A8B00583C53 /* LibBluetooth.cpp */; };
+		277E72AE29D32A8B00583C53 /* LibBluetooth.h in Headers */ = {isa = PBXBuildFile; fileRef = 277E72AC29D32A8B00583C53 /* LibBluetooth.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		277E72B829D343DD00583C53 /* HeartRateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277E72B029D343DD00583C53 /* HeartRateService.swift */; };
+		277E72B929D343DD00583C53 /* BluetoothServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277E72B129D343DD00583C53 /* BluetoothServices.swift */; };
+		277E72BA29D343DD00583C53 /* CyclingCadenceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277E72B229D343DD00583C53 /* CyclingCadenceService.swift */; };
+		277E72BB29D343DD00583C53 /* CyclingRadarService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277E72B329D343DD00583C53 /* CyclingRadarService.swift */; };
+		277E72BC29D343DD00583C53 /* HydrometerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277E72B429D343DD00583C53 /* HydrometerService.swift */; };
+		277E72BD29D343DD00583C53 /* CyclingPowerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277E72B529D343DD00583C53 /* CyclingPowerService.swift */; };
+		277E72BE29D343DD00583C53 /* BluetoothScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277E72B629D343DD00583C53 /* BluetoothScanner.swift */; };
+		277E72BF29D343DD00583C53 /* FitnessMachineService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277E72B729D343DD00583C53 /* FitnessMachineService.swift */; };
+		277E72C129D3451800583C53 /* LibBluetooth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277E72C029D3451800583C53 /* LibBluetooth.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		277E72A429D328D400583C53 /* libBluetooth.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libBluetooth.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		277E72AB29D32A8B00583C53 /* LibBluetooth.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LibBluetooth.cpp; path = Source/LibBluetooth.cpp; sourceTree = "<group>"; };
+		277E72AC29D32A8B00583C53 /* LibBluetooth.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LibBluetooth.h; path = Source/LibBluetooth.h; sourceTree = "<group>"; };
+		277E72AF29D343DD00583C53 /* LibBluetooth-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LibBluetooth-Bridging-Header.h"; sourceTree = "<group>"; };
+		277E72B029D343DD00583C53 /* HeartRateService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HeartRateService.swift; path = Source_Swift/HeartRateService.swift; sourceTree = "<group>"; };
+		277E72B129D343DD00583C53 /* BluetoothServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BluetoothServices.swift; path = Source_Swift/BluetoothServices.swift; sourceTree = "<group>"; };
+		277E72B229D343DD00583C53 /* CyclingCadenceService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CyclingCadenceService.swift; path = Source_Swift/CyclingCadenceService.swift; sourceTree = "<group>"; };
+		277E72B329D343DD00583C53 /* CyclingRadarService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CyclingRadarService.swift; path = Source_Swift/CyclingRadarService.swift; sourceTree = "<group>"; };
+		277E72B429D343DD00583C53 /* HydrometerService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HydrometerService.swift; path = Source_Swift/HydrometerService.swift; sourceTree = "<group>"; };
+		277E72B529D343DD00583C53 /* CyclingPowerService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CyclingPowerService.swift; path = Source_Swift/CyclingPowerService.swift; sourceTree = "<group>"; };
+		277E72B629D343DD00583C53 /* BluetoothScanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BluetoothScanner.swift; path = Source_Swift/BluetoothScanner.swift; sourceTree = "<group>"; };
+		277E72B729D343DD00583C53 /* FitnessMachineService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FitnessMachineService.swift; path = Source_Swift/FitnessMachineService.swift; sourceTree = "<group>"; };
+		277E72C029D3451800583C53 /* LibBluetooth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LibBluetooth.swift; path = Source/LibBluetooth.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		277E72A229D328D400583C53 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		277E729B29D328D400583C53 = {
+			isa = PBXGroup;
+			children = (
+				277E72B629D343DD00583C53 /* BluetoothScanner.swift */,
+				277E72B129D343DD00583C53 /* BluetoothServices.swift */,
+				277E72B229D343DD00583C53 /* CyclingCadenceService.swift */,
+				277E72B529D343DD00583C53 /* CyclingPowerService.swift */,
+				277E72B329D343DD00583C53 /* CyclingRadarService.swift */,
+				277E72B729D343DD00583C53 /* FitnessMachineService.swift */,
+				277E72B029D343DD00583C53 /* HeartRateService.swift */,
+				277E72B429D343DD00583C53 /* HydrometerService.swift */,
+				277E72C029D3451800583C53 /* LibBluetooth.swift */,
+				277E72AB29D32A8B00583C53 /* LibBluetooth.cpp */,
+				277E72AC29D32A8B00583C53 /* LibBluetooth.h */,
+				277E72AF29D343DD00583C53 /* LibBluetooth-Bridging-Header.h */,
+				277E72A529D328D400583C53 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		277E72A529D328D400583C53 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				277E72A429D328D400583C53 /* libBluetooth.dylib */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		277E72A029D328D400583C53 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				277E72AE29D32A8B00583C53 /* LibBluetooth.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		277E72A329D328D400583C53 /* Bluetooth */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 277E72A829D328D400583C53 /* Build configuration list for PBXNativeTarget "Bluetooth" */;
+			buildPhases = (
+				277E72A029D328D400583C53 /* Headers */,
+				277E72A129D328D400583C53 /* Sources */,
+				277E72A229D328D400583C53 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Bluetooth;
+			productName = LibBluetooth;
+			productReference = 277E72A429D328D400583C53 /* libBluetooth.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		277E729C29D328D400583C53 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastUpgradeCheck = 1420;
+				TargetAttributes = {
+					277E72A329D328D400583C53 = {
+						CreatedOnToolsVersion = 14.2;
+						LastSwiftMigration = 1420;
+					};
+				};
+			};
+			buildConfigurationList = 277E729F29D328D400583C53 /* Build configuration list for PBXProject "Bluetooth" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 277E729B29D328D400583C53;
+			productRefGroup = 277E72A529D328D400583C53 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				277E72A329D328D400583C53 /* Bluetooth */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		277E72A129D328D400583C53 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				277E72BF29D343DD00583C53 /* FitnessMachineService.swift in Sources */,
+				277E72B829D343DD00583C53 /* HeartRateService.swift in Sources */,
+				277E72BE29D343DD00583C53 /* BluetoothScanner.swift in Sources */,
+				277E72BB29D343DD00583C53 /* CyclingRadarService.swift in Sources */,
+				277E72B929D343DD00583C53 /* BluetoothServices.swift in Sources */,
+				277E72AD29D32A8B00583C53 /* LibBluetooth.cpp in Sources */,
+				277E72C129D3451800583C53 /* LibBluetooth.swift in Sources */,
+				277E72BC29D343DD00583C53 /* HydrometerService.swift in Sources */,
+				277E72BA29D343DD00583C53 /* CyclingCadenceService.swift in Sources */,
+				277E72BD29D343DD00583C53 /* CyclingPowerService.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		277E72A629D328D400583C53 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		277E72A729D328D400583C53 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		277E72A929D328D400583C53 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = F42C985T48;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_PREFIX = lib;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "LibBluetooth-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		277E72AA29D328D400583C53 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = F42C985T48;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_PREFIX = lib;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "LibBluetooth-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		277E729F29D328D400583C53 /* Build configuration list for PBXProject "Bluetooth" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				277E72A629D328D400583C53 /* Debug */,
+				277E72A729D328D400583C53 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		277E72A829D328D400583C53 /* Build configuration list for PBXNativeTarget "Bluetooth" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				277E72A929D328D400583C53 /* Debug */,
+				277E72AA29D328D400583C53 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 277E729C29D328D400583C53 /* Project object */;
+}
