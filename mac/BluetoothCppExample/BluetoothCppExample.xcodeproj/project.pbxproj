@@ -10,6 +10,7 @@
 		2762D97629D4D897001DE85C /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2762D97529D4D897001DE85C /* main.cpp */; };
 		2762D98B29D6126D001DE85C /* libBluetooth.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2762D98A29D6126D001DE85C /* libBluetooth.dylib */; };
 		2762D98C29D6126D001DE85C /* libBluetooth.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 2762D98A29D6126D001DE85C /* libBluetooth.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		2772D98B29DA05860008E4F3 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2772D98A29DA05860008E4F3 /* CoreBluetooth.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -39,6 +40,7 @@
 		2762D97229D4D897001DE85C /* BluetoothCppExample */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = BluetoothCppExample; sourceTree = BUILT_PRODUCTS_DIR; };
 		2762D97529D4D897001DE85C /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		2762D98A29D6126D001DE85C /* libBluetooth.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; path = libBluetooth.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		2772D98A29DA05860008E4F3 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,6 +48,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2772D98B29DA05860008E4F3 /* CoreBluetooth.framework in Frameworks */,
 				2762D98B29D6126D001DE85C /* libBluetooth.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -73,6 +76,7 @@
 		2762D98229D5D91F001DE85C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2772D98A29DA05860008E4F3 /* CoreBluetooth.framework */,
 				2762D98A29D6126D001DE85C /* libBluetooth.dylib */,
 			);
 			name = Frameworks;
@@ -106,7 +110,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastUpgradeCheck = 1420;
+				LastUpgradeCheck = 1430;
 				TargetAttributes = {
 					2762D97129D4D897001DE85C = {
 						CreatedOnToolsVersion = 14.2;
@@ -176,6 +180,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -234,6 +239,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -256,6 +262,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = F42C985T48;
 				ENABLE_HARDENED_RUNTIME = YES;
 				HEADER_SEARCH_PATHS = ../Source;
@@ -268,6 +275,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = F42C985T48;
 				ENABLE_HARDENED_RUNTIME = YES;
 				HEADER_SEARCH_PATHS = ../Source;

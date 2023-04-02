@@ -164,7 +164,7 @@
 
 #pragma mark Public interface for this class
 
-- (void)start:(NSArray*)serviceIdsToScanFor withPeripheralCallback:(peripheralDiscoveredCb)peripheralCallback withServiceCallback:(serviceEnumeratedCb)serviceCallback withValueUpdatedCallback:(valueUpdatedCb)valueUpdatedCallback withCallbackParam:(void*)callbackParam
+- (void)start:(NSArray*)serviceIdsToScanFor withPeripheralDiscoveredCallback:(peripheralDiscoveredCb)peripheralCallback withServiceCallback:(serviceEnumeratedCb)serviceCallback withValueUpdatedCallback:(valueUpdatedCb)valueUpdatedCallback withCallbackParam:(void*)callbackParam
 {
 	self->serviceIdsToScanFor = serviceIdsToScanFor;
 	self->peripheralDiscoveryCallback = peripheralCallback;

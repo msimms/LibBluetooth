@@ -25,7 +25,7 @@ Objective C
 Swift
 
 	func startScanningForServices(serviceIdsToScanFor: Array<CBUUID>,
-		peripheralCallbacks: Array<(CBPeripheral, String) -> Bool>,
+		peripheralDiscoveredCallbacks: Array<(CBPeripheral, String) -> Bool>,
 		serviceCallbacks: Array<(CBPeripheral, CBUUID) -> Void>,
 		valueUpdatedCallbacks: Array<(CBPeripheral, CBUUID, Data) -> Void>,
 		peripheralDisconnectedCallbacks: Array<(CBPeripheral) -> Void>) 

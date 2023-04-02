@@ -8,6 +8,29 @@ import CoreBluetooth
 
 let scanner: BluetoothScanner = BluetoothScanner()
 var serviceIdsToScanFor: Array<CBUUID> = []
+var peripheralDiscoveredCallbacks: Array<(CBPeripheral, String) -> Bool> = [peripheralDiscovered]
+var serviceCallbacks: Array<(CBPeripheral, CBUUID) -> Void> = [serviceDiscovered]
+var valueUpdatedCallbacks: Array<ValueUpdatedCbType> = [valueUpdated]
+var peripheralDisconnectedCallbacks: Array<(CBPeripheral) -> Void> = [peripheralDisconnected]
+
+/// Called when a peripheral is discovered.
+/// Returns true to indicate that we should connect to this peripheral and discover its services.
+func peripheralDiscovered(peripheral: CBPeripheral, description: String) -> Bool {
+	print("Discovered: " + description)
+	return true
+}
+
+/// Called when a service is discovered.
+func serviceDiscovered(peripheral: CBPeripheral, serviceId: CBUUID) {
+}
+
+/// Called when a sensor characteristic is updated.
+func valueUpdated(peripheral: CBPeripheral, serviceId: CBUUID, value: Data) {
+}
+
+/// Called when a peripheral is disconnects.
+func peripheralDisconnected(peripheral: CBPeripheral) {
+}
 
 @_cdecl("libbluetooth_addHrmToScanList")
 func libbluetooth_addHrmToScanList() {
@@ -36,12 +59,11 @@ func libbluetooth_addFitnessMachineToScanList() {
 
 @_cdecl("libbluetooth_startScanningForServices")
 func libbluetooth_startScanningForServices() {
-	let peripheralCallbacks: Array<(CBPeripheral, String) -> Bool> = []
-	let serviceCallbacks: Array<(CBPeripheral, CBUUID) -> Void> = []
-	let valueUpdatedCallbacks: Array<(CBPeripheral, CBUUID, Data) -> Void> = []
-	let peripheralDisconnectedCallbacks: Array<(CBPeripheral) -> Void> = []
-
-	scanner.startScanningForServices(serviceIdsToScanFor: serviceIdsToScanFor, peripheralCallbacks: peripheralCallbacks, serviceCallbacks: serviceCallbacks, valueUpdatedCallbacks: valueUpdatedCallbacks, peripheralDisconnectedCallbacks: peripheralDisconnectedCallbacks)
+	scanner.startScanningForServices(serviceIdsToScanFor: serviceIdsToScanFor,
+									 peripheralDiscoveredCallbacks: peripheralDiscoveredCallbacks,
+									 serviceCallbacks: serviceCallbacks,
+									 valueUpdatedCallbacks: valueUpdatedCallbacks,
+									 peripheralDisconnectedCallbacks: peripheralDisconnectedCallbacks)
 }
 
 @_cdecl("libbluetooth_stopScanning")

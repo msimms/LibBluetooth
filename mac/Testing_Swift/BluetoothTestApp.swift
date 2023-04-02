@@ -132,7 +132,7 @@ class AppState : ObservableObject {
 
 		// Start scanning for the services that we are interested in.
 		scanner.startScanningForServices(serviceIdsToScanFor: interestingServices,
-										 peripheralCallbacks: [peripheralDiscovered],
+										 peripheralDiscoveredCallbacks: [peripheralDiscovered],
 										 serviceCallbacks: [serviceDiscovered],
 										 valueUpdatedCallbacks: [valueUpdated],
 										 peripheralDisconnectedCallbacks: [])
