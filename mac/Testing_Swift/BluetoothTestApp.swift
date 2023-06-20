@@ -12,6 +12,7 @@ class AppState : ObservableObject {
 	@Published var currentHeartRateBpm: UInt16 = 0
 	@Published var currentPowerWatts: UInt16 = 0
 	@Published var currentCadenceRpm: UInt16 = 0
+	@Published var currentWeight: Double = 0.0
 	@Published var radarMeasurements: Array<RadarMeasurement> = []
 	private var lastCrankCount: UInt16 = 0
 	private var lastCrankCountTime: UInt64 = 0
@@ -113,6 +114,10 @@ class AppState : ObservableObject {
 					self.fitnessMachineChars = numericCast(fitnessMachineChars)
 				}
 			}
+			else if serviceId == CBUUID(data: BT_SERVICE_WEIGHT) {
+				print("Weight updated")
+				self.currentWeight = decodeWeightReading(data: value)
+			}
 			else if serviceId == CBUUID(data: CUSTOM_BT_SERVICE_VARIA_RADAR) {
 				print("Radar updated")
 				self.radarMeasurements = decodeCyclingRadarReading(data: value)
@@ -127,6 +132,7 @@ class AppState : ObservableObject {
 		let interestingServices = [ CBUUID(data: BT_SERVICE_HEART_RATE),
 									CBUUID(data: BT_SERVICE_CYCLING_POWER),
 									CBUUID(data: BT_SERVICE_CYCLING_SPEED_AND_CADENCE),
+									CBUUID(data: BT_SERVICE_WEIGHT),
 									CBUUID(data: BT_SERVICE_FITNESS_MACHINE),
 								    CBUUID(data: CUSTOM_BT_SERVICE_VARIA_RADAR) ]
 

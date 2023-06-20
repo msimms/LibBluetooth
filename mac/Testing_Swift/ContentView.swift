@@ -12,6 +12,7 @@ struct ContentView: View {
 		Text("Heart Rate: " + String(state.currentHeartRateBpm) + " bpm")
 		Text("Power: " + String(state.currentPowerWatts) + " watts")
 		Text("Cadence: " + String(state.currentCadenceRpm) + " rpm")
+		Text("Weight: " + String(state.currentWeight) + " kgs")
 		ForEach(state.radarMeasurements, id: \.self) { measurement in
 			Text(String(format: "Radar Threat: %u meters", measurement.threatMeters))
 		}

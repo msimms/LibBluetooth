@@ -29,6 +29,10 @@
 		271F313D28245BB90009E7BB /* HeartRateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271F313B28245BB90009E7BB /* HeartRateService.swift */; };
 		2740E10528EB47AD00293B71 /* CyclingCadenceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2740E10428EB47AD00293B71 /* CyclingCadenceService.swift */; };
 		2740E10628EB47AD00293B71 /* CyclingCadenceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2740E10428EB47AD00293B71 /* CyclingCadenceService.swift */; };
+		27854D022A3E593F005E4B16 /* WeightService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27854D012A3E593F005E4B16 /* WeightService.swift */; };
+		27854D032A3E593F005E4B16 /* WeightService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27854D012A3E593F005E4B16 /* WeightService.swift */; };
+		27854D052A3E630D005E4B16 /* DataReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27854D042A3E630D005E4B16 /* DataReader.swift */; };
+		27854D062A3E630D005E4B16 /* DataReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27854D042A3E630D005E4B16 /* DataReader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +70,8 @@
 		271F3138282207100009E7BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		271F313B28245BB90009E7BB /* HeartRateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateService.swift; sourceTree = "<group>"; };
 		2740E10428EB47AD00293B71 /* CyclingCadenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CyclingCadenceService.swift; sourceTree = "<group>"; };
+		27854D012A3E593F005E4B16 /* WeightService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightService.swift; sourceTree = "<group>"; };
+		27854D042A3E630D005E4B16 /* DataReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataReader.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,9 +146,11 @@
 				2740E10428EB47AD00293B71 /* CyclingCadenceService.swift */,
 				27196E1728AEDF6C003F47D8 /* CyclingPowerService.swift */,
 				27042252290223D400FD02D4 /* CyclingRadarService.swift */,
+				27854D042A3E630D005E4B16 /* DataReader.swift */,
 				2707F1FB298F10DD00957D11 /* FitnessMachineService.swift */,
 				271F313B28245BB90009E7BB /* HeartRateService.swift */,
 				27196E1428AEDF36003F47D8 /* HydrometerService.swift */,
+				27854D012A3E593F005E4B16 /* WeightService.swift */,
 			);
 			path = Source_Swift;
 			sourceTree = "<group>";
@@ -306,8 +314,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				271F31362821FB2D0009E7BB /* BluetoothServices.swift in Sources */,
+				27854D022A3E593F005E4B16 /* WeightService.swift in Sources */,
 				271F31332821C2F60009E7BB /* BluetoothScanner.swift in Sources */,
 				271F31202821BFE80009E7BB /* ContentView.swift in Sources */,
+				27854D052A3E630D005E4B16 /* DataReader.swift in Sources */,
 				2740E10528EB47AD00293B71 /* CyclingCadenceService.swift in Sources */,
 				2707F1FC298F10DD00957D11 /* FitnessMachineService.swift in Sources */,
 				27042253290223D400FD02D4 /* CyclingRadarService.swift in Sources */,
@@ -323,8 +333,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				271F31372821FB2D0009E7BB /* BluetoothServices.swift in Sources */,
+				27854D032A3E593F005E4B16 /* WeightService.swift in Sources */,
 				271F31342821C2F60009E7BB /* BluetoothScanner.swift in Sources */,
 				271F31212821BFE80009E7BB /* ContentView.swift in Sources */,
+				27854D062A3E630D005E4B16 /* DataReader.swift in Sources */,
 				2740E10628EB47AD00293B71 /* CyclingCadenceService.swift in Sources */,
 				2707F1FD298F10DD00957D11 /* FitnessMachineService.swift in Sources */,
 				27042254290223D400FD02D4 /* CyclingRadarService.swift in Sources */,

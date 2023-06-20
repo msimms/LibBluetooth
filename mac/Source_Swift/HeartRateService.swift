@@ -28,6 +28,6 @@ func decodeHeartRateReading(data: Data) -> UInt16 {
 		return UInt16(hrm.value8)
 	}
 	
-	hrm.value16 = (UInt16(data[1]) >> 8) | (UInt16(data[2]));
+	hrm.value16 = read16(data: data.subdata(in: Range(1...2)))
 	return CFSwapInt16LittleToHost(hrm.value16)
 }
