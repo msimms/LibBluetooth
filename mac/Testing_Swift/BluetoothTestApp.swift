@@ -18,8 +18,7 @@ class AppState : ObservableObject {
 	private var lastCrankCountTime: UInt64 = 0
 	private var lastCadenceUpdateTimeMs: UInt64 = 0
 	private var firstCadenceUpdate: Bool = true
-	private var fitnessMachineType: UInt16 = 0
-	private var fitnessMachineChars: UInt16 = 0
+	private var fitnessMachineState: Dictionary<String, UInt32> = [:]
 
 	/// Called when a peripheral is discovered.
 	/// Returns true to indicate that we should connect to this peripheral and discover its services.
@@ -86,32 +85,31 @@ class AppState : ObservableObject {
 			}
 			else if serviceId == CBUUID(data: BT_SERVICE_FITNESS_MACHINE) {
 				print("Fitness machine data received")
-				let reading = try decodeFitnessMachineData(data: value, fitnessMachineType: self.fitnessMachineType, fitnessMachineChars: self.fitnessMachineChars)
-				if let fitnessMachineType = reading[KEY_NAME_FITNESS_MACHINE_TYPE] {
-					self.fitnessMachineType = numericCast(fitnessMachineType)
+				self.fitnessMachineState = try decodeFitnessMachineData(data: value, fitnessMachineState: self.fitnessMachineState)
+				if let fitnessMachineType = self.fitnessMachineState[KEY_NAME_FITNESS_MACHINE_TYPE] {
+					let tempFitnessMachineType: UInt16 = numericCast(fitnessMachineType)
 
-					if self.fitnessMachineType & TREADMILL_SUPPORTED != 0 {
+					if tempFitnessMachineType & TREADMILL_SUPPORTED != 0 {
 						print("Found a treadmill.")
 					}
-					if self.fitnessMachineType & CROSS_TRAINER_SUPPORTED != 0 {
+					if tempFitnessMachineType & CROSS_TRAINER_SUPPORTED != 0 {
 						print("Found a cross trainer.")
 					}
-					if self.fitnessMachineType & STEP_CLIMBER_SUPPORTED != 0 {
+					if tempFitnessMachineType & STEP_CLIMBER_SUPPORTED != 0 {
 						print("Found a step climber.")
 					}
-					if self.fitnessMachineType & STAIR_CLIMBER_SUPPORTED != 0 {
+					if tempFitnessMachineType & STAIR_CLIMBER_SUPPORTED != 0 {
 						print("Found a stair climber.")
 					}
-					if self.fitnessMachineType & ROWER_SUPPORTED != 0 {
+					if tempFitnessMachineType & ROWER_SUPPORTED != 0 {
 						print("Found a rower.")
 					}
-					if self.fitnessMachineType & INDOOR_BIKE_SUPPORTED != 0 {
+					if tempFitnessMachineType & INDOOR_BIKE_SUPPORTED != 0 {
 						print("Found an indoor bike.")
 					}
 				}
-				if let fitnessMachineChars = reading[KEY_NAME_FITNESS_MACHINE_TYPE] {
+				if let fitnessMachineChars = self.fitnessMachineState[KEY_NAME_FITNESS_MACHINE_CHARACTERISTICS] {
 					print("Characteristics: " + String(format:"%04X", fitnessMachineChars))
-					self.fitnessMachineChars = numericCast(fitnessMachineChars)
 				}
 			}
 			else if serviceId == CBUUID(data: BT_SERVICE_WEIGHT) {
