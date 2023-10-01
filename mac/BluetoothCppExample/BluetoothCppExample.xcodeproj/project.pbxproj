@@ -13,6 +13,16 @@
 		2772D98B29DA05860008E4F3 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2772D98A29DA05860008E4F3 /* CoreBluetooth.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		271515042AC9F68B008BD155 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 271515002AC9F68B008BD155 /* Bluetooth.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 277E72A429D328D400583C53;
+			remoteInfo = Bluetooth;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		2762D97029D4D897001DE85C /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -37,6 +47,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		271515002AC9F68B008BD155 /* Bluetooth.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Bluetooth.xcodeproj; path = ../Bluetooth.xcodeproj; sourceTree = "<group>"; };
 		2762D97229D4D897001DE85C /* BluetoothCppExample */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = BluetoothCppExample; sourceTree = BUILT_PRODUCTS_DIR; };
 		2762D97529D4D897001DE85C /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		2762D98A29D6126D001DE85C /* libBluetooth.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; path = libBluetooth.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -56,9 +67,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		271515012AC9F68B008BD155 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				271515052AC9F68B008BD155 /* libBluetooth.dylib */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		2762D96929D4D896001DE85C = {
 			isa = PBXGroup;
 			children = (
+				271515002AC9F68B008BD155 /* Bluetooth.xcodeproj */,
 				2762D97529D4D897001DE85C /* main.cpp */,
 				2762D97329D4D897001DE85C /* Products */,
 				2762D98229D5D91F001DE85C /* Frameworks */,
@@ -128,12 +148,28 @@
 			mainGroup = 2762D96929D4D896001DE85C;
 			productRefGroup = 2762D97329D4D897001DE85C /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 271515012AC9F68B008BD155 /* Products */;
+					ProjectRef = 271515002AC9F68B008BD155 /* Bluetooth.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				2762D97129D4D897001DE85C /* BluetoothCppExample */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		271515052AC9F68B008BD155 /* libBluetooth.dylib */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.dylib";
+			path = libBluetooth.dylib;
+			remoteRef = 271515042AC9F68B008BD155 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXSourcesBuildPhase section */
 		2762D96E29D4D897001DE85C /* Sources */ = {

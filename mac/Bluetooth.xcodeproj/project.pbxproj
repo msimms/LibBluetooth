@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		271514F22AC89B57008BD155 /* WeightService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271514F02AC89B57008BD155 /* WeightService.swift */; };
+		271514F32AC89B57008BD155 /* DataReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271514F12AC89B57008BD155 /* DataReader.swift */; };
 		277E72AD29D32A8B00583C53 /* LibBluetooth.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 277E72AB29D32A8B00583C53 /* LibBluetooth.cpp */; };
 		277E72AE29D32A8B00583C53 /* LibBluetooth.h in Headers */ = {isa = PBXBuildFile; fileRef = 277E72AC29D32A8B00583C53 /* LibBluetooth.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		277E72B829D343DD00583C53 /* HeartRateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277E72B029D343DD00583C53 /* HeartRateService.swift */; };
@@ -21,6 +23,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		271514F02AC89B57008BD155 /* WeightService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WeightService.swift; path = Source_Swift/WeightService.swift; sourceTree = "<group>"; };
+		271514F12AC89B57008BD155 /* DataReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataReader.swift; path = Source_Swift/DataReader.swift; sourceTree = "<group>"; };
 		277E72A429D328D400583C53 /* libBluetooth.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libBluetooth.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		277E72AB29D32A8B00583C53 /* LibBluetooth.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LibBluetooth.cpp; path = Source/LibBluetooth.cpp; sourceTree = "<group>"; };
 		277E72AC29D32A8B00583C53 /* LibBluetooth.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LibBluetooth.h; path = Source/LibBluetooth.h; sourceTree = "<group>"; };
@@ -62,10 +66,12 @@
 				277E72B229D343DD00583C53 /* CyclingCadenceService.swift */,
 				277E72B529D343DD00583C53 /* CyclingPowerService.swift */,
 				277E72B329D343DD00583C53 /* CyclingRadarService.swift */,
+				271514F12AC89B57008BD155 /* DataReader.swift */,
 				277E72B729D343DD00583C53 /* FitnessMachineService.swift */,
 				277E72B029D343DD00583C53 /* HeartRateService.swift */,
 				277E72B429D343DD00583C53 /* HydrometerService.swift */,
 				277E72C029D3451800583C53 /* LibBluetooth.swift */,
+				271514F02AC89B57008BD155 /* WeightService.swift */,
 				277E72AB29D32A8B00583C53 /* LibBluetooth.cpp */,
 				277E72AC29D32A8B00583C53 /* LibBluetooth.h */,
 				277E72AF29D343DD00583C53 /* LibBluetooth-Bridging-Header.h */,
@@ -152,8 +158,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				277E72BF29D343DD00583C53 /* FitnessMachineService.swift in Sources */,
+				271514F22AC89B57008BD155 /* WeightService.swift in Sources */,
 				277E72B829D343DD00583C53 /* HeartRateService.swift in Sources */,
 				277E72BE29D343DD00583C53 /* BluetoothScanner.swift in Sources */,
+				271514F32AC89B57008BD155 /* DataReader.swift in Sources */,
 				277E72BB29D343DD00583C53 /* CyclingRadarService.swift in Sources */,
 				277E72B929D343DD00583C53 /* BluetoothServices.swift in Sources */,
 				277E72AD29D32A8B00583C53 /* LibBluetooth.cpp in Sources */,
