@@ -20,14 +20,26 @@ struct HeartRateMeasurement {
 }
 
 func decodeHeartRateReading(data: Data) -> UInt16 {
+	if (data.count < 1) {
+		return 0
+	}
+
 	var hrm = HeartRateMeasurement()
 	hrm.flags = data[0];
 	
-	if ((hrm.flags & FLAGS_HEART_RATE_VALUE) == 0) {
+	if data.count < 2 {
+		return 0
+	}
+
+	if (hrm.flags & FLAGS_HEART_RATE_VALUE) == 0 {
 		hrm.value8 = data[1];
 		return UInt16(hrm.value8)
 	}
-	
-	hrm.value16 = read16(data: data.subdata(in: Range(1...2)))
+
+	if data.count < 3 {
+		return 0
+	}
+
+	hrm.value16 = (UInt16(data[1]) >> 8) | (UInt16(data[2]))
 	return CFSwapInt16LittleToHost(hrm.value16)
 }
