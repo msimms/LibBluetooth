@@ -6,10 +6,10 @@
 import Foundation
 
 let ERROR_HEART_RATE_CONTROL_POINT_NO_SUPPORTED: UInt8 = 0x80
-let FLAGS_HEART_RATE_VALUE: UInt8 = 0x01
-let FLAGS_SENSOR_CONTACT_STATUS_VALUE: UInt8 = 0x02
-let FLAGS_ENERGY_EXPENDED_STATUS_VALUE: UInt8 = 0x04
-let FLAGS_RR_VALUE: UInt8 = 0x08
+let FLAGS_HEART_RATE_VALUE: UInt8 = 0x01 // 0 means 8 bit value, 1 means 16 bit value
+let FLAGS_SENSOR_CONTACT_STATUS_VALUE: UInt8 = 0x02 // indicate whether or not skin contact is supported or detected
+let FLAGS_ENERGY_EXPENDED_STATUS_VALUE: UInt8 = 0x04 // indicates whether or not the Energy Expended field is present, providing energy in kilojoules
+let FLAGS_RR_VALUE: UInt8 = 0x08 // indicates whether or not the RR field is present
 
 struct HeartRateMeasurement {
 	var flags: UInt8 = 0
