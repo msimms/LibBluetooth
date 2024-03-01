@@ -39,31 +39,27 @@ func decodeCyclingCadenceReading(data: Data) throws -> Dictionary<String, UInt32
 	}
 
 	var result: Dictionary<String, UInt32> = [:]
+	var index = 0
 
 	var cscData = CscMeasurement()
 	var revData = RevMeasurement()
 
-	cscData.flags = data[0]
-	revData.flags = data[0]
+	cscData.flags = data[index]
+	revData.flags = data[index]
+	index += 1
 
 	if cscData.flags & WHEEL_REVOLUTION_DATA_PRESENT != 0 {
-		cscData.cumulativeWheelRevs = ((UInt32)(data[1]) << 24) | ((UInt32)(data[2]) << 16) | ((UInt32)(data[3]) << 8) | (UInt32)(data[4])
-		cscData.lastWheelEventTime = ((UInt16)(data[5]) << 8) | (UInt16)(data[6])
+		cscData.cumulativeWheelRevs = ((UInt32)(data[index]) << 24) | ((UInt32)(data[index + 1]) << 16) | ((UInt32)(data[index + 2]) << 8) | (UInt32)(data[index + 3])
+		cscData.lastWheelEventTime = ((UInt16)(data[index + 4]) << 8) | (UInt16)(data[index + 5])
 		result[KEY_NAME_WHEEL_REV_COUNT] = UInt32(CFSwapInt32BigToHost(cscData.cumulativeWheelRevs))
+		index += 6
 	}
 	if cscData.flags & CRANK_REVOLUTION_DATA_PRESENT != 0 {
-		if data.count > 5 {
-			cscData.cumulativeCrankRevs = ((UInt16)(data[7]) << 8) | (UInt16)(data[8])
-			cscData.lastCrankEventTime = ((UInt16)(data[9]) << 8) | (UInt16)(data[10])
-			result[KEY_NAME_WHEEL_CRANK_COUNT] = UInt32(CFSwapInt16BigToHost(cscData.cumulativeCrankRevs))
-			result[KEY_NAME_WHEEL_CRANK_TIME] = UInt32(CFSwapInt16BigToHost(cscData.lastCrankEventTime))
-		}
-		else {
-			revData.cumulativeCrankRevs = ((UInt16)(data[1]) << 8) | (UInt16)(data[2])
-			revData.lastCrankEventTime = ((UInt16)(data[3]) << 8) | (UInt16)(data[4])
-			result[KEY_NAME_WHEEL_CRANK_COUNT] = UInt32(CFSwapInt16BigToHost(revData.cumulativeCrankRevs))
-			result[KEY_NAME_WHEEL_CRANK_TIME] = UInt32(CFSwapInt16BigToHost(revData.lastCrankEventTime))
-		}
+		cscData.cumulativeCrankRevs = ((UInt16)(data[index]) << 8) | (UInt16)(data[index + 1])
+		cscData.lastCrankEventTime = ((UInt16)(data[index + 2]) << 8) | (UInt16)(data[index + 3])
+		result[KEY_NAME_WHEEL_CRANK_COUNT] = UInt32(CFSwapInt16BigToHost(cscData.cumulativeCrankRevs))
+		result[KEY_NAME_WHEEL_CRANK_TIME] = UInt32(CFSwapInt16BigToHost(cscData.lastCrankEventTime))
+		index += 4
 	}
 
 	return result
