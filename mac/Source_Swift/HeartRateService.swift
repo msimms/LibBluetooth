@@ -45,3 +45,14 @@ func decodeHeartRateReading(data: Data) -> UInt16 {
 	hrm.value16 = (UInt16(data[1]) >> 8) | (UInt16(data[2]))
 	return CFSwapInt16LittleToHost(hrm.value16)
 }
+
+func encodeHeartRateReading(bpm: UInt16) -> Data {
+	var hrm = HeartRateMeasurement()
+	hrm.flags = FLAGS_HEART_RATE_VALUE
+	hrm.value8 = 0
+	hrm.value16 = (bpm >> 8) | (bpm)
+	hrm.energyExpended = 0
+	hrm.rrInterval = 0
+
+	return Data(bytes: &hrm, count: MemoryLayout<HeartRateMeasurement>.stride)
+}
