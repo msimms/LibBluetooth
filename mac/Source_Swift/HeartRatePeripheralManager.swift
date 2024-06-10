@@ -23,6 +23,7 @@ class HeartRatePeripheralManager: NSObject, CBPeripheralManagerDelegate {
 	func peripheralManagerDidUpdateState(_ peripheral: CBPeripheralManager) {
 		if peripheral.state == .poweredOn {
 
+#if !os(watchOS)
 			// Create the heart rate measurement characteristic.
 			self.heartRateMeasurementCharacteristic = CBMutableCharacteristic(
 				type: self.heartRateMeasurementCharacteristicUUID,
@@ -35,13 +36,11 @@ class HeartRatePeripheralManager: NSObject, CBPeripheralManagerDelegate {
 			let heartRateService = CBMutableService(type: CBUUID(data: BT_SERVICE_HEART_RATE), primary: true)
 
 			// Add the characteristic to the service.
-			heartRateService.characteristics = [heartRateMeasurementCharacteristic]
+			heartRateService.characteristics = [self.heartRateMeasurementCharacteristic]
 
 			// Add the service to the peripheral manager.
 			self.peripheralManager.add(heartRateService)
-
-			// Start advertising the service.
-			self.peripheralManager.startAdvertising([CBAdvertisementDataServiceUUIDsKey: [BT_SERVICE_HEART_RATE]])
+#endif
 		}
 	}
 	
